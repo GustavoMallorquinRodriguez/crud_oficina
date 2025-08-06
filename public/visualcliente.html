@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AN Motos -Visualizar Cliente</title>
+    <link rel="stylesheet" href="visualcliente.css">
+</head>
+<body>
+    <!-- Header com logos -->
+    <div class="header">
+        <div class="logo-ccm">
+            <img src="imagens/ccm.jpeg" alt="Colégio Militar do Rio">
+        </div>
+        
+        <div class="logo">
+            <img src="imagens/an_motos.png" alt="RV Motos">
+        </div>
+        
+        <div class="logo">
+            <img src="imagens/agavi.png" alt="Agave">
+        </div>
+    </div>
+    <div class="container">
+        <div class="client-section">
+            <h2 class="section-title">Visualizar Cliente</h2>
+            <div class="client-stats">
+                <p>Total de clientes: <span id="totalClientes">0</span></p>
+            </div>
+            
+            <div class="table-container">
+                <table class="client-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome do Cliente</th>
+                            <th>Telefone</th>
+                            <th>CPF</th>
+                            <th>Nome da Rua</th>
+                            <th>Nº Casa</th>
+                            <th>E-mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientTableBody">
+                        <!-- Clientes serão carregados aqui dinamicamente -->
+                    </tbody>
+                </table>
+                <div id="noClientsMessage" style="display: none; text-align: center; padding: 40px; color: #666;">
+                    <p>Nenhum cliente cadastrado ainda.</p>
+                    <a href="cliente.html" style="color: #007bff; text-decoration: none;">Cadastrar primeiro cliente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar cliente -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Cliente</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <input type="text" class="form-input" placeholder="ID" id="editClientId" readonly>
+                    <input type="text" class="form-input" placeholder="Nome do Cliente" id="editClientName">
+                    <input type="text" class="form-input" placeholder="Telefone" id="editClientPhone">
+                </div>
+                <div class="form-row">
+                    <input type="text" class="form-input" placeholder="CPF" id="editClientCpf">
+                    <input type="text" class="form-input" placeholder="Nome da Rua" id="editClientStreet">
+                    <input type="text" class="form-input" placeholder="Nº Casa" id="editClientNumber">
+                </div>
+                <div class="form-row">
+                    <input type="email" class="form-input" placeholder="E-mail" id="editClientEmail">
+                </div>
+                <div class="modal-buttons">
+                    <button class="save-btn" onclick="saveClient()">💾 Salvar</button>
+                    <button class="cancel-btn" onclick="closeModal()">❌ Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentEditingRow = null;
+        let currentEditingIndex = null;
+
+        // Carregar clientes ao inicializar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarClientes();
+        });
+
+        function carregarClientes() {
+            const clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            const tbody = document.getElementById('clientTableBody');
+            const noClientsMessage = document.getElementById('noClientsMessage');
+            const totalClientes = document.getElementById('totalClientes');
+            
+            // Limpar tabela
+            tbody.innerHTML = '';
+            
+            if (clientes.length === 0) {
+                noClientsMessage.style.display = 'block';
+                totalClientes.textContent = '0';
+                return;
+            }
+            
+            noClientsMessage.style.display = 'none';
+            totalClientes.textContent = clientes.length;
+            
+            clientes.forEach((cliente, index) => {
+                const row = document.createElement('tr');
+                row.setAttribute('data-index', index);
+                row.innerHTML = `
+                    <td>${cliente.id}</td>
+                    <td>${cliente.nome}</td>
+                    <td>${cliente.telefone}</td>
+                    <td>${cliente.cpf}</td>
+                    <td>${cliente.rua}</td>
+                    <td>${cliente.numero}</td>
+                    <td>${cliente.email}</td>
+                    <td>
+                        <button class="edit-btn" onclick="editClient(this)">✏️ Editar</button>
+                        <button class="delete-btn" onclick="deleteClient(this)">🗑️ Excluir</button>
+                    </td>
+                `;
+                
+                // Animação de entrada
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(20px)';
+                tbody.appendChild(row);
+                
+                setTimeout(() => {
+                    row.style.transition = 'all 0.5s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        function editClient(button) {
+            const row = button.closest('tr');
+            const index = parseInt(row.getAttribute('data-index'));
+            const clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+            const cliente = clientes[index];
+            
+            currentEditingRow = row;
+            currentEditingIndex = index;
+            
+            document.getElementById('editClientId').value = cliente.id;
+            document.getElementById('editClientName').value = cliente.nome;
+            document.getElementById('editClientPhone').value = cliente.telefone;
+            document.getElementById('editClientCpf').value = cliente.cpf;
+            document.getElementById('editClientStreet').value = cliente.rua;
+            document.getElementById('editClientNumber').value = cliente.numero;
+            document.getElementById('editClientEmail').value = cliente.email;
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function deleteClient(button) {
+            if (confirm('Tem certeza que deseja excluir este cliente?')) {
+                const row = button.closest('tr');
+                const index = parseInt(row.getAttribute('data-index'));
+                
+                // Remover do localStorage
+                const clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+                clientes.splice(index, 1);
+                localStorage.setItem('clientes', JSON.stringify(clientes));
+                
+                // Animação de saída
+                row.style.transition = 'all 0.5s ease';
+                row.style.transform = 'translateX(-100%)';
+                row.style.opacity = '0';
+                
+                setTimeout(() => {
+                    carregarClientes(); // Recarregar a lista
+                }, 500);
+                
+                // Mostrar mensagem de sucesso
+                showMessage('Cliente excluído com sucesso!', 'success');
+            }
+        }
+
+        function saveClient() {
+            const id = document.getElementById('editClientId').value;
+            const nome = document.getElementById('editClientName').value;
+            const telefone = document.getElementById('editClientPhone').value;
+            const cpf = document.getElementById('editClientCpf').value;
+            const rua = document.getElementById('editClientStreet').value;
+            const numero = document.getElementById('editClientNumber').value;
+            const email = document.getElementById('editClientEmail').value;
+
+            if (nome && telefone && cpf && rua && numero && email) {
+                // Atualizar no localStorage
+                const clientes = JSON.parse(localStorage.getItem('clientes') || '[]');
+                clientes[currentEditingIndex] = {
+                    ...clientes[currentEditingIndex],
+                    nome: nome,
+                    telefone: telefone,
+                    cpf: cpf,
+                    rua: rua,
+                    numero: numero,
+                    email: email
+                };
+                localStorage.setItem('clientes', JSON.stringify(clientes));
+
+                // Atualizar a tabela visualmente
+                const cells = currentEditingRow.querySelectorAll('td');
+                cells[1].textContent = nome;
+                cells[2].textContent = telefone;
+                cells[3].textContent = cpf;
+                cells[4].textContent = rua;
+                cells[5].textContent = numero;
+                cells[6].textContent = email;
+
+                // Animação de sucesso
+                currentEditingRow.style.backgroundColor = '#d4edda';
+                setTimeout(() => {
+                    currentEditingRow.style.backgroundColor = '';
+                }, 2000);
+
+                closeModal();
+                showMessage('Cliente atualizado com sucesso!', 'success');
+            } else {
+                showMessage('Por favor, preencha todos os campos obrigatórios!', 'error');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+            currentEditingRow = null;
+            currentEditingIndex = null;
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = message;
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                color: white;
+                font-weight: bold;
+                z-index: 10000;
+                animation: slideInRight 0.5s ease;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #27ae60, #2ecc71);' : 'background: linear-gradient(135deg, #e74c3c, #c0392b);'}
+            `;
+            
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOutRight 0.5s ease';
+                setTimeout(() => {
+                    if (document.body.contains(messageDiv)) {
+                        document.body.removeChild(messageDiv);
+                    }
+                }, 500);
+            }, 3000);
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Função para limpar todos os dados (útil para testes)
+        function limparTodosClientes() {
+            if (confirm('ATENÇÃO: Isto irá apagar TODOS os clientes cadastrados. Tem certeza?')) {
+                localStorage.removeItem('clientes');
+                carregarClientes();
+                showMessage('Todos os clientes foram removidos!', 'success');
+            }
+        }
+
+        // Adicionar botão de limpar dados (opcional - pode remover se não quiser)
+        document.addEventListener('DOMContentLoaded', function() {
+            const limparBtn = document.createElement('button');
+            limparBtn.textContent = '🗑️ Limpar Todos';
+            limparBtn.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                padding: 10px 15px;
+                background: #dc3545;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 12px;
+                opacity: 0.7;
+            `;
+            limparBtn.onclick = limparTodosClientes;
+            document.body.appendChild(limparBtn);
+        });
+
+        // Animações CSS adicionais
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            .client-stats {
+                margin-bottom: 20px;
+                padding: 10px;
+                background: #f8f9fa;
+                border-radius: 5px;
+                text-align: center;
+            }
+            .client-stats span {
+                font-weight: bold;
+                color: #007bff;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <div class="btn-cadastro"><a class="voltar" href="index.html">Voltar</a></div>
+</body>
+</html>
