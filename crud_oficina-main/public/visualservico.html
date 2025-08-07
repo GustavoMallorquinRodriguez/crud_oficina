@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RN Motos - Visualizar Serviços</title>
+    <link rel="stylesheet" href="visualservico.css">
+    </head>
+<body>
+    <header class="header">
+        <div class="logo-left">
+            <img src="imagens/ccm.jpeg" alt="Colégio Militar do Paraná">
+        </div>
+        
+        <div class="logo-center">
+            <img src="imagens/an_motos.png" alt="RN Motos">
+        </div>
+        
+        <div class="logo-right">
+            <img src="imagens/agavi.png" alt="Agavi">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="service-panel">
+            <h2 class="panel-title">Visualizar Serviços</h2>
+            
+            <form class="service-form">
+                <div class="form-group">
+                    <label for="id-moto">ID Moto:</label>
+                    <input type="text" id="id-moto" name="id-moto" placeholder="Digite o ID da moto">
+                </div>
+                
+                <div class="form-group">
+                    <label for="mecanico">Mecânico:</label>
+                    <select id="mecanico" name="mecanico">
+                        <option value="">Selecione o mecânico</option>
+                        <option value="joao">João Silva</option>
+                        <option value="maria">Maria Santos</option>
+                        <option value="pedro">Pedro Costa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="orcamento">Orçamento:</label>
+                    <input type="number" id="orcamento" name="orcamento" placeholder="R$ 0,00" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="data-entrada">Data entrada:</label>
+                    <input type="date" id="data-entrada" name="data-entrada">
+                </div>
+                
+                <div class="form-group">
+                    <label for="data-saida">Data saída:</label>
+                    <input type="date" id="data-saida" name="data-saida">
+                </div>
+                
+                <div class="form-group">
+                    <label for="servico-feito">Serviço feito:</label>
+                    <select id="servico-feito" name="servico-feito">
+                        <option value="">Status do serviço</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="andamento">Em Andamento</option>
+                        <option value="concluido">Concluído</option>
+                    </select>
+                </div>
+            </form>
+
+            <table class="service-table">
+                <thead>
+                    <tr>
+                        <th>ID Moto</th>
+                        <th>Mecânico</th>
+                        <th>Orçamento</th>
+                        <th>Data Entrada</th>
+                        <th>Data Saída</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="service-tbody">
+                    <tr>
+                        <td>MT001</td>
+                        <td>João Silva</td>
+                        <td>R$ 350,00</td>
+                        <td>15/05/2025</td>
+                        <td>22/05/2025</td>
+                        <td><span class="status-badge status-concluido">Concluído</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" onclick="editarServico('MT001')" title="Editar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m18 2 4 4-12 12H6v-4z"/>
+                                        <path d="m16 6 2 2"/>
+                                    </svg>
+                                </button>
+                                <button class="btn-action btn-delete" onclick="excluirServico('MT001')" title="Excluir">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3,6 5,6 21,6"/>
+                                        <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1 2-2h4a2,2 0 0,1 2,2v2"/>
+                                        <line x1="10" y1="11" x2="10" y2="17"/>
+                                        <line x1="14" y1="11" x2="14" y2="17"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MT002</td>
+                        <td>Maria Santos</td>
+                        <td>R$ 180,00</td>
+                        <td>20/05/2025</td>
+                        <td>-</td>
+                        <td><span class="status-badge status-andamento">Em Andamento</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" onclick="editarServico('MT002')" title="Editar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m18 2 4 4-12 12H6v-4z"/>
+                                        <path d="m16 6 2 2"/>
+                                    </svg>
+                                </button>
+                                <button class="btn-action btn-delete" onclick="excluirServico('MT002')" title="Excluir">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3,6 5,6 21,6"/>
+                                        <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1 2-2h4a2,2 0 0,1 2,2v2"/>
+                                        <line x1="10" y1="11" x2="10" y2="17"/>
+                                        <line x1="14" y1="11" x2="14" y2="17"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MT003</td>
+                        <td>Pedro Costa</td>
+                        <td>R$ 520,00</td>
+                        <td>25/05/2025</td>
+                        <td>-</td>
+                        <td><span class="status-badge status-pendente">Pendente</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" onclick="editarServico('MT003')" title="Editar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m18 2 4 4-12 12H6v-4z"/>
+                                        <path d="m16 6 2 2"/>
+                                    </svg>
+                                </button>
+                                <button class="btn-action btn-delete" onclick="excluirServico('MT003')" title="Excluir">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3,6 5,6 21,6"/>
+                                        <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1 2-2h4a2,2 0 0,1 2,2v2"/>
+                                        <line x1="10" y1="11" x2="10" y2="17"/>
+                                        <line x1="14" y1="11" x2="14" y2="17"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="actions">
+                <button class="btn btn-primary" onclick="buscarServicos()">Buscar Serviços</button>
+                <button class="btn btn-secondary" onclick="limparFiltros()">Limpar Filtros</button>
+                <button class="btn btn-primary" onclick="adicionarServico()">Novo Serviço</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Serviço</h3>
+                <button class="close" onclick="fecharModal()">&times;</button>
+            </div>
+            
+            <form id="editForm" class="service-form">
+                <div class="form-group">
+                    <label for="edit-id-moto">ID Moto:</label>
+                    <input type="text" id="edit-id-moto" name="edit-id-moto" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-mecanico">Mecânico:</label>
+                    <select id="edit-mecanico" name="edit-mecanico">
+                        <option value="">Selecione o mecânico</option>
+                        <option value="joao">João Silva</option>
+                        <option value="maria">Maria Santos</option>
+                        <option value="pedro">Pedro Costa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-orcamento">Orçamento:</label>
+                    <input type="number" id="edit-orcamento" name="edit-orcamento" placeholder="R$ 0,00" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-data-entrada">Data entrada:</label>
+                    <input type="date" id="edit-data-entrada" name="edit-data-entrada">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-data-saida">Data saída:</label>
+                    <input type="date" id="edit-data-saida" name="edit-data-saida">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-servico-feito">Serviço feito:</label>
+                    <select id="edit-servico-feito" name="edit-servico-feito">
+                        <option value="">Status do serviço</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="andamento">Em Andamento</option>
+                        <option value="concluido">Concluído</option>
+                    </select>
+                </div>
+            </form>
+            
+            <div class="modal-actions">
+                <button class="btn-modal btn-save" onclick="salvarEdicao()">Salvar Alterações</button>
+                <button class="btn-modal btn-cancel" onclick="fecharModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <div class="btn-cadastro"><a class="voltar" href="index.html">Voltar</a></div>
+
+    <script>
+        function buscarServicos() {
+            const idMoto = document.getElementById('id-moto').value;
+            const mecanico = document.getElementById('mecanico').value;
+            const status = document.getElementById('servico-feito').value;
+            
+            // Simular busca - em um sistema real, isso faria uma requisição ao servidor
+            const tbody = document.getElementById('service-tbody');
+            const rows = tbody.getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                let mostrar = true;
+                
+                if (idMoto && !row.cells[0].textContent.toLowerCase().includes(idMoto.toLowerCase())) {
+                    mostrar = false;
+                }
+                
+                if (mecanico && !row.cells[1].textContent.toLowerCase().includes(mecanico.toLowerCase())) {
+                    mostrar = false;
+                }
+                
+                if (status) {
+                    const statusCell = row.cells[5].textContent.toLowerCase();
+                    if (!statusCell.includes(status)) {
+                        mostrar = false;
+                    }
+                }
+                
+                row.style.display = mostrar ? '' : 'none';
+            }
+            
+            // Feedback visual
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Buscando...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 1000);
+        }
+        
+        function limparFiltros() {
+            document.getElementById('id-moto').value = '';
+            document.getElementById('mecanico').value = '';
+            document.getElementById('orcamento').value = '';
+            document.getElementById('data-entrada').value = '';
+            document.getElementById('data-saida').value = '';
+            document.getElementById('servico-feito').value = '';
+            
+            // Mostrar todas as linhas
+            const tbody = document.getElementById('service-tbody');
+            const rows = tbody.getElementsByTagName('tr');
+            for (let row of rows) {
+                row.style.display = '';
+            }
+        }
+        
+        function adicionarServico() {
+            alert('Funcionalidade de adicionar serviço será implementada em breve!');
+        }
+        
+        function editarServico(idMoto) {
+            // Encontrar a linha da tabela correspondente
+            const tbody = document.getElementById('service-tbody');
+            const rows = tbody.getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                if (row.cells[0].textContent === idMoto) {
+                    // Preencher o modal com os dados atuais
+                    document.getElementById('edit-id-moto').value = row.cells[0].textContent;
+                    
+                    // Selecionar o mecânico
+                    const mecanicoSelect = document.getElementById('edit-mecanico');
+                    const mecanicoNome = row.cells[1].textContent.toLowerCase();
+                    if (mecanicoNome.includes('joão')) mecanicoSelect.value = 'joao';
+                    else if (mecanicoNome.includes('maria')) mecanicoSelect.value = 'maria';
+                    else if (mecanicoNome.includes('pedro')) mecanicoSelect.value = 'pedro';
+                    
+                    // Converter orçamento para número
+                    const orcamento = row.cells[2].textContent.replace('R$ ', '').replace(',', '.');
+                    document.getElementById('edit-orcamento').value = orcamento;
+                    
+                    // Converter datas para formato YYYY-MM-DD
+                    const dataEntrada = row.cells[3].textContent;
+                    if (dataEntrada !== '-') {
+                        const [dia, mes, ano] = dataEntrada.split('/');
+                        document.getElementById('edit-data-entrada').value = `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+                    }
+                    
+                    const dataSaida = row.cells[4].textContent;
+                    if (dataSaida !== '-') {
+                        const [dia, mes, ano] = dataSaida.split('/');
+                        document.getElementById('edit-data-saida').value = `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+                    }
+                    
+                    // Status do serviço
+                    const statusText = row.cells[5].textContent.toLowerCase();
+                    const statusSelect = document.getElementById('edit-servico-feito');
+                    if (statusText.includes('concluído')) statusSelect.value = 'concluido';
+                    else if (statusText.includes('andamento')) statusSelect.value = 'andamento';
+                    else if (statusText.includes('pendente')) statusSelect.value = 'pendente';
+                    
+                    break;
+                }
+            }
+            
+            // Mostrar o modal
+            document.getElementById('editModal').style.display = 'block';
+        }
+        
+        function excluirServico(idMoto) {
+            if (confirm(`Tem certeza que deseja excluir o serviço da moto ${idMoto}?`)) {
+                const tbody = document.getElementById('service-tbody');
+                const rows = tbody.getElementsByTagName('tr');
+                
+                for (let i = 0; i < rows.length; i++) {
+                    if (rows[i].cells[0].textContent === idMoto) {
+                        // Animação de saída
+                        rows[i].style.transition = 'all 0.3s ease';
+                        rows[i].style.transform = 'translateX(-100%)';
+                        rows[i].style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            rows[i].remove();
+                        }, 300);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        function fecharModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+        
+        function salvarEdicao() {
+            const idMoto = document.getElementById('edit-id-moto').value;
+            const mecanicoValue = document.getElementById('edit-mecanico').value;
+            const orcamento = document.getElementById('edit-orcamento').value;
+            const dataEntrada = document.getElementById('edit-data-entrada').value;
+            const dataSaida = document.getElementById('edit-data-saida').value;
+            const status = document.getElementById('edit-servico-feito').value;
+            
+            // Converter valores para exibição
+            const mecanicoNomes = {
+                'joao': 'João Silva',
+                'maria': 'Maria Santos',
+                'pedro': 'Pedro Costa'
+            };
+            
+            const statusClasses = {
+                'concluido': 'status-concluido',
+                'andamento': 'status-andamento',
+                'pendente': 'status-pendente'
+            };
+            
+            const statusTextos = {
+                'concluido': 'Concluído',
+                'andamento': 'Em Andamento',
+                'pendente': 'Pendente'
+            };
+            
+            // Encontrar e atualizar a linha
+            const tbody = document.getElementById('service-tbody');
+            const rows = tbody.getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                if (row.cells[0].textContent === idMoto) {
+                    row.cells[1].textContent = mecanicoNomes[mecanicoValue] || '';
+                    row.cells[2].textContent = orcamento ? `R$ ${parseFloat(orcamento).toFixed(2).replace('.', ',')}` : '';
+                    
+                    // Formatar datas
+                    if (dataEntrada) {
+                        const [ano, mes, dia] = dataEntrada.split('-');
+                        row.cells[3].textContent = `${dia}/${mes}/${ano}`;
+                    }
+                    
+                    if (dataSaida) {
+                        const [ano, mes, dia] = dataSaida.split('-');
+                        row.cells[4].textContent = `${dia}/${mes}/${ano}`;
+                    } else {
+                        row.cells[4].textContent = '-';
+                    }
+                    
+                    // Atualizar status
+                    if (status) {
+                        row.cells[5].innerHTML = `<span class="status-badge ${statusClasses[status]}">${statusTextos[status]}</span>`;
+                    }
+                    
+                    // Animação de sucesso
+                    row.style.transition = 'all 0.3s ease';
+                    row.style.backgroundColor = '#d4edda';
+                    setTimeout(() => {
+                        row.style.backgroundColor = '';
+                    }, 1000);
+                    
+                    break;
+                }
+            }
+            
+            fecharModal();
+            alert('Serviço atualizado com sucesso!');
+        }
+        
+        // Fechar modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                fecharModal();
+            }
+        }
+        
+        // Adicionar efeitos de hover aos campos de input
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
