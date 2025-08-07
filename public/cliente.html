@@ -76,6 +76,27 @@
             </form>
         </div>
     </div>
+     <h2>Listagem de Clientes</h2>
+    <button type="button" onclick="listarClientes()" class="alinhaBtns">Listar Clientes</button>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-clientes">
+            <!-- Linhas serão preenchidas pelo JavaScript -->
+        </tbody>
+    </table>
+
+</div>
+
 
     <script>
         // Formatação de CPF
