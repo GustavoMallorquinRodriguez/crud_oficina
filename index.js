@@ -53,7 +53,7 @@ app.post('/clientes', (req, res) => {
     }
 
     const query = `INSERT INTO clientes (cli_nome, cli_cpf, cli_telefone, cli_email, cli_endereco) VALUES (?, ?, ?, ?, ?)`;
-    db.run(query, [nome, cpf, email, telefone, endereco], function (err) {
+    db.run(query, [cli_nome, cli_cpf, cli_email, cli_telefone, cli_endereco], function (err) {
         if (err) {
             return res.status(500).send('Erro ao cadastrar cliente.');
         }

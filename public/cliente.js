@@ -1,20 +1,20 @@
 async function cadastrarCliente(event) {
     event.preventDefault();
 
-    let nome_cliente = document.getElementById("nome").value;
+    let nome_cliente = document.getElementById("nomeCliente").value;
 
     const cliente = {
         nome: nomeCliente,
-        data_de_nascimento: document.getElementById("dataNascimento").value,
+        dataNascimento: document.getElementById("dataNascimento").value,
         telefone: document.getElementById("telefone").value,
-        email: document.getElementById("email").value,
         cpf: document.getElementById("cpf").value,
         cep: document.getElementById("cep").value,
         cidade: document.getElementById("cidade").value,
         bairro: document.getElementById("bairro").value,
-
         complememnto: document.getElementById("complemento").value,
-        Nº_Casa: document.getElementById("numeroCasa").value
+        nomeRua: document.getElementById("nomeRua").value,
+        numeroCasa: document.getElementById("numeroCasa").value,
+        email: document.getElementById("email").value
         
     };
 
