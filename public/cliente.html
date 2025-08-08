@@ -60,43 +60,23 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="text" id="nomeRua" name="nomeRua" placeholder="Nome da Rua" required>
+                        <input type="text" id="nomeRua" placeholder="Nome da Rua" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="numeroCasa" name="numeroCasa" placeholder="Nº Casa" required>
+                        <input type="text" id="numeroCasa" placeholder="Nº Casa" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="E-mail" required>
+                        <input type="email" id="email" placeholder="E-mail" required>
                     </div>
                 </div>
-
-                <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarCliente(event)">
-                <input type="reset" value="Limpar" class="submit-btn">
-                <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarCliente(); limpaCliente();" />
+                <div class="opções">
+                    <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarCliente(event)">
+                    <input type="reset" value="Limpar" class="submit-btn">
+                    <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarCliente(); limpaCliente();" />
+                </div>    
             </form>
         </div>
     </div>
-     <h2>Listagem de Clientes</h2>
-    <button type="button" onclick="listarClientes()" class="alinhaBtns">Listar Clientes</button>
-    
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Endereço</th>
-            </tr>
-        </thead>
-        <tbody id="tabela-clientes">
-            <!-- Linhas serão preenchidas pelo JavaScript -->
-        </tbody>
-    </table>
-
-</div>
-
 
     <script>
         // Formatação de CPF

@@ -127,9 +127,18 @@ input:disabled {
     100% { background-position: 0% 50%; }
 }
 
+
+.opções{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    flex-wrap: wrap;
+
+}
+
 .submit-btn {
-    display: block;
-    margin: 30px auto 0;
+    margin: 20px;
+    display: flex;
     padding: 15px 40px;
     background-color: white;
     color: #333;
@@ -195,14 +204,15 @@ input:disabled {
     font-size: 14px;
     font-weight: bold;
     text-align: center;
-    width: 110px;
-    margin-left: 47%;
+    width: 150px;
+    margin-left: 46%;
     transition: 1.0s;
    
 }
 .voltar{
     text-decoration: none;
     color: #000000;
+    font-size: 18px;
 }
 .btn-cadastro:hover {
     background-color: #f57c2c;
