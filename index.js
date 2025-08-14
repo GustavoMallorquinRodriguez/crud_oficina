@@ -27,11 +27,17 @@ db.serialize(() => {
         CREATE TABLE IF NOT EXISTS cliente (
 	        id_cli INTEGER PRIMARY KEY AUTOINCREMENT,
             cli_nome VARCHAR(100) not NULL,
-            cli_cpf VARCHAR(14) NOT NULL UNIQUE,
-            cli_telefone VARCHAR(15),
-            cli_email VARCHAR(100),
             cli_data_nascimento DATE,
-            cli_endereco TEXT
+            cli_telefone VARCHAR(15),
+            cli_cpf VARCHAR(14) NOT NULL UNIQUE,
+            cli_cep TEXT,
+            cli_cidade TEXT,
+            cli_bairro TEXT,
+            cli_complemento TEXT,
+            cli_nomeRua TEXT,
+            cli_numeroCasa NUMBER,
+            cli_email VARCHAR(100)
+
         )
     `);
     
@@ -46,14 +52,14 @@ db.serialize(() => {
 
 // Cadastrar cliente
 app.post('/clientes', (req, res) => {
-    const { nome, cpf, email, telefone, endereco } = req.body;
+    const {cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email} = req.body;
 
     if (!nome || !cpf) {
         return res.status(400).send('Nome e CPF são obrigatórios.');
     }
 
-    const query = `INSERT INTO clientes (cli_nome, cli_cpf, cli_telefone, cli_email, cli_endereco) VALUES (?, ?, ?, ?, ?)`;
-    db.run(query, [cli_nome, cli_cpf, cli_email, cli_telefone, cli_endereco], function (err) {
+    const query = `INSERT INTO clientes (cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    db.run(query, [cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email], function (err) {
         if (err) {
             return res.status(500).send('Erro ao cadastrar cliente.');
         }

@@ -30,7 +30,7 @@ async function cadastrarCliente(event) {
         const result = await response.json();
         if (response.ok) {
             alert("Cliente cadastrado com sucesso!");
-            document.getElementById("cliente-form").reset();
+            document.getElementById("clienteForm").reset();
         } else {
             alert(`Erro: ${result.message}`);
         }
