@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="agenda" content="width=device-width, initial-scale=1.0">
+    <title>RV Motos - Agendamento</title>
+    <link rel="stylesheet" href="agenda.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo-left">
+            <img src="imagens/ccm.jpeg" alt="Logo ccm">
+        </div>
+        
+        <div class="logo-center">
+            <img src="imagens/an_motos.png" alt="Logo RV Motos">
+            <a class="visualizar-btn" href="#" onclick="abrirCalendario()">Visualizar Agenda</a>
+        </div>
+        
+        <div class="logo-right">
+            <img src="imagens/agavi.png" alt="Logo AGAVL">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-header">
+            Dados da Agenda
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            Agendamento realizado com sucesso!
+        </div>
+        
+        <div class="form-content">
+            <form id="agendaForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nomeCliente">Nome Cliente:</label>
+                        <input type="text" id="nomeCliente" name="nomeCliente" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modeloMoto">Modelo da moto:</label>
+                        <input type="text" id="modeloMoto" name="modeloMoto" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="placaMoto">Placa da moto:</label>
+                        <input type="text" id="placaMoto" name="placaMoto" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dataEntrada">Data de Entrada:</label>
+                        <input type="date" id="dataEntrada" name="dataEntrada" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dataSaida">Data de Saída:</label>
+                        <input type="date" id="dataSaida" name="dataSaida" required>
+                    </div>
+                </div>
+                
+                <div class="textarea-section">
+                    <label for="observacoes">Observações / Serviços:</label>
+                    <textarea id="observacoes" name="observacoes" placeholder="Descreva os serviços a serem realizados, observações importantes, peças necessárias, etc."></textarea>
+                </div>
+                
+                <div class="btn-container">
+                    <button type="submit" class="submit-btn">Agendar Serviço</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="btn-cadastro"><a class="voltar" href="index.html">Voltar</a></div>
+
+    <script>
+        // Sistema de armazenamento de agendamentos
+        class AgendaManager {
+            constructor() {
+                this.agendamentos = this.loadAgendamentos();
+            }
+
+            loadAgendamentos() {
+                // Como não podemos usar localStorage, vamos usar uma variável global
+                if (!window.agendamentosGlobais) {
+                    window.agendamentosGlobais = [];
+                }
+                return window.agendamentosGlobais;
+            }
+
+            saveAgendamento(agendamento) {
+                agendamento.id = Date.now().toString();
+                this.agendamentos.push(agendamento);
+                return agendamento.id;
+            }
+
+            getAgendamentos() {
+                return this.agendamentos;
+            }
+
+            getAgendamentosPorData(data) {
+                return this.agendamentos.filter(ag => 
+                    ag.dataEntrada <= data && ag.dataSaida >= data
+                );
+            }
+        }
+
+        const agendaManager = new AgendaManager();
+
+        document.getElementById('agendaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coletar dados do formulário
+            const formData = {
+                nomeCliente: document.getElementById('nomeCliente').value,
+                modeloMoto: document.getElementById('modeloMoto').value,
+                placaMoto: document.getElementById('placaMoto').value,
+                dataEntrada: document.getElementById('dataEntrada').value,
+                dataSaida: document.getElementById('dataSaida').value,
+                observacoes: document.getElementById('observacoes').value,
+                dataAgendamento: new Date().toISOString()
+            };
+            
+            // Salvar agendamento
+            const id = agendaManager.saveAgendamento(formData);
+            
+            // Mostrar mensagem de sucesso
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            successMessage.innerHTML = `
+                <strong>Agendamento #${id} realizado com sucesso!</strong><br>
+                Cliente: ${formData.nomeCliente}<br>
+                Moto: ${formData.modeloMoto} - ${formData.placaMoto}<br>
+                Período: ${formatDate(formData.dataEntrada)} até ${formatDate(formData.dataSaida)}
+            `;
+            
+            // Limpar formulário
+            this.reset();
+            
+            // Esconder mensagem após 5 segundos
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        });
+
+        // Validação de placa brasileira
+        document.getElementById('placaMoto').addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase();
+            value = value.replace(/[^A-Z0-9]/g, '');
+            
+            if (value.length > 7) {
+                value = value.substring(0, 7);
+            }
+            
+            if (value.length > 3) {
+                value = value.substring(0, 3) + '-' + value.substring(3);
+            }
+            
+            e.target.value = value;
+        });
+
+        // Validação de datas
+        document.getElementById('dataEntrada').addEventListener('change', function() {
+            const dataEntrada = new Date(this.value);
+            const dataSaida = document.getElementById('dataSaida');
+            
+            // Define data mínima de saída como um dia após a entrada
+            const minDataSaida = new Date(dataEntrada);
+            minDataSaida.setDate(minDataSaida.getDate() + 1);
+            
+            dataSaida.min = minDataSaida.toISOString().split('T')[0];
+        });
+
+        // Definir data mínima como hoje
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dataEntrada').min = today;
+        document.getElementById('dataSaida').min = today;
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        function abrirCalendario() {
+            // Abrir o calendário em uma nova janela ou redirecionar
+            window.open('visualcalender.html', '_blank');
+        }
+
+        // Disponibilizar agendamentos globalmente para o calendário
+        window.getAgendamentos = function() {
+            return agendaManager.getAgendamentos();
+        };
+
+        window.getAgendamentosPorData = function(data) {
+            return agendaManager.getAgendamentosPorData(data);
+        };
+    </script>
+</body>
+</html>
