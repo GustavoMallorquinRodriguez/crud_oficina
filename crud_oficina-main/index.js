@@ -52,14 +52,14 @@ db.serialize(() => {
 
 // Cadastrar cliente
 app.post('/clientes', (req, res) => {
-    const { nome, cpf, email, telefone, endereco } = req.body;
+    const {cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email} = req.body;
 
     if (!nome || !cpf) {
         return res.status(400).send('Nome e CPF são obrigatórios.');
     }
 
-    const query = `INSERT INTO clientes (cli_nomo, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    db.run(query, [cli_nomo, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email], function (err) {
+    const query = `INSERT INTO clientes (cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    db.run(query, [cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email], function (err) {
         if (err) {
             return res.status(500).send('Erro ao cadastrar cliente.');
         }
