@@ -1,7 +1,7 @@
 async function cadastrarCliente(event) {
     event.preventDefault();
 
-    let nome_cliente = document.getElementById("nomeCliente").value;
+    let nomeCliente = document.getElementById("nomeCliente").value;
 
     const cliente = {
         nome: nomeCliente,
@@ -14,17 +14,16 @@ async function cadastrarCliente(event) {
         complememnto: document.getElementById("complemento").value,
         nomeRua: document.getElementById("nomeRua").value,
         numeroCasa: document.getElementById("numeroCasa").value,
-        email: document.getElementById("email").value
-        
+        email: document.getElementById("email").value,
     };
 
     try {
-        const response = await fetch('/clientes', {
-            method: 'POST',
+        const response = await fetch("/clientes", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(cliente)
+            body: JSON.stringify(cliente),
         });
 
         const result = await response.json();
@@ -39,10 +38,11 @@ async function cadastrarCliente(event) {
         alert("Erro ao cadastrar cliente.");
     }
 }
-async function listarClientes() {
-    const cpf = document.getElementById('cpf').value.trim();  // Pega o valor do CPF digitado no input
 
-    let url = '/clientes';  // URL padrão para todos os clientes
+async function listarClientes() {
+    const cpf = document.getElementById("cpf").value.trim(); // Pega o valor do CPF digitado no input
+
+    let url = "/clientes"; // URL padrão para todos os clientes
 
     if (cpf) {
         // Se CPF foi digitado, adiciona o parâmetro de consulta
@@ -53,15 +53,16 @@ async function listarClientes() {
         const response = await fetch(url);
         const clientes = await response.json();
 
-        const tabela = document.getElementById('tabela-clientes');
-        tabela.innerHTML = ''; // Limpa a tabela antes de preencher
+        const tabela = document.getElementById("tabela-clientes");
+        tabela.innerHTML = ""; // Limpa a tabela antes de preencher
 
         if (clientes.length === 0) {
             // Caso não encontre clientes, exibe uma mensagem
-            tabela.innerHTML = '<tr><td colspan="6">Nenhum cliente encontrado.</td></tr>';
+            tabela.innerHTML =
+                '<tr><td colspan="6">Nenhum cliente encontrado.</td></tr>';
         } else {
-            clientes.forEach(cliente => {
-                const linha = document.createElement('tr');
+            clientes.forEach((cliente) => {
+                const linha = document.createElement("tr");
                 linha.innerHTML = `
                     <td>${cliente.id}</td>
                     <td>${cliente.nome}</td>
@@ -74,52 +75,50 @@ async function listarClientes() {
             });
         }
     } catch (error) {
-        console.error('Erro ao listar clientes:', error);
+        console.error("Erro ao listar clientes:", error);
     }
 }
 // Função para atualizar as informações do cliente
 async function atualizarCliente() {
-    const nome = document.getElementById('nome').value;
-    const cpf = document.getElementById('cpf').value;
-    const email = document.getElementById('email').value;
-    const telefone = document.getElementById('telefone').value;
-    const endereco = document.getElementById('endereco').value;
+    const nome = document.getElementById("nome").value;
+    const cpf = document.getElementById("cpf").value;
+    const email = document.getElementById("email").value;
+    const telefone = document.getElementById("telefone").value;
+    const endereco = document.getElementById("endereco").value;
 
     const clienteAtualizado = {
         nome,
         email,
         telefone,
         endereco,
-        cpf
+        cpf,
     };
 
     try {
         const response = await fetch(`/clientes/cpf/${cpf}`, {
-            method: 'PUT',
+            method: "PUT",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(clienteAtualizado)
+            body: JSON.stringify(clienteAtualizado),
         });
 
         if (response.ok) {
-            alert('Cliente atualizado com sucesso!');
+            alert("Cliente atualizado com sucesso!");
         } else {
             const errorMessage = await response.text();
-            alert('Erro ao atualizar cliente: ' + errorMessage);
+            alert("Erro ao atualizar cliente: " + errorMessage);
         }
     } catch (error) {
-        console.error('Erro ao atualizar cliente:', error);
-        alert('Erro ao atualizar cliente.');
+        console.error("Erro ao atualizar cliente:", error);
+        alert("Erro ao atualizar cliente.");
     }
 }
 
-
 async function limpaCliente() {
-    document.getElementById('nome').value = '';
-    document.getElementById('cpf').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('telefone').value = '';
-    document.getElementById('endereco').value = '';
-
+    document.getElementById("nome").value = "";
+    document.getElementById("cpf").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("telefone").value = "";
+    document.getElementById("endereco").value = "";
 }
