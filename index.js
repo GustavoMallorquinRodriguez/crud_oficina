@@ -66,3 +66,45 @@ app.post('/clientes', (req, res) => {
         res.status(201).send({ id: this.lastID, message: 'Cliente cadastrado com sucesso.' });
     });
 });
+
+async function cadastrarCliente(event) {
+    event.preventDefault();
+
+    let nome_cliente = document.getElementById("nomeCliente").value;
+
+    const cliente = {
+        nome: nomeCliente,
+        dataNascimento: document.getElementById("dataNascimento").value,
+        telefone: document.getElementById("telefone").value,
+        cpf: document.getElementById("cpf").value,
+        cep: document.getElementById("cep").value,
+        cidade: document.getElementById("cidade").value,
+        bairro: document.getElementById("bairro").value,
+        complememnto: document.getElementById("complemento").value,
+        nomeRua: document.getElementById("nomeRua").value,
+        numeroCasa: document.getElementById("numeroCasa").value,
+        email: document.getElementById("email").value
+        
+    };
+
+    try {
+        const response = await fetch('/clientes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cliente)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert("Cliente cadastrado com sucesso!");
+            document.getElementById("clienteForm").reset();
+        } else {
+            alert(`Erro: ${result.message}`);
+        }
+    } catch (err) {
+        console.error("Erro na solicitação:", err);
+        alert("Erro ao cadastrar cliente.");
+    }
+}
