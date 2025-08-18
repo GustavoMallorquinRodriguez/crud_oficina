@@ -26,15 +26,15 @@ db.serialize(() => {
         CREATE TABLE IF NOT EXISTS clientes (
 	        id_cli INTEGER PRIMARY KEY AUTOINCREMENT,
             cli_nome VARCHAR(100) not NULL,
-            cli_data_nascimento DATE,
+            cli_data_nascimento text,
             cli_telefone VARCHAR(15),
             cli_cpf VARCHAR(14) NOT NULL UNIQUE,
             cli_cep TEXT,
             cli_cidade TEXT,
             cli_bairro TEXT,
             cli_complemento TEXT,
-            cli_nomeRua TEXT,
-            cli_numeroCasa NUMBER,
+            cli_nome_rua TEXT,
+            cli_numero_casa NUMBER,
             cli_email VARCHAR(100)
 
         )
@@ -58,16 +58,16 @@ app.post("/clientes", (req, res) => {
         cli_cidade,
         cli_bairro,
         cli_complemento,
-        cli_nomeRua,
-        cli_numeroCasa,
-        cli_email,
+        cli_nome_rua,
+        cli_numero_casa,
+        cli_email
     } = req.body;
 
-    if (!nome || !cpf) {
+    if (!cli_nome || !cli_cpf) {
         return res.status(400).send("Nome e CPF são obrigatórios.");
     }
 
-    const query = `INSERT INTO clientes (cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nomeRua, cli_numeroCasa, cli_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO clientes (cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nome_rua, cli_numero_casa, cli_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     db.run(
         query,
         [
@@ -79,9 +79,9 @@ app.post("/clientes", (req, res) => {
             cli_cidade,
             cli_bairro,
             cli_complemento,
-            cli_nomeRua,
-            cli_numeroCasa,
-            cli_email,
+            cli_nome_rua,
+            cli_numero_casa,
+            cli_email
         ],
         function (err) {
             if (err) {
@@ -129,22 +129,7 @@ app.get("/clientes", (req, res) => {
     }
 });
 
-// Atualizar cliente
-app.put("/clientes/cpf/:cpf", (req, res) => {
-    const { cpf } = req.params;
-    const { nome, email, telefone, endereco } = req.body;
 
-    const query = `UPDATE clientes SET cli_nome = ?, cli_email = ?, cli_telefone = ?, cli_cep = ? WHERE cpf = ?`;
-    db.run(query, [nome, email, telefone, endereco, cpf], function (err) {
-        if (err) {
-            return res.status(500).send("Erro ao atualizar cliente.");
-        }
-        if (this.changes === 0) {
-            return res.status(404).send("Cliente não encontrado.");
-        }
-        res.send("Cliente atualizado com sucesso.");
-    });
-});
 
 app.get("/", (req, res) => {
     res.send("Servidor está rodando e tabelas criadas!");
@@ -155,43 +140,3 @@ app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
 
-async function cadastrarCliente(event) {
-    event.preventDefault();
-
-    let nomeCliente = document.getElementById("nomeCliente").value;
-
-    const cliente = {
-        nome: nomeCliente,
-        dataNascimento: document.getElementById("dataNascimento").value,
-        telefone: document.getElementById("telefone").value,
-        cpf: document.getElementById("cpf").value,
-        cep: document.getElementById("cep").value,
-        cidade: document.getElementById("cidade").value,
-        bairro: document.getElementById("bairro").value,
-        complememnto: document.getElementById("complemento").value,
-        nomeRua: document.getElementById("nomeRua").value,
-        numeroCasa: document.getElementById("numeroCasa").value,
-        email: document.getElementById("email").value,
-    };
-
-    try {
-        const response = await fetch("/clientes", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(cliente),
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-            alert("Cliente cadastrado com sucesso!");
-            document.getElementById("clienteForm").reset();
-        } else {
-            alert(`Erro: ${result.message}`);
-        }
-    } catch (err) {
-        console.error("Erro na solicitação:", err);
-        alert("Erro ao cadastrar cliente.");
-    }
-}

@@ -1,212 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AN Motos</title>
-    <link rel="stylesheet" href="cliente.css">
-    <script src="cliente.js"></script>
-</head>
-<body>
-    <header class="header">
-        <div class="logo">
-            <img src="imagens/ccm.jpeg" alt="Colégio CCMH" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AN Motos</title>
+        <link rel="stylesheet" href="cliente.css" />
+        <script src="cliente.js"></script>
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo">
+                <img src="imagens/ccm.jpeg" alt="Colégio CCMH" />
+            </div>
+
+            <div class="main-logo motorcycle-bg">
+                <img src="imagens/an_motos.png" alt="RW Motos" />
+            </div>
+
+            <div class="agave-logo">
+                <img src="imagens/agavi.png" alt="Agave" />
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title">Cadastrar Cliente</h2>
+
+                <form id="clienteForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_nome"
+                                name="nomeCliente"
+                                placeholder="Nome do Cliente"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_data_nascimento"
+                                name="dataNascimento"
+                                placeholder="Data de nascimento"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="tel"
+                                id="cli_telefone"
+                                name="telefone"
+                                placeholder="Telefone"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_cpf"
+                                name="cpf"
+                                placeholder="CPF"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_cep"
+                                name="cep"
+                                placeholder="CEP"
+                                required
+                            />
+                        </div>
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_cidade"
+                                name="cidade"
+                                placeholder="Cidade"
+                            />
+                        </div>
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_bairro"
+                                name="bairro"
+                                placeholder="Bairro"
+                                required
+                            />
+                        </div>
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_complemento"
+                                name="complemento"
+                                placeholder="Complemento"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_nome_rua"
+                                name="nomeRua"
+                                placeholder="Nome da Rua"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_numero_casa"
+                                name="numeroCasa"
+                                placeholder="Nº Casa"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="email"
+                                id="cli_email"
+                                name="email"
+                                placeholder="E-mail"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="opções">
+                        <input
+                            type="submit"
+                            value="Cadastrar"
+                            class="submit-btn"
+                            onclick="cadastrarCliente(event)"
+                        />
+                        <input type="reset" value="Limpar" class="submit-btn" />
+                        <input
+                            type="button"
+                            value="Atualizar Cliente"
+                            class="submit-btn"
+                            onclick="atualizarCliente(); limpaCliente();"
+                        />
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <div class="main-logo motorcycle-bg">
-            <img src="imagens/an_motos.png" alt="RW Motos" />
+        
+        <div class="btn-cadastro">
+            <a class="voltar" href="index.html">Voltar</a>
         </div>
-
-        <div class="agave-logo">
-            <img src="imagens/agavi.png" alt="Agave" />
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="form-container">
-            <h2 class="form-title">Cadastrar Cliente</h2>
-            
-            <form id="clienteForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="nomeCliente" name="nomeCliente" placeholder="Nome do Cliente" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="dataNascimento" name="dataNascimento" placeholder="Data de nascimento" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="telefone" name="telefone" placeholder="Telefone" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="cpf" name="cpf" placeholder="CPF" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group quarter">
-                        <input type="text" id="cep" name="cep" placeholder="CEP" required>
-                    </div>
-                    <div class="form-group quarter">
-                        <input type="text" id="cidade" name="cidade" placeholder="Cidade">
-                    </div>
-                    <div class="form-group quarter">
-                        <input type="text" id="bairro" name="bairro" placeholder="Bairro" required>
-                    </div>
-                    <div class="form-group quarter">
-                        <input type="text" id="complemento" name="complemento" placeholder="Complemento">
-                    </div>
-                    
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="nomeRua" name="nomeRua" placeholder="Nome da Rua" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="numeroCasa" name="numeroCasa" placeholder="Nº Casa" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="E-mail" required>
-                    </div>
-                </div>
-                <div class="opções">
-                    <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarCliente(event)">
-                    <input type="reset" value="Limpar" class="submit-btn">
-                    <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarCliente(); limpaCliente();" />
-                </div>    
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Formatação de CPF
-        document.getElementById('cpf').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            e.target.value = value;
-        });
-
-        // Formatação de CEP
-        document.getElementById('cep').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            value = value.replace(/(\d{5})(\d)/, '$1-$2');
-            e.target.value = value;
-        });
-
-        // Formatação de telefone
-        document.getElementById('telefone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            value = value.replace(/(\d{2})(\d)/, '($1) $2');
-            value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-            e.target.value = value;
-        });
-
-        // Integração com ViaCEP
-        document.getElementById('cep').addEventListener('blur', function() {
-            const cep = this.value.replace(/\D/g, '');
-            
-            if (cep.length === 8) {
-                // Adiciona classe de loading
-                this.classList.add('loading');
-                
-                // Limpa campos anteriores
-                document.getElementById('nomeRua').value = '';
-                document.getElementById('bairro').value = '';
-                document.getElementById('cidade').value = '';
-                
-                // Faz a requisição para a API ViaCEP
-                fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Remove classe de loading
-                        this.classList.remove('loading');
-                        
-                        if (data.erro) {
-                            // CEP não encontrado
-                            this.classList.add('error');
-                            alert('CEP não encontrado!');
-                            
-                            // Habilita campos para preenchimento manual
-                            document.getElementById('nomeRua').removeAttribute('readonly');
-                            document.getElementById('bairro').removeAttribute('readonly');
-                            document.getElementById('cidade').removeAttribute('readonly');
-                        } else {
-                            // CEP encontrado - preenche os campos
-                            this.classList.remove('error');
-                            this.classList.add('success');
-                            
-                            document.getElementById('nomeRua').value = data.logradouro || '';
-                            document.getElementById('bairro').value = data.bairro || '';
-                            document.getElementById('cidade').value = data.localidade || '';
-                            
-                            // Se algum campo estiver vazio, permite edição
-                            if (!data.logradouro) {
-                                document.getElementById('nomeRua').removeAttribute('readonly');
-                                document.getElementById('nomeRua').focus();
-                            }
-                            if (!data.bairro) {
-                                document.getElementById('bairro').removeAttribute('readonly');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        // Erro na requisição
-                        this.classList.remove('loading');
-                        this.classList.add('error');
-                        console.error('Erro ao buscar CEP:', error);
-                        alert('Erro ao buscar CEP. Verifique sua conexão com a internet.');
-                        
-                        // Habilita campos para preenchimento manual
-                        document.getElementById('nomeRua').removeAttribute('readonly');
-                        document.getElementById('bairro').removeAttribute('readonly');
-                        document.getElementById('cidade').removeAttribute('readonly');
-                    });
-            } else if (cep.length > 0) {
-                // CEP inválido
-                this.classList.add('error');
-                alert('CEP deve ter 8 dígitos!');
-            }
-        });
-
-        // Limpa classes de status quando o usuário começar a digitar novamente
-        document.getElementById('cep').addEventListener('input', function() {
-            this.classList.remove('loading', 'error', 'success');
-        });
-
-        // Tratamento do envio do formulário
-        document.getElementById('clienteForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Coleta todos os dados do formulário
-            const formData = {
-                nome: document.getElementById('nomeCliente').value,
-                dataNascimento: document.getElementById('dataNascimento').value,
-                telefone: document.getElementById('telefone').value,
-                cpf: document.getElementById('cpf').value,
-                cep: document.getElementById('cep').value,
-                cidade: document.getElementById('cidade').value,
-                bairro: document.getElementById('bairro').value,
-                rua: document.getElementById('nomeRua').value,
-                numero: document.getElementById('numeroCasa').value,
-                complemento: document.getElementById('complemento').value,
-                email: document.getElementById('email').value
-            };
-            
-            // Aqui você pode processar os dados (enviar para servidor, salvar localmente, etc.)
-            console.log('Dados do cliente:', formData);
-            alert('Cliente cadastrado com sucesso!');
-            
-            // Limpa o formulário
-            this.reset();
-            
-            // Remove readonly dos campos de endereço para o próximo cadastro
-            document.getElementById('nomeRua').setAttribute('readonly', '');
-            document.getElementById('bairro').setAttribute('readonly', '');
-            document.getElementById('cidade').setAttribute('readonly', '');
-        });
-    </script>
-    <div class="btn-cadastro"><a class="voltar" href="index.html">Voltar</a></div>
-</body>>
+    </body>
+    
 </html>

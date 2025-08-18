@@ -1,20 +1,19 @@
 async function cadastrarCliente(event) {
     event.preventDefault();
 
-    let nomeCliente = document.getElementById("nomeCliente").value;
 
     const cliente = {
-        nome: nomeCliente,
-        dataNascimento: document.getElementById("dataNascimento").value,
-        telefone: document.getElementById("telefone").value,
-        cpf: document.getElementById("cpf").value,
-        cep: document.getElementById("cep").value,
-        cidade: document.getElementById("cidade").value,
-        bairro: document.getElementById("bairro").value,
-        complememnto: document.getElementById("complemento").value,
-        nomeRua: document.getElementById("nomeRua").value,
-        numeroCasa: document.getElementById("numeroCasa").value,
-        email: document.getElementById("email").value,
+        cli_nome: document.getElementById("cli_nome").value,
+        cli_data_nascimento: document.getElementById("cli_data_nascimento").value,
+        cli_telefone: document.getElementById("cli_telefone").value,
+        cli_cpf: document.getElementById("cli_cpf").value,
+        cli_cep: document.getElementById("cli_cep").value,
+        cli_cidade: document.getElementById("cli_cidade").value,
+        cli_bairro: document.getElementById("cli_bairro").value,
+        cli_complemento: document.getElementById("cli_complemento").value,
+        cli_nome_rua: document.getElementById("cli_nome_rua").value,
+        cli_numero_casa: document.getElementById("cli_numero_casa").value,
+        cli_email: document.getElementById("cli_email").value
     };
 
     try {
@@ -39,45 +38,7 @@ async function cadastrarCliente(event) {
     }
 }
 
-async function listarClientes() {
-    const cpf = document.getElementById("cpf").value.trim(); // Pega o valor do CPF digitado no input
 
-    let url = "/clientes"; // URL padrão para todos os clientes
-
-    if (cpf) {
-        // Se CPF foi digitado, adiciona o parâmetro de consulta
-        url += `?cpf=${cpf}`;
-    }
-
-    try {
-        const response = await fetch(url);
-        const clientes = await response.json();
-
-        const tabela = document.getElementById("tabela-clientes");
-        tabela.innerHTML = ""; // Limpa a tabela antes de preencher
-
-        if (clientes.length === 0) {
-            // Caso não encontre clientes, exibe uma mensagem
-            tabela.innerHTML =
-                '<tr><td colspan="6">Nenhum cliente encontrado.</td></tr>';
-        } else {
-            clientes.forEach((cliente) => {
-                const linha = document.createElement("tr");
-                linha.innerHTML = `
-                    <td>${cliente.id}</td>
-                    <td>${cliente.nome}</td>
-                    <td>${cliente.cpf}</td>
-                    <td>${cliente.email}</td>
-                    <td>${cliente.telefone}</td>
-                    <td>${cliente.endereco}</td>
-                `;
-                tabela.appendChild(linha);
-            });
-        }
-    } catch (error) {
-        console.error("Erro ao listar clientes:", error);
-    }
-}
 // Função para atualizar as informações do cliente
 async function atualizarCliente() {
     const nome = document.getElementById("nome").value;
