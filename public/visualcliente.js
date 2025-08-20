@@ -24,10 +24,11 @@ async function listarClientes() {
                 linha.innerHTML = `
                     <td>${cliente.id_cli}</td>
                     <td>${cliente.cli_nome}</td>
-                    <td>${cliente.cli_cpf}</td>
-                    <td>${cliente.cli_email}</td>
                     <td>${cliente.cli_telefone}</td>
-                    <td>${cliente.cli_cep}</td>
+                    <td>${cliente.cli_cpf}</td>
+                    <td>${cliente.cli_nome_rua}</td>
+                    <td>${cliente.cli_numero_casa}</td>
+                    <td>${cliente.cli_email}</td>
                 `;
                 tabela.appendChild(linha);
             });
