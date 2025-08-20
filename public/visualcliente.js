@@ -22,12 +22,12 @@ async function listarClientes() {
             clientes.forEach(cliente => {
                 const linha = document.createElement('tr');
                 linha.innerHTML = `
-                    <td>${cliente.id}</td>
-                    <td>${cliente.nome}</td>
-                    <td>${cliente.cpf}</td>
-                    <td>${cliente.email}</td>
-                    <td>${cliente.telefone}</td>
-                    <td>${cliente.endereco}</td>
+                    <td>${cliente.id_cli}</td>
+                    <td>${cliente.cli_nome}</td>
+                    <td>${cliente.cli_cpf}</td>
+                    <td>${cliente.cli_email}</td>
+                    <td>${cliente.cli_telefone}</td>
+                    <td>${cliente.cli_cep}</td>
                 `;
                 tabela.appendChild(linha);
             });
