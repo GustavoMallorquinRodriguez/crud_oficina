@@ -35,14 +35,14 @@
         }
 
         .card {
-            background: #a8b4c0;
+            background: linear-gradient(135deg, #a8b8c8, #90a4b3);
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
         .card-header {
-            background: #a8b4c0;
+            background: linear-gradient(135deg, #a8b8c8, #90a4b3);
             color: #333;
             padding: 20px;
             text-align: center;

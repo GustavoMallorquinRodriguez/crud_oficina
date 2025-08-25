@@ -68,7 +68,7 @@ body {
 }
         
 .form-container {
-    background-color: #a8b2b8;
+    background: linear-gradient(135deg, #a8b8c8, #90a4b3);
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);

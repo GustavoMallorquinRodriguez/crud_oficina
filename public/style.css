@@ -121,7 +121,7 @@ header div img{
         }
 
         .form-container {
-            background: #a8b2b8;
+            background: linear-gradient(135deg, #a8b8c8, #90a4b3);
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);

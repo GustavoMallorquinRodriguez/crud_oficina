@@ -150,6 +150,69 @@
                 </form>
             </div>
         </div>
+        <div class="container">
+        <div class="client-section">
+            <h2 class="section-title">Visualizar Cliente</h2>
+            <div class="client-stats">
+                <p>Total de clientes: <span id="totalClientes">0</span></p>
+            </div>
+            
+            <div class="table-container">
+                <table class="client-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome do Cliente</th>
+                            <th>Telefone</th>
+                            <th>CPF</th>
+                            <th>Nome da Rua</th>
+                            <th>Nº Casa</th>
+                            <th>E-mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientTableBody">
+                        <!-- Clientes serão carregados aqui dinamicamente -->
+                    </tbody>
+                </table>
+                <div id="noClientsMessage" style="display: none; text-align: center; padding: 40px; color: #666;">
+                    <p>Nenhum cliente cadastrado ainda.</p>
+                    <a href="cliente.html" style="color: #007bff; text-decoration: none;">Cadastrar primeiro cliente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar cliente -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Cliente</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <input type="text" class="form-input" placeholder="ID" id="editClientId" readonly>
+                    <input type="text" class="form-input" placeholder="Nome do Cliente" id="editClientName">
+                    <input type="text" class="form-input" placeholder="Telefone" id="editClientPhone">
+                </div>
+                <div class="form-row">
+                    <input type="text" class="form-input" placeholder="CPF" id="editClientCpf">
+                    <input type="text" class="form-input" placeholder="Nome da Rua" id="editClientStreet">
+                    <input type="text" class="form-input" placeholder="Nº Casa" id="editClientNumber">
+                </div>
+                <div class="form-row">
+                    <input type="email" class="form-input" placeholder="E-mail" id="editClientEmail">
+                </div>
+                <div class="modal-buttons">
+                    <button class="save-btn" onclick="saveClient()">💾 Salvar</button>
+                    <button class="cancel-btn" onclick="closeModal()">❌ Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
 
         
         <div class="btn-cadastro">
