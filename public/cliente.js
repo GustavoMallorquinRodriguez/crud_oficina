@@ -1,10 +1,10 @@
 async function cadastrarCliente(event) {
     event.preventDefault();
 
-
     const cliente = {
         cli_nome: document.getElementById("cli_nome").value,
-        cli_data_nascimento: document.getElementById("cli_data_nascimento").value,
+        cli_data_nascimento: document.getElementById("cli_data_nascimento")
+            .value,
         cli_telefone: document.getElementById("cli_telefone").value,
         cli_cpf: document.getElementById("cli_cpf").value,
         cli_cep: document.getElementById("cli_cep").value,
@@ -13,7 +13,7 @@ async function cadastrarCliente(event) {
         cli_complemento: document.getElementById("cli_complemento").value,
         cli_nome_rua: document.getElementById("cli_nome_rua").value,
         cli_numero_casa: document.getElementById("cli_numero_casa").value,
-        cli_email: document.getElementById("cli_email").value
+        cli_email: document.getElementById("cli_email").value,
     };
 
     try {
@@ -37,7 +37,46 @@ async function cadastrarCliente(event) {
         alert("Erro ao cadastrar cliente.");
     }
 }
+async function listarClientes() {
+    const cli_cpf = document.getElementById("cli_cpf").value.trim(); // Pega o valor do CPF digitado no input
 
+    let url = "/clientes"; // URL padrão para todos os clientes
+
+    if (cli_cpf) {
+        // Se CPF foi digitado, adiciona o parâmetro de consulta
+        url += `?cpf=${cli_cpf}`;
+    }
+
+    try {
+        const response = await fetch(url);
+        const clientes = await response.json();
+
+        const tabela = document.getElementById("tabela-clientes");
+        tabela.innerHTML = ""; // Limpa a tabela antes de preencher
+
+        if (clientes.length === 0) {
+            // Caso não encontre clientes, exibe uma mensagem
+            tabela.innerHTML =
+                '<tr><td colspan="6">Nenhum cliente encontrado.</td></tr>';
+        } else {
+            clientes.forEach((cliente) => {
+                const linha = document.createElement("tr");
+                linha.innerHTML = `
+                    <td>${cliente.id_cli}</td>
+                    <td>${cliente.cli_nome}</td>
+                    <td>${cliente.cli_telefone}</td>
+                    <td>${cliente.cli_cpf}</td>
+                    <td>${cliente.cli_nome_rua}</td>
+                    <td>${cliente.cli_numero_casa}</td>
+                    <td>${cliente.cli_email}</td>
+                `;
+                tabela.appendChild(linha);
+            });
+        }
+    } catch (error) {
+        console.error("Erro ao listar clientes:", error);
+    }
+}
 
 // Função para atualizar as informações do cliente
 async function atualizarCliente() {
