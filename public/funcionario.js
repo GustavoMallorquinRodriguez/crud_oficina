@@ -1,16 +1,15 @@
-async function cadastrarCliente(event) {
+async function cadastrarfuncionario(event) {
     event.preventDefault();
 
     const cliente = {
         fun_nome: document.getElementById("fun_nome").value,
-        fun_cpf: document.getElementById("fun_cpf")
-            .value,
+        fun_cpf: document.getElementById("fun_cpf").value,
         fun_telefone: document.getElementById("fun_telefone").value,
         fun_setor: document.getElementById("fun_setor").value,
         fun_cargo: document.getElementById("fun_cargo").value,
-        fun_data_nascimento: document.getElementById("fun_data_nascimento").value,
+        fun_data_nascimento: document.getElementById("fun_data_nascimento")
+            .value,
         fun_endereco: document.getElementById("fun_endereco").value,
-        
     };
 
     try {
@@ -19,7 +18,7 @@ async function cadastrarCliente(event) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(cliente),
+            body: JSON.stringify(funcionario),
         });
 
         const result = await response.json();
