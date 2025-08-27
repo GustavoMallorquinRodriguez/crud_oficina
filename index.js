@@ -42,6 +42,24 @@ db.serialize(() => {
 
     console.log("Tabelas criadas com sucesso.");
 });
+db.serialize(() => {
+    db.run(`
+        CREATE TABLE IF NOT EXISTS funcionario (
+            id_fun INTEGER PRIMARY KEY AUTOINCREMENT,
+            fun_nome VARCHAR(100) not NULL,
+            fun_cpf VARCHAR(14) NOT NULL UNIQUE,
+            fun_telefone VARCHAR(15),
+            fun_setor VARCHAR(100),
+            fun_cargo VARCHAR(100),
+            fun_data_nascimento DATE,
+            fun_endereco TEXT
+        );
+
+        )
+    `);
+
+    console.log("Tabelas criadas com sucesso.");
+});
 
 ///////////////////////////// Rotas para Clientes /////////////////////////////
 ///////////////////////////// Rotas para Clientes /////////////////////////////
@@ -60,7 +78,7 @@ app.post("/clientes", (req, res) => {
         cli_complemento,
         cli_nome_rua,
         cli_numero_casa,
-        cli_email
+        cli_email,
     } = req.body;
 
     if (!cli_nome || !cli_cpf) {
@@ -81,7 +99,7 @@ app.post("/clientes", (req, res) => {
             cli_complemento,
             cli_nome_rua,
             cli_numero_casa,
-            cli_email
+            cli_email,
         ],
         function (err) {
             if (err) {
@@ -117,7 +135,7 @@ app.get("/clientes", (req, res) => {
         // Se CPF não foi passado, retorna todos os clientes
         const query = `SELECT * FROM clientes`;
 
-        db.all(query, (err, rows) => {
+        cli_telefonedb.all(query, (err, rows) => {
             if (err) {
                 console.error(err);
                 return res
@@ -129,8 +147,6 @@ app.get("/clientes", (req, res) => {
     }
 });
 
-
-
 app.get("/", (req, res) => {
     res.send("Servidor está rodando e tabelas criadas!");
 });
@@ -140,3 +156,42 @@ app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
 
+// Cadastrar Funcionario
+app.post("/funcionario", (req, res) => {
+    const {
+        fun_nome,
+        fun_cpf,
+        fun_telefone,
+        fun_setor,
+        fun_cargo,
+        fun_data_nascimento,
+        fun_endereco,
+    } = req.body;
+
+    if (!fun_nome || !fun_cpf) {
+        return res.status(400).send("Nome e CPF são obrigatórios.");
+    }
+
+    const query = `INSERT INTO funcionario (fun_nome, fun_cpf, fun_telefone, fun_setor, fun_cargo, fun_data_nascimento, fun_endereco) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    db.run(
+        query,
+        [
+            fun_nome,
+            fun_cpf,
+            fun_telefone,
+            fun_setor,
+            fun_cargo,
+            fun_data_nascimento,
+            fun_endereco,
+        ],
+        function (err) {
+            if (err) {
+                return res.status(500).send("Erro ao cadastrar funcionario.");
+            }
+            res.status(201).send({
+                id: this.lastID,
+                message: "funcionario cadastrado com sucesso.",
+            });
+        },
+    );
+});
