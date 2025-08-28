@@ -30,6 +30,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="fun_nome"
                             placeholder="nome"
                             required
                         />
@@ -39,6 +40,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="fun_cpf"
                             placeholder="cpf"
                             required
                         />
@@ -48,6 +50,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="fun_telefone"
                             placeholder="Telefone"
                             required
                         />
@@ -57,6 +60,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="fun_setor"
                             placeholder="setor"
                             required
                         />
@@ -66,6 +70,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="fun_cargo"
                             placeholder="cargo"
                             required
                         />
@@ -75,6 +80,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="fun_data_nascimento"
                             placeholder="Data de nascimento"
                             required
                         />
@@ -84,6 +90,7 @@
                         <input
                             type="text"
                             class="form-control"
+                            id="fun_endereco"
                             placeholder="endereço"
                             required
                         />
@@ -96,6 +103,43 @@
                         onclick="cadastrarfuncionario(event)"
                     />
                 </form>
+            </div>
+            <div class="container">
+                <div class="client-section">
+                    <h2 class="section-title">Visualizar Cliente</h2>
+                    <button
+                        type="button"
+                        onclick="listarClientes()"
+                        class="alinhaBtns"
+                    >
+                        Listar Clientes
+                    </button>
+                    <div class="client-stats">
+                        <p>
+                            Total de clientes: <span id="totalClientes">0</span>
+                        </p>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="client-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome do funcionario</th>
+                                    <th>CPF</th>
+                                    <th>Telefone</th>
+                                    <th>setor</th>
+                                    <th>cargo</th>
+                                    <th>Data de Nascimento</th>
+                                    <th>Endereço</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-funcionario">
+                                <!-- Clientes serão carregados aqui dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </main>
         <div class="btn-cadastro">

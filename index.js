@@ -122,7 +122,7 @@ app.get("/clientes", (req, res) => {
         // Se CPF foi passado, busca clientes que possuam esse CPF ou parte dele
         const query = `SELECT * FROM clientes WHERE cpf LIKE ?`;
 
-        db.all(query, [`%${cpf}%`], (err, rows) => {
+        db.all(query, [`%${cli_cpf}%`], (err, rows) => {
             if (err) {
                 console.error(err);
                 return res
@@ -135,7 +135,7 @@ app.get("/clientes", (req, res) => {
         // Se CPF não foi passado, retorna todos os clientes
         const query = `SELECT * FROM clientes`;
 
-        cli_telefonedb.all(query, (err, rows) => {
+        db.all(query, (err, rows) => {
             if (err) {
                 console.error(err);
                 return res
@@ -147,15 +147,6 @@ app.get("/clientes", (req, res) => {
     }
 });
 
-app.get("/", (req, res) => {
-    res.send("Servidor está rodando e tabelas criadas!");
-});
-
-// Iniciando o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
-
 // Cadastrar Funcionario
 app.post("/funcionario", (req, res) => {
     const {
@@ -165,7 +156,7 @@ app.post("/funcionario", (req, res) => {
         fun_setor,
         fun_cargo,
         fun_data_nascimento,
-        fun_endereco,
+        fun_endereco
     } = req.body;
 
     if (!fun_nome || !fun_cpf) {
@@ -182,7 +173,7 @@ app.post("/funcionario", (req, res) => {
             fun_setor,
             fun_cargo,
             fun_data_nascimento,
-            fun_endereco,
+            fun_endereco
         ],
         function (err) {
             if (err) {
@@ -194,4 +185,12 @@ app.post("/funcionario", (req, res) => {
             });
         },
     );
+});
+app.get("/", (req, res) => {
+    res.send("Servidor está rodando e tabelas criadas!");
+});
+
+// Iniciando o servidor
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });

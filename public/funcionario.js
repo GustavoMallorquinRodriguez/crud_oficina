@@ -1,7 +1,7 @@
 async function cadastrarfuncionario(event) {
     event.preventDefault();
 
-    const cliente = {
+    const funcionario = {
         fun_nome: document.getElementById("fun_nome").value,
         fun_cpf: document.getElementById("fun_cpf").value,
         fun_telefone: document.getElementById("fun_telefone").value,
@@ -24,7 +24,7 @@ async function cadastrarfuncionario(event) {
         const result = await response.json();
         if (response.ok) {
             alert("funcionario cadastrado com sucesso!");
-            document.getElementById("funcionarioForm").reset();
+            document.getElementById("cadastro-form").reset();
         } else {
             alert(`Erro: ${result.message}`);
         }
@@ -34,42 +34,43 @@ async function cadastrarfuncionario(event) {
     }
 }
 async function listarClientes() {
-    const cli_cpf = document.getElementById("cli_cpf").value.trim(); // Pega o valor do CPF digitado no input
+    const fun_cpf = document.getElementById("fun_cpf").value.trim(); // Pega o valor do CPF digitado no input
 
-    let url = "/clientes"; // URL padrão para todos os clientes
+    let url = "/funcionario"; // URL padrão para todos os clientes
 
-    if (cli_cpf) {
+    if (fun_cpf) {
         // Se CPF foi digitado, adiciona o parâmetro de consulta
-        url += `?cpf=${cli_cpf}`;
+        url += `?cpf=${fun_cpf}`;
     }
 
     try {
         const response = await fetch(url);
-        const clientes = await response.json();
+        const funcionario = await response.json();
 
-        const tabela = document.getElementById("tabela-clientes");
+        const tabela = document.getElementById("tabela-funcionario");
         tabela.innerHTML = ""; // Limpa a tabela antes de preencher
 
-        if (clientes.length === 0) {
+        if (funcionario.length === 0) {
             // Caso não encontre clientes, exibe uma mensagem
             tabela.innerHTML =
-                '<tr><td colspan="6">Nenhum cliente encontrado.</td></tr>';
+                '<tr><td colspan="6">Nenhum funcionario encontrado.</td></tr>';
         } else {
-            clientes.forEach((cliente) => {
+            funcionario.forEach((funcionario) => {
                 const linha = document.createElement("tr");
                 linha.innerHTML = `
-                    <td>${cliente.id_cli}</td>
-                    <td>${cliente.cli_nome}</td>
-                    <td>${cliente.cli_telefone}</td>
-                    <td>${cliente.cli_cpf}</td>
-                    <td>${cliente.cli_nome_rua}</td>
-                    <td>${cliente.cli_numero_casa}</td>
-                    <td>${cliente.cli_email}</td>
+                    <td>${funcionario.id_fun}</td>
+                    <td>${funcionario.fun_nome}</td>
+                    <td>${funcionario.fun_cpf}</td>
+                    <td>${funcionario.fun_telefone}</td>
+                    <td>${funcionario.fun_setor}</td>
+                    <td>${funcionario.fun_cargo}</td>
+                    <td>${funcionario.fun_data_nascimento}</td>
+                    <td>${funcionario.fun_endereco}</td>
                 `;
                 tabela.appendChild(linha);
             });
         }
     } catch (error) {
-        console.error("Erro ao listar clientes:", error);
+        console.error("Erro ao listar funcionario:", error);
     }
 }

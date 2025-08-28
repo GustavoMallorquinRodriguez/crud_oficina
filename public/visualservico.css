@@ -429,27 +429,37 @@
                 flex-direction: column;
             }
         }
-         .btn-cadastro{
-    background-color: #ffffff;
-    color: rgb(255, 255, 255);
-    padding: 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    width: 110px;
-    margin-left: 47%;
-    transition: 1.0s;
+    .submit-btn{
+            background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 20px;
+            align-self: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+            text-decoration: none;
+            
+            }
 
-   
+
+        .submit-btn:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4);
+        }
+
+
+        .submit-btn:active{
+            transform: translateY(-1px);
+        }
+
+.buttons{
+    text-align: center;
+    margin-top: 70px;
 }
-.voltar{
-    text-decoration: none;
-    color: #000000;
-}
-.btn-cadastro:hover {
-    background-color: #FF6600;
-    color: #FF6600;
-    
-}
+        
+
