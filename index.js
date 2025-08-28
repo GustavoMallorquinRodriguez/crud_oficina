@@ -60,6 +60,23 @@ db.serialize(() => {
 
     console.log("Tabelas criadas com sucesso.");
 });
+db.serialize(() => {
+    db.run(`
+        CREATE TABLE IF NOT EXISTS funcionario (
+            id_mt INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cli INTEGER,
+            mt_placa VARCHAR(7) NOT NULL UNIQUE,
+            mt_modelo VARCHAR(100),
+            mt_ano VARCHAR(4),
+            id_servico INTEGER
+            
+        );
+
+        )
+    `);
+
+    console.log("Tabelas criadas com sucesso.");
+});
 
 ///////////////////////////// Rotas para Clientes /////////////////////////////
 ///////////////////////////// Rotas para Clientes /////////////////////////////
@@ -146,7 +163,9 @@ app.get("/clientes", (req, res) => {
         });
     }
 });
-
+///////////////////////////// Rotas para Funcionario /////////////////////////////
+///////////////////////////// Rotas para Funcionario /////////////////////////////
+///////////////////////////// Rotas para Funcionario /////////////////////////////
 // Cadastrar Funcionario
 app.post("/funcionario", (req, res) => {
     const {
@@ -156,7 +175,7 @@ app.post("/funcionario", (req, res) => {
         fun_setor,
         fun_cargo,
         fun_data_nascimento,
-        fun_endereco
+        fun_endereco,
     } = req.body;
 
     if (!fun_nome || !fun_cpf) {
@@ -173,7 +192,7 @@ app.post("/funcionario", (req, res) => {
             fun_setor,
             fun_cargo,
             fun_data_nascimento,
-            fun_endereco
+            fun_endereco,
         ],
         function (err) {
             if (err) {
@@ -186,6 +205,40 @@ app.post("/funcionario", (req, res) => {
         },
     );
 });
+// Listar funcionario
+// Endpoint para listar todos os funcionario ou buscar por CPF
+app.get("/funcionario", (req, res) => {
+    const cpf = req.query.cpf || ""; // Recebe o CPF da query string (se houver)
+
+    if (cpf) {
+        // Se CPF foi passado, busca funcionario que possuam esse CPF ou parte dele
+        const query = `SELECT * FROM funcionario WHERE cpf LIKE ?`;
+
+        db.all(query, [`%${fun_cpf}%`], (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res
+                    .status(500)
+                    .json({ message: "Erro ao buscar funcionario." });
+            }
+            res.json(rows); // Retorna os funcionario encontrados ou um array vazio
+        });
+    } else {
+        // Se CPF não foi passado, retorna todos os funcionario
+        const query = `SELECT * FROM funcionario`;
+
+        db.all(query, (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res
+                    .status(500)
+                    .json({ message: "Erro ao buscar funcionario." });
+            }
+            res.json(rows); // Retorna todos os funcionario
+        });
+    }
+});
+
 app.get("/", (req, res) => {
     res.send("Servidor está rodando e tabelas criadas!");
 });
@@ -194,3 +247,72 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
+///////////////////////////// Rotas para Moto /////////////////////////////
+///////////////////////////// Rotas para Moto /////////////////////////////
+///////////////////////////// Rotas para Moto /////////////////////////////
+// Cadastrar moto
+app.post("/moto", (req, res) => {
+    const { id_cli, mt_placa, mt_modelo, mt_ano, id_servico } = req.body;
+
+    if (!id_cliente || !mt_placa) {
+        return res.status(400).send("Nome e CPF são obrigatórios.");
+    }
+
+    const query = `INSERT INTO moto (id_cli, mt_placa, mt_modelo, mt_ano, id_servico) VALUES (?, ?, ?, ?, ?)`;
+    db.run(
+        query,
+        [id_cli, mt_placa, mt_modelo, mt_ano, id_servico],
+        function (err) {
+            if (err) {
+                return res.status(500).send("Erro ao cadastrar moto.");
+            }
+            res.status(201).send({
+                id: this.lastID,
+                message: "moto cadastrado com sucesso.",
+            });
+        },
+    );
+});
+// Listar moto
+// Endpoint para listar todos os moto ou buscar por CPF
+app.get("/moto", (req, res) => {
+    const cpf = req.query.cpf || ""; // Recebe o CPF da query string (se houver)
+
+    if (cpf) {
+        // Se CPF foi passado, busca funcionario que possuam esse CPF ou parte dele
+        const query = `SELECT * FROM moto WHERE cpf LIKE ?`;
+
+        db.all(query, [`%${fun_cpf}%`], (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res
+                    .status(500)
+                    .json({ message: "Erro ao buscar moto." });
+            }
+            res.json(rows); // Retorna os moto encontrados ou um array vazio
+        });
+    } else {
+        // Se CPF não foi passado, retorna todos os moto
+        const query = `SELECT * FROM moto`;
+
+        db.all(query, (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res
+                    .status(500)
+                    .json({ message: "Erro ao buscar moto." });
+            }
+            res.json(rows); // Retorna todos os moto
+        });
+    }
+});
+
+app.get("/", (req, res) => {
+    res.send("Servidor está rodando e tabelas criadas!");
+});
+
+// Iniciando o servidor
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+});
+

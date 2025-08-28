@@ -54,58 +54,6 @@
     </div>
     <div class="btn-cadastro"><a class="voltar" href="index.html">Voltar</a></div>
 
-    <script>
-        document.getElementById('cadastroForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Coleta os dados do formulário
-            const dados = {
-                proprietario: document.getElementById('proprietario').value,
-                modelo: document.getElementById('modelo').value,
-                placa: document.getElementById('placa').value,
-                ano: document.getElementById('ano').value,
-                quilometros: document.getElementById('quilometros').value
-            };
-            
-            // Simula o envio dos dados
-            console.log('Dados cadastrados:', dados);
-            
-            // Feedback visual
-            const btn = document.querySelector('.submit-btn');
-            const originalText = btn.textContent;
-            btn.textContent = 'Cadastrado!';
-            btn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-            
-            // Limpa o formulário
-            this.reset();
-            
-            // Restaura o botão após 2 segundos
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = 'linear-gradient(135deg, #ff6b35 0%, #ff4500 100%)';
-            }, 2000);
-        });
 
-        // Formatação automática da placa
-        document.getElementById('placa').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-            if (value.length > 3) {
-                value = value.slice(0, 3) + '-' + value.slice(3, 7);
-            }
-            e.target.value = value;
-        });
-
-        // Validação do ano
-        document.getElementById('ano').addEventListener('input', function(e) {
-            const currentYear = new Date().getFullYear();
-            const value = parseInt(e.target.value);
-            
-            if (value > currentYear + 1) {
-                e.target.value = currentYear + 1;
-            } else if (value < 1980) {
-                e.target.value = 1980;
-            }
-        });
-    </script>
 </body>
 </html>
