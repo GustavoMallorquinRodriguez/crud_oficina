@@ -15,14 +15,14 @@ async function cadastrarmoto(event) {
             headers: {
                 "Content-Type": "application/json",
             },
-    
+
             body: JSON.stringify(moto),
         });
 
         const result = await response.json();
         if (response.ok) {
             alert("moto cadastrado com sucesso!");
-            document.getElementById("cadastro-form").reset();
+            document.getElementById("cadastro-moto").reset();
         } else {
             alert(`Erro: ${result.message}`);
         }
@@ -31,39 +31,37 @@ async function cadastrarmoto(event) {
         alert("Erro ao cadastrar moto.");
     }
 }
-async function listarfuncionario() {
-    const fun_cpf = document.getElementById("fun_cpf").value.trim(); // Pega o valor do CPF digitado no input
+async function listarmoto() {
+    const mt_placa = document.getElementById("mt_placa").value.trim(); // Pega o valor da placa digitado no input
 
-    let url = "/funcionario"; // URL padrão para todos os clientes
+    let url = "/moto"; // URL padrão para todos os clientes
 
-    if (fun_cpf) {
-        // Se CPF foi digitado, adiciona o parâmetro de consulta
-        url += `?cpf=${fun_cpf}`;
+    if (mt_placa) {
+        // Se placa foi digitado, adiciona o parâmetro de consulta
+        url += `?placa=${mt_placa}`;
     }
 
     try {
         const response = await fetch(url);
-        const funcionario = await response.json();
+        const moto = await response.json();
 
-        const tabela = document.getElementById("tabela-funcionario");
+        const tabela = document.getElementById("tabela-moto");
         tabela.innerHTML = ""; // Limpa a tabela antes de preencher
 
-        if (funcionario.length === 0) {
-            // Caso não encontre clientes, exibe uma mensagem
+        if (moto.length === 0) {
+            // Caso não encontre motos, exibe uma mensagem
             tabela.innerHTML =
-                '<tr><td colspan="6">Nenhum funcionario encontrado.</td></tr>';
+                '<tr><td colspan="6">Nenhuma moto encontrado.</td></tr>';
         } else {
-            funcionario.forEach((funcionario) => {
+            moto.forEach((moto) => {
                 const linha = document.createElement("tr");
                 linha.innerHTML = `
-                    <td>${funcionario.id_fun}</td>
-                    <td>${funcionario.fun_nome}</td>
-                    <td>${funcionario.fun_cpf}</td>
-                    <td>${funcionario.fun_telefone}</td>
-                    <td>${funcionario.fun_setor}</td>
-                    <td>${funcionario.fun_cargo}</td>
-                    <td>${funcionario.fun_data_nascimento}</td>
-                    <td>${funcionario.fun_endereco}</td>
+                    <td>${moto.id_mt}</td>
+                    <td>${moto.id_cli}</td>
+                    <td>${moto.mt_placa}</td>
+                    <td>${moto.mt_modelo}</td>
+                    <td>${moto.mt_ano}</td>
+                    <td>${moto.id_servico}</td>
                 `;
                 tabela.appendChild(linha);
             });

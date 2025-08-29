@@ -39,7 +39,7 @@
             <div class="form-container">
                 <h2 class="form-title">Cadastrar moto</h2>
 
-                <form id="cadastro-form">
+                <form id="cadastro-moto">
                     <div class="form-group">
                         <input
                             type="text"
@@ -100,11 +100,7 @@
         <div class="container">
             <div class="client-section">
                 <h2 class="section-title">Visualizar funcionario</h2>
-                <button
-                    type="button"
-                    onclick="listarfuncionario()"
-                    class="alinhaBtns"
-                >
+                <button type="button" onclick="listarmoto()" class="alinhaBtns">
                     Listar Clientes
                 </button>
                 <div class="client-stats">
@@ -123,8 +119,8 @@
                                 <th>N° de serviço</th>
                             </tr>
                         </thead>
-                        <tbody id="tabela-funcionario">
-                            <!-- Clientes serão carregados aqui dinamicamente -->
+                        <tbody id="tabela-moto">
+                            <!-- Motos serão carregados aqui dinamicamente -->
                         </tbody>
                     </table>
                 </div>
@@ -133,5 +129,6 @@
         <div class="btn-cadastro">
             <a class="voltar" href="index.html">Voltar</a>
         </div>
+    <script src="moto.js"></script>
     </body>
 </html>

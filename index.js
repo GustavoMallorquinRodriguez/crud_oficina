@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3").verbose();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 // Serve os arquivos estáticos da pasta "public"
 app.use(express.static("public"));
@@ -24,7 +24,7 @@ const db = new sqlite3.Database("./database.db", (err) => {
 db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS clientes (
-	        id_cli INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cli INTEGER PRIMARY KEY AUTOINCREMENT,
             cli_nome VARCHAR(100) not NULL,
             cli_data_nascimento text,
             cli_telefone VARCHAR(15),
@@ -40,42 +40,47 @@ db.serialize(() => {
         )
     `);
 
-    console.log("Tabelas criadas com sucesso.");
-});
-db.serialize(() => {
+
     db.run(`
         CREATE TABLE IF NOT EXISTS funcionario (
             id_fun INTEGER PRIMARY KEY AUTOINCREMENT,
-            fun_nome VARCHAR(100) not NULL,
+            fun_nome VARCHAR(100) NOT NULL,
             fun_cpf VARCHAR(14) NOT NULL UNIQUE,
             fun_telefone VARCHAR(15),
             fun_setor VARCHAR(100),
             fun_cargo VARCHAR(100),
             fun_data_nascimento DATE,
             fun_endereco TEXT
-        );
-
         )
     `);
 
-    console.log("Tabelas criadas com sucesso.");
-});
-db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS moto (
             id_mt INTEGER PRIMARY KEY AUTOINCREMENT,
             id_cli INTEGER,
-            mt_placa VARCHAR(7) NOT NULL UNIQUE NUMBER,
-            mt_modelo VARCHAR(100) TEXT,
-            mt_ano VARCHAR(4) NUMBER,
-            id_servico INTEGER
-            
-        );
-
+            mt_placa VARCHAR(7) NOT NULL UNIQUE,
+            mt_modelo VARCHAR(100),
+            mt_ano INTEGER,
+            id_servico INTEGER,
+            FOREIGN KEY (id_cli) REFERENCES clientes (id_cli)
+            FOREIGN KEY (id_servico) REFERENCES servicos (id_servico)
         )
     `);
 
-    console.log("Tabelas criadas com sucesso.");
+    db.run(`
+        CREATE TABLE IF NOT EXISTS servicos (
+            id_servico INTEGER PRIMARY KEY AUTOINCREMENT,
+            data_entrada DATE,
+            tipo_servico VARCHAR(100),
+            data_saida DATE,
+            mecanico_servico VARCHAR(100),
+            orcamento DECIMAL(10,2),
+            id_moto INTEGER,
+            observacao TEXT,
+            FOREIGN KEY (id_moto) REFERENCES moto (id_mt)
+        )
+    `);
+    console.log("Tabela de serviços criada com sucesso.");
 });
 
 ///////////////////////////// Rotas para Clientes /////////////////////////////
@@ -137,9 +142,9 @@ app.get("/clientes", (req, res) => {
 
     if (cpf) {
         // Se CPF foi passado, busca clientes que possuam esse CPF ou parte dele
-        const query = `SELECT * FROM clientes WHERE cpf LIKE ?`;
+        const query = `SELECT * FROM clientes WHERE cli_cpf LIKE ?`;
 
-        db.all(query, [`%${cli_cpf}%`], (err, rows) => {
+        db.all(query, [`%${cpf}%`], (err, rows) => {
             if (err) {
                 console.error(err);
                 return res
@@ -212,9 +217,9 @@ app.get("/funcionario", (req, res) => {
 
     if (cpf) {
         // Se CPF foi passado, busca funcionario que possuam esse CPF ou parte dele
-        const query = `SELECT * FROM funcionario WHERE cpf LIKE ?`;
+        const query = `SELECT * FROM funcionario WHERE fun_cpf LIKE ?`;
 
-        db.all(query, [`%${fun_cpf}%`], (err, rows) => {
+        db.all(query, [`%${cpf}%`], (err, rows) => {
             if (err) {
                 console.error(err);
                 return res
@@ -239,14 +244,6 @@ app.get("/funcionario", (req, res) => {
     }
 });
 
-app.get("/", (req, res) => {
-    res.send("Servidor está rodando e tabelas criadas!");
-});
-
-// Iniciando o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
 ///////////////////////////// Rotas para Moto /////////////////////////////
 ///////////////////////////// Rotas para Moto /////////////////////////////
 ///////////////////////////// Rotas para Moto /////////////////////////////
@@ -254,8 +251,8 @@ app.listen(port, () => {
 app.post("/moto", (req, res) => {
     const { id_cli, mt_modelo, mt_placa, mt_ano, id_servico } = req.body;
 
-    if (!id_cliente || !mt_placa) {
-        return res.status(400).send("Nome e CPF são obrigatórios.");
+    if (!id_cli || !mt_placa) {
+        return res.status(400).send("Nome e Placa são obrigatórios.");
     }
 
     const query = `INSERT INTO moto (id_cli, mt_modelo, mt_placa, mt_ano, id_servico) VALUES (?, ?, ?, ?, ?)`;
@@ -280,9 +277,9 @@ app.get("/moto", (req, res) => {
 
     if (cpf) {
         // Se CPF foi passado, busca funcionario que possuam esse CPF ou parte dele
-        const query = `SELECT * FROM moto WHERE cpf LIKE ?`;
+        const query = `SELECT * FROM moto WHERE mt_placa LIKE ?`;
 
-        db.all(query, [`%${fun_cpf}%`], (err, rows) => {
+        db.all(query, [`%${mt_placa}%`], (err, rows) => {
             if (err) {
                 console.error(err);
                 return res
@@ -307,11 +304,90 @@ app.get("/moto", (req, res) => {
     }
 });
 
-app.get("/", (req, res) => {
-    res.send("Servidor está rodando e tabelas criadas!");
+///////////////////////////// Rotas para Serviços /////////////////////////////
+///////////////////////////// Rotas para Serviços /////////////////////////////
+///////////////////////////// Rotas para Serviços /////////////////////////////
+
+// Cadastrar serviço
+app.post("/servicos", (req, res) => {
+    const {
+        data_entrada,
+        tipo_servico,
+        data_saida,
+        mecanico_servico,
+        orcamento,
+        id_moto,
+        observacao,
+    } = req.body;
+
+    if (!data_entrada || !tipo_servico || !mecanico_servico || !id_moto) {
+        return res
+            .status(400)
+            .send(
+                "Data de entrada, tipo de serviço, mecânico e ID da moto são obrigatórios.",
+            );
+    }
+
+    const query = `INSERT INTO servicos (data_entrada, tipo_servico, data_saida, mecanico_servico, orcamento, id_moto, observacao) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    db.run(
+        query,
+        [
+            data_entrada,
+            tipo_servico,
+            data_saida,
+            mecanico_servico,
+            orcamento,
+            id_moto,
+            observacao,
+        ],
+        function (err) {
+            if (err) {
+                return res.status(500).send("Erro ao cadastrar serviço.");
+            }
+            res.status(201).send({
+                id: this.lastID,
+                message: "Serviço cadastrado com sucesso.",
+            });
+        },
+    );
+});
+
+// Listar serviços
+app.get("/servicos", (req, res) => {
+    const query = `SELECT * FROM servicos`;
+
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.error(err);
+            return res
+                .status(500)
+                .json({ message: "Erro ao buscar serviços." });
+        }
+        res.json(rows);
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+//nao mexa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Rota principal para verificar se o servidor está funcionando
+app.get("/api/status", (req, res) => {
+    res.json({
+        message: "Servidor está rodando e tabelas criadas!",
+        status: "ok",
+    });
 });
 
 // Iniciando o servidor
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
