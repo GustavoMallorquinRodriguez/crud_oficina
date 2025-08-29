@@ -1,36 +1,34 @@
-async function cadastrarfuncionario(event) {
+async function cadastrarmoto(event) {
     event.preventDefault();
 
-    const funcionario = {
-        fun_nome: document.getElementById("fun_nome").value,
-        fun_cpf: document.getElementById("fun_cpf").value,
-        fun_telefone: document.getElementById("fun_telefone").value,
-        fun_setor: document.getElementById("fun_setor").value,
-        fun_cargo: document.getElementById("fun_cargo").value,
-        fun_data_nascimento: document.getElementById("fun_data_nascimento")
-            .value,
-        fun_endereco: document.getElementById("fun_endereco").value,
+    const moto = {
+        id_cli: document.getElementById("id_cli").value,
+        mt_placa: document.getElementById("mt_placa").value,
+        mt_modelo: document.getElementById("mt_modelo").value,
+        mt_ano: document.getElementById("mt_ano").value,
+        id_servico: document.getElementById("id_servico").value,
     };
 
     try {
-        const response = await fetch("/funcionario", {
+        const response = await fetch("/moto", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(funcionario),
+    
+            body: JSON.stringify(moto),
         });
 
         const result = await response.json();
         if (response.ok) {
-            alert("funcionario cadastrado com sucesso!");
+            alert("moto cadastrado com sucesso!");
             document.getElementById("cadastro-form").reset();
         } else {
             alert(`Erro: ${result.message}`);
         }
     } catch (err) {
         console.error("Erro na solicitação:", err);
-        alert("Erro ao cadastrar funcionario.");
+        alert("Erro ao cadastrar moto.");
     }
 }
 async function listarfuncionario() {

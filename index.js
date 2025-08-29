@@ -62,12 +62,12 @@ db.serialize(() => {
 });
 db.serialize(() => {
     db.run(`
-        CREATE TABLE IF NOT EXISTS funcionario (
+        CREATE TABLE IF NOT EXISTS moto (
             id_mt INTEGER PRIMARY KEY AUTOINCREMENT,
             id_cli INTEGER,
-            mt_placa VARCHAR(7) NOT NULL UNIQUE,
-            mt_modelo VARCHAR(100),
-            mt_ano VARCHAR(4),
+            mt_placa VARCHAR(7) NOT NULL UNIQUE NUMBER,
+            mt_modelo VARCHAR(100) TEXT,
+            mt_ano VARCHAR(4) NUMBER,
             id_servico INTEGER
             
         );
@@ -252,16 +252,16 @@ app.listen(port, () => {
 ///////////////////////////// Rotas para Moto /////////////////////////////
 // Cadastrar moto
 app.post("/moto", (req, res) => {
-    const { id_cli, mt_placa, mt_modelo, mt_ano, id_servico } = req.body;
+    const { id_cli, mt_modelo, mt_placa, mt_ano, id_servico } = req.body;
 
     if (!id_cliente || !mt_placa) {
         return res.status(400).send("Nome e CPF são obrigatórios.");
     }
 
-    const query = `INSERT INTO moto (id_cli, mt_placa, mt_modelo, mt_ano, id_servico) VALUES (?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO moto (id_cli, mt_modelo, mt_placa, mt_ano, id_servico) VALUES (?, ?, ?, ?, ?)`;
     db.run(
         query,
-        [id_cli, mt_placa, mt_modelo, mt_ano, id_servico],
+        [id_cli, mt_modelo, mt_placa, mt_ano, id_servico],
         function (err) {
             if (err) {
                 return res.status(500).send("Erro ao cadastrar moto.");
@@ -315,4 +315,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
-
