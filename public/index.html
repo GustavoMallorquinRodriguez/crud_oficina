@@ -20,10 +20,10 @@
         <h1 class="page-title">cadastrar serviço</h1>
         
         <div class="form-container">
-            <form id="serviceForm">
+            <form id="servico-Form">
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="date" id="serv_data_entrada" placeholder="data de entrada" required>
+                        <input type="number" id="serv_data_entrada" placeholder="data de entrada" required>
                     </div>
                     <div class="form-group">
                         <select id="serv_tipo" required>
@@ -40,7 +40,7 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="date" id="serv_data_saida" placeholder="data de saída">
+                        <input type="number" id="serv_data_saida" placeholder="data de saída">
                     </div>
                     <div class="form-group">
                         <input type="text" id="id_fun" placeholder="mecânico do serviço" required>
@@ -62,62 +62,19 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button type="submit" class="submit-btn">Cadastrar</button>
+                    <input
+                        type="submit"
+                        value="Cadastrar"
+                        class="submit-btn"
+                        onclick="cadastrarservicos(event)"
+                    />
                     <a href="visualservico.html" class="submit-btn">Visualizar Serviços</a>
                 </div>
             </form>
         </div>
     </main>
 
-    <script>
-        document.getElementById('serviceForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                dataEntrada: document.getElementById('dataEntrada').value,
-                tipoServico: document.getElementById('tipoServico').value,
-                dataSaida: document.getElementById('dataSaida').value,
-                mecanicoServico: document.getElementById('mecanicoServico').value,
-                orcamento: document.getElementById('orcamento').value,
-                idMoto: document.getElementById('idMoto').value,
-                observacao: document.getElementById('observacao').value
-            };
-
-            // Validação básica
-            if (!formData.dataEntrada || !formData.tipoServico || !formData.mecanicoServico || !formData.idMoto) {
-                alert('Por favor, preencha todos os campos obrigatórios!');
-                return;
-            }
-
-            // Simulação de envio dos dados
-            console.log('Dados do serviço:', formData);
-            alert('Serviço cadastrado com sucesso!');
-            
-            // Limpar formulário após o envio
-            this.reset();
-            
-            // Definir data atual novamente após reset
-            document.getElementById('dataEntrada').valueAsDate = new Date();
-        });
-
-        // Adicionar funcionalidade aos ícones da sidebar
-        document.querySelectorAll('.item-menu a').forEach(icon => {
-            icon.addEventListener('click', function() {
-                console.log('Ícone clicado');
-            });
-        });
-
-        // Definir data atual como padrão para data de entrada
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('dataEntrada').valueAsDate = new Date();
-        });
-
-        // Funcionalidade do menu lateral
-        document.querySelector('.expandir').addEventListener('click', function() {
-            const menu = document.querySelector('nav.menu-lateral');
-            menu.style.width = menu.style.width === '300px' ? '80px' : '300px';
-        });
-    </script>
+    
     
 
 
