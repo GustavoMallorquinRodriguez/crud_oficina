@@ -40,7 +40,6 @@ db.serialize(() => {
         )
     `);
 
-
     db.run(`
         CREATE TABLE IF NOT EXISTS funcionario (
             id_fun INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -69,15 +68,16 @@ db.serialize(() => {
 
     db.run(`
         CREATE TABLE IF NOT EXISTS servicos (
-            id_servico INTEGER PRIMARY KEY AUTOINCREMENT,
-            data_entrada DATE,
-            tipo_servico VARCHAR(100),
-            data_saida DATE,
-            mecanico_servico VARCHAR(100),
-            orcamento DECIMAL(10,2),
-            id_moto INTEGER,
-            observacao TEXT,
-            FOREIGN KEY (id_moto) REFERENCES moto (id_mt)
+            id_serv INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_fun INTEGER,
+            serv_tipo VARCHAR(100),
+            id_mt INTEGER,
+            serv_data_entrada DATE,
+            serv_data_saida DATE,
+            serv_orcamento DECIMAL(10, 2),
+            serv_observacao TEXt,
+            FOREIGN KEY (id_mt) REFERENCES moto (id_mt)
+            FOREIGN KEY (id_fun) REFERENCES moto (id_fun)
         )
     `);
     console.log("Tabela de serviços criada com sucesso.");
@@ -311,16 +311,16 @@ app.get("/moto", (req, res) => {
 // Cadastrar serviço
 app.post("/servicos", (req, res) => {
     const {
-        data_entrada,
-        tipo_servico,
-        data_saida,
-        mecanico_servico,
-        orcamento,
-        id_moto,
-        observacao,
+        id_fun,
+        serv_tipo,
+        id_mt,
+        serv_data_entrada,
+        serv_data_saida,
+        serv_orcamento,
+        serv_observacao,
     } = req.body;
 
-    if (!data_entrada || !tipo_servico || !mecanico_servico || !id_moto) {
+    if (!serv_data_entrada || !serv_tipo || !id_fun || !id_mt) {
         return res
             .status(400)
             .send(
@@ -328,17 +328,17 @@ app.post("/servicos", (req, res) => {
             );
     }
 
-    const query = `INSERT INTO servicos (data_entrada, tipo_servico, data_saida, mecanico_servico, orcamento, id_moto, observacao) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO servicos (id_fun, serv_tipo, id_mt, serv_data_entrada, serv_data_saida, serv_orcamento, serv_observacao) VALUES (?, ?, ?, ?, ?, ?, ?)`;
     db.run(
         query,
         [
-            data_entrada,
-            tipo_servico,
-            data_saida,
-            mecanico_servico,
-            orcamento,
-            id_moto,
-            observacao,
+            id_fun,
+            serv_tipo,
+            id_mt,
+            serv_data_entrada,
+            serv_data_saida,
+            serv_orcamento,
+            serv_observacao,
         ],
         function (err) {
             if (err) {
@@ -366,17 +366,6 @@ app.get("/servicos", (req, res) => {
         res.json(rows);
     });
 });
-
-
-
-
-
-
-
-
-
-
-
 
 //nao mexa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // Rota principal para verificar se o servidor está funcionando

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AN MOTOS</title>
+    <script src="serv.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -22,10 +23,10 @@
             <form id="serviceForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="date" id="dataEntrada" placeholder="data de entrada" required>
+                        <input type="date" id="serv_data_entrada" placeholder="data de entrada" required>
                     </div>
                     <div class="form-group">
-                        <select id="tipoServico" required>
+                        <select id="serv_tipo" required>
                             <option value="">tipo de serviço</option>
                             <option value="revisao">Revisão</option>
                             <option value="manutencao">Manutenção</option>
@@ -39,25 +40,25 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="date" id="dataSaida" placeholder="data de saída">
+                        <input type="date" id="serv_data_saida" placeholder="data de saída">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="mecanicoServico" placeholder="mecânico do serviço" required>
+                        <input type="text" id="id_fun" placeholder="mecânico do serviço" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="number" id="orcamento" placeholder="Orçamento (R$)" min="0" step="0.01">
+                        <input type="number" id="serv_orcamento" placeholder="Orçamento (R$)" min="0" step="0.01">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="idMoto" placeholder="ID moto" required>
+                        <input type="text" id="id_mt" placeholder="ID moto" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group full-width">
-                        <textarea id="observacao" placeholder="observação" rows="4"></textarea>
+                        <textarea id="serv_observacao" placeholder="observação" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="buttons">
@@ -100,7 +101,7 @@
         });
 
         // Adicionar funcionalidade aos ícones da sidebar
-        document.querySelectorAll('.sidebar-icon').forEach(icon => {
+        document.querySelectorAll('.item-menu a').forEach(icon => {
             icon.addEventListener('click', function() {
                 console.log('Ícone clicado');
             });
