@@ -181,25 +181,30 @@
     </div>
 
     <!-- Modal para editar cliente -->
-    <div id="editModal" class="modal">
+    <div id="clienteAtualizado" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Editar Cliente</h3>
                 <span class="close" onclick="closeModal()">&times;</span>
             </div>
-            <div class="modal-body">
+            <div class="modal-body">            
                 <div class="form-row">
-                    <input type="text" class="form-input" placeholder="ID" id="editClientId" readonly>
-                    <input type="text" class="form-input" placeholder="Nome do Cliente" id="editClientName">
-                    <input type="text" class="form-input" placeholder="Telefone" id="editClientPhone">
+                    <input type="text" class="form-input" placeholder="ID" id="id_cli" readonly>
+                    <input type="text" class="form-input" placeholder="Nome do Cliente" id="cli_nome">
+                    <input type="text" class="form-input" placeholder="data de nascimento" id="cli_data_nascimento">
+                    <input type="text" class="form-input" placeholder="Telefone" id="cli_telefone">
                 </div>
                 <div class="form-row">
-                    <input type="text" class="form-input" placeholder="CPF" id="editClientCpf">
-                    <input type="text" class="form-input" placeholder="Nome da Rua" id="editClientStreet">
-                    <input type="text" class="form-input" placeholder="Nº Casa" id="editClientNumber">
+                    <input type="text" class="form-input" placeholder="CPF" id="cli_cpf">
+                    <input type="text" class="form-input" placeholder="CEP" id="cli_cep">
+                    <input type="text" class="form-input" placeholder="Cidade" id="cli_cidade">
+                    <input type="text" class="form-input" placeholder="Bairro" id="cli_bairro">
                 </div>
                 <div class="form-row">
-                    <input type="email" class="form-input" placeholder="E-mail" id="editClientEmail">
+                    <input type="text" class="form-input" placeholder="Complemento" id="cli_complemento">
+                    <input type="text" class="form-input" placeholder="Nome Rua" id="cli_nome_rua">
+                    <input type="text" class="form-input" placeholder="Nº Casa" id="cli_numero_casa">
+                    <input type="email" class="form-input" placeholder="E-mail" id="cli_email">
                 </div>
                 <div class="modal-buttons">
                     <button class="save-btn" onclick="saveClient()">💾 Salvar</button>
