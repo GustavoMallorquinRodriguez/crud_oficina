@@ -168,6 +168,50 @@ app.get("/clientes", (req, res) => {
         });
     }
 });
+// Atualizar cliente
+app.put("/clientes/cpf/:cpf", (req, res) => {
+    const { cli_cpf } = req.params;
+    const {
+        cli_nome,
+        cli_data_nascimento,
+        cli_telefone,
+        cli_cpf,
+        cli_cep,
+        cli_cidade,
+        cli_bairro,
+        cli_complemento,
+        cli_nome_rua,
+        cli_numero_casa,
+        cli_email,
+    } = req.body;
+
+    const query = `UPDATE clientes SET cli_nome = ?, cli_data_nascimento = ?, cli_telefone = ?, cli_cep = ?, cli_cidade = ?, cli_bairro = ?, cli_complemento = ?, cli_nome_rua = ?, cli_numero_casa = ?, cli_email = ? WHERE cli_cpf = ?`;
+    db.run(
+        query,
+        [
+            cli_nome,
+            cli_data_nascimento,
+            cli_telefone,
+            cli_cpf,
+            cli_cep,
+            cli_cidade,
+            cli_bairro,
+            cli_complemento,
+            cli_nome_rua,
+            cli_numero_casa,
+            cli_email,
+        ],
+        function (err) {
+            if (err) {
+                return res.status(500).send("Erro ao atualizar cliente.");
+            }
+            if (this.changes === 0) {
+                return res.status(404).send("Cliente não encontrado.");
+            }
+            res.send("Cliente atualizado com sucesso.");
+        },
+    );
+});
 ///////////////////////////// Rotas para Funcionario /////////////////////////////
 ///////////////////////////// Rotas para Funcionario /////////////////////////////
 ///////////////////////////// Rotas para Funcionario /////////////////////////////
