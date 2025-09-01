@@ -80,18 +80,32 @@ async function listarClientes() {
 
 // Função para atualizar as informações do cliente
 async function atualizarCliente() {
-    const nome = document.getElementById("nome").value;
-    const cpf = document.getElementById("cpf").value;
-    const email = document.getElementById("email").value;
-    const telefone = document.getElementById("telefone").value;
-    const endereco = document.getElementById("endereco").value;
+    const cli_nome = document.getElementById("cli_nome").value;
+    const cli_data_nascimento = document.getElementById(
+        "cli_data_nascimento",
+    ).value;
+    const cli_telefone = document.getElementById("cli_telefone").value;
+    const cli_cpf = document.getElementById("cli_cpf").value;
+    const cli_cep = document.getElementById("cli_cep").value;
+    const cli_cidade = document.getElementById("cli_cidade").value;
+    const cli_bairro = document.getElementById("cli_bairro").value;
+    const cli_complemento = document.getElementById("cli_complemento").value;
+    const cli_nome_rua = document.getElementById("cli_nome_rua").value;
+    const cli_numero_casa = document.getElementById("cli_numero_casa").value;
+    const cli_email = document.getElementById("cli_email").value;
 
     const clienteAtualizado = {
-        nome,
-        email,
-        telefone,
-        endereco,
-        cpf,
+        cli_nome,
+        cli_data_nascimento,
+        cli_telefone,
+        cli_cpf,
+        cli_cep,
+        cli_cidade,
+        cli_bairro,
+        cli_complemento,
+        cli_nome_rua,
+        cli_numero_casa,
+        cli_email,
     };
 
     try {
