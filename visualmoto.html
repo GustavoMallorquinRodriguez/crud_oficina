@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>\Visualizar Moto</title>
+    <link rel="stylesheet" href="visualmoto.css">
+</head>
+<body>
+    <header class="header">
+        <img src="imagens/ccm.jpeg" alt="Colégio Cívico-Militar do Paraná" class="logo-ccm">
+        
+        <img src="imagens/an_motos.png" alt="RN Motos" class="logo-rn">
+        <div class="agavi">
+            <img src="imagens/agavi.png" alt="AGAVI" class="logo-agavi">
+        </div>    
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                VISUALIZAR MOTO
+            </div>
+            
+            <div class="search-form">
+                <div class="form-group">
+                    <label for="idMoto">ID Moto:</label>
+                    <input type="text" id="idMoto" name="idMoto" placeholder="Digite o ID">
+                </div>
+                
+                <div class="form-group">
+                    <label for="proprietario">Proprietário da Moto:</label>
+                    <input type="text" id="proprietario" name="proprietario" placeholder="Nome do proprietário">
+                </div>
+                
+                <div class="form-group">
+                    <label for="modelo">Modelo da Moto:</label>
+                    <input type="text" id="modelo" name="modelo" placeholder="Modelo da moto">
+                </div>
+                
+                <div class="form-group">
+                    <label for="placa">Placa da Moto:</label>
+                    <input type="text" id="placa" name="placa" placeholder="XXX-0000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ano">Ano da Moto:</label>
+                    <input type="text" id="ano" name="ano" placeholder="2024">
+                </div>
+                
+                <div class="form-group">
+                    <label for="km">KM:</label>
+                    <input type="text" id="km" name="km" placeholder="Quilometragem">
+                </div>
+                
+                <button class="search-btn" onclick="buscarMoto()">Buscar</button>
+            </div>
+
+            <div class="total-info">
+                Total de motos: <span class="total-number" id="totalMotos">0</span>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <div>ID</div>
+                    <div>PROPRIETÁRIO</div>
+                    <div>MODELO</div>
+                    <div>PLACA</div>
+                    <div>ANO</div>
+                    <div>KM</div>
+                    <div>STATUS</div>
+                    <div>AÇÕES</div>
+                </div>
+                
+                <div class="table-content" id="tabelaResultados">
+                    <div class="empty-message">Nenhuma moto cadastrada ainda.</div>
+                    <a href="#" class="add-link" onclick="adicionarMotoExemplo()">Cadastrar primeira moto</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <button class="clear-btn" onclick="limparTodos()">🗑️ Limpar Todos</button>
+                <a href="index.html" class="submit-btn">Voltar</a>
+            </div>
+        </div>
+    </div>s
+
+    <script>
+        let motos = [];
+        
+        function buscarMoto() {
+            const idMoto = document.getElementById('idMoto').value.toLowerCase();
+            const proprietario = document.getElementById('proprietario').value.toLowerCase();
+            const modelo = document.getElementById('modelo').value.toLowerCase();
+            const placa = document.getElementById('placa').value.toLowerCase();
+            const ano = document.getElementById('ano').value;
+            const km = document.getElementById('km').value;
+            
+            let motosFiltradas = motos;
+            
+            if (idMoto) {
+                motosFiltradas = motosFiltradas.filter(moto => 
+                    moto.id.toLowerCase().includes(idMoto)
+                );
+            }
+            if (proprietario) {
+                motosFiltradas = motosFiltradas.filter(moto => 
+                    moto.proprietario.toLowerCase().includes(proprietario)
+                );
+            }
+            if (modelo) {
+                motosFiltradas = motosFiltradas.filter(moto => 
+                    moto.modelo.toLowerCase().includes(modelo)
+                );
+            }
+            if (placa) {
+                motosFiltradas = motosFiltradas.filter(moto => 
+                    moto.placa.toLowerCase().includes(placa)
+                );
+            }
+            if (ano) {
+                motosFiltradas = motosFiltradas.filter(moto => 
+                    moto.ano.includes(ano)
+                );
+            }
+            if (km) {
+                motosFiltradas = motosFiltradas.filter(moto => 
+                    moto.km.includes(km)
+                );
+            }
+            
+            exibirMotos(motosFiltradas);
+        }
+        
+        function exibirMotos(motosParaExibir) {
+            const tabela = document.getElementById('tabelaResultados');
+            const total = document.getElementById('totalMotos');
+            
+            if (motosParaExibir.length === 0) {
+                tabela.innerHTML = `
+                    <div class="empty-message">Nenhuma moto encontrada com os critérios informados.</div>
+                    <a href="#" class="add-link" onclick="adicionarMotoExemplo()">Cadastrar primeira moto</a>
+                `;
+                total.textContent = '0';
+                return;
+            }
+            
+            total.textContent = motosParaExibir.length;
+            
+            let html = '';
+            motosParaExibir.forEach((moto, index) => {
+                html += `
+                    <div style="display: grid; grid-template-columns: 0.8fr 2fr 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr; padding: 15px 10px; border-bottom: 1px solid #eee; gap: 10px; text-align: center; align-items: center; font-size: 13px;">
+                        <div>${moto.id}</div>
+                        <div>${moto.proprietario}</div>
+                        <div>${moto.modelo}</div>
+                        <div>${moto.placa}</div>
+                        <div>${moto.ano}</div>
+                        <div>${moto.km}</div>
+                        <div><span style="background: #4CAF50; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${moto.status}</span></div>
+                        <div>
+                            <button onclick="editarMoto(${index})" style="background: #2196F3; color: white; border: none; padding: 4px 8px; border-radius: 3px; margin: 0 2px; cursor: pointer; font-size: 11px;">Editar</button>
+                            <button onclick="excluirMoto(${index})" style="background: #f44336; color: white; border: none; padding: 4px 8px; border-radius: 3px; margin: 0 2px; cursor: pointer; font-size: 11px;">Excluir</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            tabela.innerHTML = html;
+        }
+        
+        function adicionarMotoExemplo() {
+            const motosExemplo = [
+                {
+                    id: 'M001',
+                    proprietario: 'João Silva',
+                    modelo: 'Honda CG 160',
+                    placa: 'ABC-1234',
+                    ano: '2022',
+                    km: '15.000',
+                    status: 'Ativa'
+                },
+                {
+                    id: 'M002',
+                    proprietario: 'Maria Santos',
+                    modelo: 'Yamaha YBR 125',
+                    placa: 'DEF-5678',
+                    ano: '2021',
+                    km: '8.500',
+                    status: 'Ativa'
+                },
+                {
+                    id: 'M003',
+                    proprietario: 'Carlos Oliveira',
+                    modelo: 'Suzuki GSX-S 750',
+                    placa: 'GHI-9012',
+                    ano: '2023',
+                    km: '5.200',
+                    status: 'Manutenção'
+                }
+            ];
+            
+            motos = motosExemplo;
+            exibirMotos(motos);
+        }
+        
+        function editarMoto(index) {
+            const moto = motos[index];
+            document.getElementById('idMoto').value = moto.id;
+            document.getElementById('proprietario').value = moto.proprietario;
+            document.getElementById('modelo').value = moto.modelo;
+            document.getElementById('placa').value = moto.placa;
+            document.getElementById('ano').value = moto.ano;
+            document.getElementById('km').value = moto.km;
+        }
+        
+        function excluirMoto(index) {
+            if (confirm('Tem certeza que deseja excluir esta moto?')) {
+                motos.splice(index, 1);
+                exibirMotos(motos);
+            }
+        }
+        
+        function limparTodos() {
+            if (confirm('Tem certeza que deseja limpar todos os dados?')) {
+                motos = [];
+                document.getElementById('idMoto').value = '';
+                document.getElementById('proprietario').value = '';
+                document.getElementById('modelo').value = '';
+                document.getElementById('placa').value = '';
+                document.getElementById('ano').value = '';
+                document.getElementById('km').value = '';
+                exibirMotos(motos);
+            }
+        }
+        
+        function voltar() {
+            if (confirm('Deseja realmente voltar? Os dados não salvos serão perdidos.')) {
+                // Simular voltar para página anterior
+                alert('Voltando para o menu principal...');
+            }
+        }
+        
+        // Adicionar eventos de Enter nos campos
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    buscarMoto();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
