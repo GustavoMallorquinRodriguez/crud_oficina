@@ -80,11 +80,89 @@ db.serialize(() => {
             FOREIGN KEY (id_fun) REFERENCES moto (id_fun)
         )
     `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS agendamentos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            data DATE NOT NULL,
+            horario TIME NOT NULL,
+            cpf_cliente VARCHAR(11) NOT NULL,
+            cnpj_fornecedor VARCHAR(14) NOT NULL,
+            id_servico INTEGER NOT NULL,
+            FOREIGN KEY (cpf_cliente) REFERENCES clientes (cpf),
+            FOREIGN KEY (cnpj_fornecedor) REFERENCES fornecedores (cnpj),
+            FOREIGN KEY (id_servico) REFERENCES servicos (id)
+        )
+    `);
+
     console.log("Tabela de serviços criada com sucesso.");
 });
 
 ///////////////////////////// Rotas para Clientes /////////////////////////////
-///////////////////////////// Rotas para Clientes /////////////////////////////
+///////////////////////////// Rotas para C///////////////////////////// Rotas para Agendamento /////////////////////////////
+///////////////////////////// Rotas para Agendamento /////////////////////////////
+///////////////////////////// Rotas para Agendamento /////////////////////////////
+
+// ROTA PARA BUSCAR TODOS OS SERVIÇOS NO ATENDAMENTO
+app.get("/buscar-servicos", (req, res) => {
+    db.all("SELECT id, nome FROM servicos", [], (err, rows) => {
+        if (err) {
+            console.error("Erro ao buscar serviços:", err);
+            res.status(500).send("Erro ao buscar serviços");
+        } else {
+            res.json(rows); // Retorna os serviços em formato JSON
+        }
+    });
+});
+
+// ROTA PARA BUSCAR HORÁRIOS DISPONÍVEIS
+app.get("/horarios-disponiveis", (req, res) => {
+    const { data, id } = req.query; // id = id do serviço
+
+    const todosHorarios = [
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00",
+    ];
+
+    const sql = `SELECT horario FROM agendamentos WHERE data = ? AND id_servico = ?`;
+
+    db.all(sql, [data, id], (err, rows) => {
+        if (err) {
+            console.error("Erro ao buscar horários ocupados:", err);
+            return res.status(500).send("Erro ao buscar horários ocupados");
+        }
+
+        const ocupados = rows.map((r) => String(r.horario).slice(0, 5));
+        const disponiveis = todosHorarios.filter((h) => !ocupados.includes(h));
+        res.json(disponiveis);
+    });
+});
+
+// ROTA PRA CADASTRAR UM AGENDAMENTO
+app.post("/cadastrar-agendamento", (req, res) => {
+    const { data, horario, cpf_cliente, cnpj_fornecedor, id_servico } =
+        req.body;
+    db.run(
+        "INSERT INTO agendamentos (data, horario, cpf_cliente, cnpj_fornecedor, id_servico) VALUES (?, ?, ?, ?, ?)",
+        [data, horario, cpf_cliente, cnpj_fornecedor, id_servico],
+        function (err) {
+            if (err) {
+                console.error("Erro ao cadastrar agendamento:", err);
+                res.status(500).send("Erro ao cadastrar agendamento");
+            } else {
+                res.send("Agendamento cadastrado com sucesso!");
+            }
+        },
+    );
+});
+lientes; /////////////////////////////
 ///////////////////////////// Rotas para Clientes /////////////////////////////
 
 // Cadastrar cliente
@@ -169,13 +247,13 @@ app.get("/clientes", (req, res) => {
     }
 });
 // Atualizar cliente
-app.put("/clientes/cpf/:cpf", (req, res) => {
+app.put("/clientes/cpf/:cli_cpf", (req, res) => {
     const { cli_cpf } = req.params;
+
     const {
         cli_nome,
         cli_data_nascimento,
         cli_telefone,
-        cli_cpf,
         cli_cep,
         cli_cidade,
         cli_bairro,
@@ -184,15 +262,28 @@ app.put("/clientes/cpf/:cpf", (req, res) => {
         cli_numero_casa,
         cli_email,
     } = req.body;
+    alert(
+        cli_bairro,
+        cli_cidade,
+        cli_complemento,
+        cli_nome_rua,
+        cli_numero_casa,
+        cli_email,
+        cli_nome,
+        cli_data_nascimento,
+        cli_telefone,
+        cli_cep,
+        cli_cpf,
+    );
 
-    const query = `UPDATE clientes SET cli_nome = ?, cli_data_nascimento = ?, cli_telefone = ?, cli_cep = ?, cli_cidade = ?, cli_bairro = ?, cli_complemento = ?, cli_nome_rua = ?, cli_numero_casa = ?, cli_email = ? WHERE cli_cpf = ?`;
+    const query = `UPDATE clientes SET cli_nome = ?, cli_data_nascimento = ?, cli_telefone = ?, cli_cep = ?, cli_cidade = ?, cli_bairro = ?, cli_complemento = ?, cli_nome_rua = ?, cli_numero_casa = ?, cli_email = ?, WHERE cli_cpf = ?`;
+
     db.run(
         query,
         [
             cli_nome,
             cli_data_nascimento,
             cli_telefone,
-            cli_cpf,
             cli_cep,
             cli_cidade,
             cli_bairro,
@@ -200,6 +291,7 @@ app.put("/clientes/cpf/:cpf", (req, res) => {
             cli_nome_rua,
             cli_numero_casa,
             cli_email,
+            cli_cpf,
         ],
         function (err) {
             if (err) {
@@ -409,6 +501,70 @@ app.get("/servicos", (req, res) => {
         }
         res.json(rows);
     });
+});
+
+///////////////////////////// Rotas para Agendamento /////////////////////////////
+///////////////////////////// Rotas para Agendamento /////////////////////////////
+///////////////////////////// Rotas para Agendamento /////////////////////////////
+
+// ROTA PARA BUSCAR TODOS OS SERVIÇOS NO ATENDAMENTO
+app.get("/buscar-servicos", (req, res) => {
+    db.all("SELECT id, nome FROM servicos", [], (err, rows) => {
+        if (err) {
+            console.error("Erro ao buscar serviços:", err);
+            res.status(500).send("Erro ao buscar serviços");
+        } else {
+            res.json(rows); // Retorna os serviços em formato JSON
+        }
+    });
+});
+
+// ROTA PARA BUSCAR HORÁRIOS DISPONÍVEIS
+app.get("/horarios-disponiveis", (req, res) => {
+    const { data, id } = req.query; // id = id do serviço
+
+    const todosHorarios = [
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00",
+    ];
+
+    const sql = `SELECT horario FROM agendamentos WHERE data = ? AND id_servico = ?`;
+
+    db.all(sql, [data, id], (err, rows) => {
+        if (err) {
+            console.error("Erro ao buscar horários ocupados:", err);
+            return res.status(500).send("Erro ao buscar horários ocupados");
+        }
+
+        const ocupados = rows.map((r) => String(r.horario).slice(0, 5));
+        const disponiveis = todosHorarios.filter((h) => !ocupados.includes(h));
+        res.json(disponiveis);
+    });
+});
+
+// ROTA PRA CADASTRAR UM AGENDAMENTO
+app.post("/cadastrar-agendamento", (req, res) => {
+    const { data, horario, cpf_cliente, cnpj_fornecedor, id_servico } =
+        req.body;
+    db.run(
+        "INSERT INTO agendamentos (data, horario, cpf_cliente, cnpj_fornecedor, id_servico) VALUES (?, ?, ?, ?, ?)",
+        [data, horario, cpf_cliente, cnpj_fornecedor, id_servico],
+        function (err) {
+            if (err) {
+                console.error("Erro ao cadastrar agendamento:", err);
+                res.status(500).send("Erro ao cadastrar agendamento");
+            } else {
+                res.send("Agendamento cadastrado com sucesso!");
+            }
+        },
+    );
 });
 
 //nao mexa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
