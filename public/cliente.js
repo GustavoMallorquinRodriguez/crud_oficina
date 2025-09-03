@@ -81,9 +81,7 @@ async function listarClientes() {
 // Função para atualizar as informações do cliente
 async function atualizarCliente() {
     const cli_nome = document.getElementById("cli_nome").value;
-    const cli_data_nascimento = document.getElementById(
-        "cli_data_nascimento",
-    ).value;
+    const cli_data_nascimento = document.getElementById("cli_data_nascimento").value;
     const cli_telefone = document.getElementById("cli_telefone").value;
     const cli_cpf = document.getElementById("cli_cpf").value;
     const cli_cep = document.getElementById("cli_cep").value;
@@ -98,34 +96,33 @@ async function atualizarCliente() {
         cli_nome,
         cli_data_nascimento,
         cli_telefone,
-        cli_cpf,
         cli_cep,
         cli_cidade,
         cli_bairro,
         cli_complemento,
         cli_nome_rua,
         cli_numero_casa,
-        cli_email,
+        cli_email
     };
-
+    
     try {
-        const response = await fetch(`/clientes/cpf/${cpf}`, {
+        const response = await fetch(`/clientes/cpf/${cli_cpf}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(clienteAtualizado),
+            body: JSON.stringify(clienteAtualizado)
         });
 
         if (response.ok) {
             alert("Cliente atualizado com sucesso!");
         } else {
             const errorMessage = await response.text();
-            alert("Erro ao atualizar cliente: " + errorMessage);
+            alert("Erro ao atualizar clientecliente1: " + errorMessage);
         }
     } catch (error) {
         console.error("Erro ao atualizar cliente:", error);
-        alert("Erro ao atualizar cliente.");
+        alert("Erro ao atualizar clientecliente.");
     }
 }
 
