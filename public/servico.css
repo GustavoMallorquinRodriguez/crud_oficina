@@ -1,21 +1,41 @@
 body {
-    background-color: rgb(87, 87, 87);
+    background-color: rgb(255, 255, 255);
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-header {
-    background-color: rgb(34, 34, 34);
-    padding: 20px;
-}
-
-.cabecalho {
+header{
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    height: 130px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+
 }
 
+
+.agavi{
+    margin-left: 650px;
+    height: 160px;
+    width: 140px;
+    margin-top: -5px;
+    right: 11px;
+}
+
+.an{
+    margin-left: 700px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    width: 140px;
+
+}
+
+.ccm{
+    margin-left: 103px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+}
 nav ul {
     list-style: none;
     display: flex;

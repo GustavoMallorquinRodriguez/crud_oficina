@@ -66,20 +66,6 @@ db.serialize(() => {
         )
     `);
 
-    db.run(`
-        CREATE TABLE IF NOT EXISTS servicos (
-            id_serv INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_fun INTEGER,
-            serv_tipo VARCHAR(100),
-            id_mt INTEGER,
-            serv_data_entrada DATE,
-            serv_data_saida DATE,
-            serv_orcamento DECIMAL(10, 2),
-            serv_observacao TEXt,
-            FOREIGN KEY (id_mt) REFERENCES moto (id_mt)
-            FOREIGN KEY (id_fun) REFERENCES moto (id_fun)
-        )
-    `);
 
     db.run(`
         CREATE TABLE IF NOT EXISTS agendamentos (
@@ -92,6 +78,13 @@ db.serialize(() => {
             FOREIGN KEY (cpf_cliente) REFERENCES clientes (cpf),
             FOREIGN KEY (cnpj_fornecedor) REFERENCES fornecedores (cnpj),
             FOREIGN KEY (id_servico) REFERENCES servicos (id)
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS servico (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            serv_nome VARCHAR(100) NOT NULL
         )
     `);
 
@@ -162,7 +155,8 @@ app.post("/cadastrar-agendamento", (req, res) => {
         },
     );
 });
-lientes; /////////////////////////////
+
+///////////////////////////// Rotas para Clientes /////////////////////////////
 ///////////////////////////// Rotas para Clientes /////////////////////////////
 
 // Cadastrar cliente
@@ -262,7 +256,7 @@ app.put("/clientes/cpf/:cli_cpf", (req, res) => {
         cli_numero_casa,
         cli_email,
     } = req.body;
-    alert(
+    console.log("Updating client:", {
         cli_bairro,
         cli_cidade,
         cli_complemento,
@@ -274,9 +268,9 @@ app.put("/clientes/cpf/:cli_cpf", (req, res) => {
         cli_telefone,
         cli_cep,
         cli_cpf,
-    );
+    });
 
-    const query = `UPDATE clientes SET cli_nome = ?, cli_data_nascimento = ?, cli_telefone = ?, cli_cep = ?, cli_cidade = ?, cli_bairro = ?, cli_complemento = ?, cli_nome_rua = ?, cli_numero_casa = ?, cli_email = ?, WHERE cli_cpf = ?`;
+    const query = `UPDATE clientes SET cli_nome = ?, cli_data_nascimento = ?, cli_telefone = ?, cli_cep = ?, cli_cidade = ?, cli_bairro = ?, cli_complemento = ?, cli_nome_rua = ?, cli_numero_casa = ?, cli_email = ? WHERE cli_cpf = ?`;
 
     db.run(
         query,
@@ -409,13 +403,13 @@ app.post("/moto", (req, res) => {
 // Listar moto
 // Endpoint para listar todos os moto ou buscar por CPF
 app.get("/moto", (req, res) => {
-    const cpf = req.query.cpf || ""; // Recebe o CPF da query string (se houver)
+    const placa = req.query.placa || ""; // Recebe a placa da query string (se houver)
 
-    if (cpf) {
-        // Se CPF foi passado, busca funcionario que possuam esse CPF ou parte dele
+    if (placa) {
+        // Se placa foi passada, busca motos que possuam essa placa ou parte dela
         const query = `SELECT * FROM moto WHERE mt_placa LIKE ?`;
 
-        db.all(query, [`%${mt_placa}%`], (err, rows) => {
+        db.all(query, [`%${placa}%`], (err, rows) => {
             if (err) {
                 console.error(err);
                 return res
@@ -438,69 +432,6 @@ app.get("/moto", (req, res) => {
             res.json(rows); // Retorna todos os moto
         });
     }
-});
-
-///////////////////////////// Rotas para Serviços /////////////////////////////
-///////////////////////////// Rotas para Serviços /////////////////////////////
-///////////////////////////// Rotas para Serviços /////////////////////////////
-
-// Cadastrar serviço
-app.post("/servicos", (req, res) => {
-    const {
-        id_fun,
-        serv_tipo,
-        id_mt,
-        serv_data_entrada,
-        serv_data_saida,
-        serv_orcamento,
-        serv_observacao,
-    } = req.body;
-
-    if (!serv_data_entrada || !serv_tipo || !id_fun || !id_mt) {
-        return res
-            .status(400)
-            .send(
-                "Data de entrada, tipo de serviço, mecânico e ID da moto são obrigatórios.",
-            );
-    }
-
-    const query = `INSERT INTO servicos (id_fun, serv_tipo, id_mt, serv_data_entrada, serv_data_saida, serv_orcamento, serv_observacao) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    db.run(
-        query,
-        [
-            id_fun,
-            serv_tipo,
-            id_mt,
-            serv_data_entrada,
-            serv_data_saida,
-            serv_orcamento,
-            serv_observacao,
-        ],
-        function (err) {
-            if (err) {
-                return res.status(500).send("Erro ao cadastrar serviço.");
-            }
-            res.status(201).send({
-                id: this.lastID,
-                message: "Serviço cadastrado com sucesso.",
-            });
-        },
-    );
-});
-
-// Listar serviços
-app.get("/servicos", (req, res) => {
-    const query = `SELECT * FROM servicos`;
-
-    db.all(query, (err, rows) => {
-        if (err) {
-            console.error(err);
-            return res
-                .status(500)
-                .json({ message: "Erro ao buscar serviços." });
-        }
-        res.json(rows);
-    });
 });
 
 ///////////////////////////// Rotas para Agendamento /////////////////////////////
@@ -562,6 +493,26 @@ app.post("/cadastrar-agendamento", (req, res) => {
                 res.status(500).send("Erro ao cadastrar agendamento");
             } else {
                 res.send("Agendamento cadastrado com sucesso!");
+            }
+        },
+    );
+});
+///////////////////////////// Rotas para servico /////////////////////////////
+///////////////////////////// Rotas para servico /////////////////////////////
+///////////////////////////// Rotas para servico /////////////////////////////
+
+// ROTA PRA CADASTRAR UM SERVIÇO
+app.post("/cadastrar-servico", (req, res) => {
+    const { serv_nome } = req.body;
+    db.run(
+        "INSERT INTO servico (serv_nome) VALUES (?)",
+        [serv_nome],
+        function (err) {
+            if (err) {
+                console.error("Erro ao cadastrar serviço:", err);
+                res.status(500).send("Erro ao cadastrar serviço");
+            } else {
+                res.send("Serviço cadastrado com sucesso!");
             }
         },
     );

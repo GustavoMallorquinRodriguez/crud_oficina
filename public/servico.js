@@ -1,7 +1,7 @@
 async function registraServico(event) {
     event.preventDefault();
     const produto = {
-        nome: document.getElementById("servico").value
+        serv_nome: document.getElementById("servico").value
     };
     alert(produto);
 
