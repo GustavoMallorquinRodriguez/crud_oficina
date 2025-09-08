@@ -129,8 +129,8 @@ ul li.item-menu a .icon i {
     padding: 9px;
     border-radius: 50px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 45%;
-    margin-left: 380px;
+    width: 750px;
+    margin: auto;
     margin-top: 70px;
 
 }
@@ -159,7 +159,7 @@ label {
 textarea {
     width: 50%;
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
@@ -172,27 +172,35 @@ textarea {
 
 input,
 textarea {
-    width: 50%;
+    width: 80%;
     padding: 15px;
-    margin: 10px 0;
+    margin: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-left: 180px;
+    margin:auto;
+    text-align: center;
+}
+
+label {
+    
+    padding: 15px;
+    margin: 10px;
+    margin: auto;
     text-align: center;
 
 
 }
-
 
 .alinhaBtns {
     background-color: #ff6600;
     color: white;
     border: none;
     padding: 10px;
-    width: 50%;
+    width: 30%;
     margin: 10px 0;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 163px;
 
 }
 
@@ -279,4 +287,8 @@ ul li.item-menu a .link {
 
 ul li.item-menu a .icon i {
     font-size: 30px;
+}
+.form-row{
+    width: 80%;
+    margin: auto;
 }
