@@ -5,7 +5,7 @@ body {
     padding: 0;
 }
 
-header{
+header {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
     height: 130px;
     display: flex;
@@ -14,28 +14,29 @@ header{
 }
 
 
-.agavi{
-    margin-left: 650px;
+.agavi {
+    margin-left: 480px;
     height: 160px;
     width: 140px;
     margin-top: -5px;
     right: 11px;
 }
 
-.an{
-    margin-left: 700px;
+.an {
+    margin-left: 550px;
     margin-top: 20px;
     margin-bottom: 8px;
     width: 140px;
 
 }
 
-.ccm{
-    margin-left: 103px;
+.ccm {
+    margin-left: 15px;
     margin-top: 8px;
     margin-bottom: 8px;
     border-radius: 50%;
 }
+
 nav ul {
     list-style: none;
     display: flex;
@@ -55,7 +56,7 @@ nav ul li a {
 #main-container {
     max-width: 600px;
     margin: 50px auto;
-    background: white;
+    background: linear-gradient(135deg, #a8b8c8, #90a4b3);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -70,7 +71,8 @@ label {
     font-weight: bold;
 }
 
-input, textarea {
+input,
+textarea {
     width: 97%;
     padding: 10px;
     margin: 10px 0;
@@ -83,7 +85,7 @@ textarea {
 }
 
 .alinhaBtns {
-    background-color: #0056b3;
+    background-color: #ff6600;
     color: white;
     border: none;
     padding: 10px;
@@ -92,13 +94,15 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
 }
 
-table th, table td {
+table th,
+table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -108,11 +112,39 @@ table th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
-footer{
+
+footer {
     position: absolute;
     bottom: 5px;
     left: 5px;
 }
-.cabecalho h2{
+
+.cabecalho h2 {
     color: white;
+}
+
+.btn-cadastro:hover {
+    background-color: #f57c2c;
+    color: #fb802d;
+
+}
+
+.btn-cadastro {
+    background-color: #ffffff;
+    color: rgb(255, 255, 255);
+    padding: 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    width: 110px;
+    margin-left: 46%;
+    transition: 1.0s;
+
+}
+
+.voltar {
+    text-decoration: none;
+    color: #000000;
 }
