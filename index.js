@@ -95,10 +95,23 @@ db.serialize(() => {
         CREATE TABLE IF NOT EXISTS vendas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             cli_cpf TEXT NOT NULL,
-            id_serv INTEGER NOT NULL,
+            id_produto INTEGER NOT NULL,
             quantidade INTEGER NOT NULL,
-            FOREIGN KEY (cli_cpf) REFERENCES clientes (cpf),
-            FOREIGN KEY (id_serv) REFERENCES servico (id)
+            data_venda TEXT NOT NULL,
+            FOREIGN KEY (cli_cpf) REFERENCES clientes (cli_cpf),
+            FOREIGN KEY (id_produto) REFERENCES produtos (id)
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS produtos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            preco REAL NOT NULL,
+            descricao TEXT,
+            categoria TEXT,
+            quantidade_estoque INTEGER NOT NULL,
+            dimensoes TEXT,
         )
     `);
 
@@ -461,49 +474,109 @@ app.post("/vendas", (req, res) => {
         return res.status(400).send("Dados da venda incompletos.");
     }
 
+    // Validate items first
+    for (const item of itens) {
+        if (!item.idProduto || !item.quantidade || item.quantidade <= 0) {
+            return res
+                .status(400)
+                .send(
+                    `Dados inválidos para o produto ID: ${item.idProduto}, quantidade: ${item.quantidade}`,
+                );
+        }
+    }
+
     const dataVenda = new Date().toISOString();
 
+    // Use transaction for data integrity
     db.serialize(() => {
-        const insertSaleQuery = `INSERT INTO vendas (cli_cpf, id_serv, quantidade, data) VALUES (?, ?, ?, ?)`;
-        const updateStockQuery = `UPDATE produtos SET quantidade_estoque = quantidade_estoque - ? WHERE id = ?`;
+        db.run("BEGIN TRANSACTION");
 
-        let erroOcorrido = false;
+        let operationsLeft = itens.length * 2; // Insert + update per item
+        let hasError = false;
 
-        itens.forEach(({ id_serv, quantidade }) => {
-            if (!idProduto || !quantidade || quantidade <= 0) {
-                console.error(
-                    `Dados inválidos para o produto ID: ${id_serv}, quantidade: ${quantidade}`,
-                );
-                erroOcorrido = true;
-                return;
+        const completeOperation = () => {
+            operationsLeft--;
+            if (operationsLeft === 0) {
+                if (hasError) {
+                    db.run("ROLLBACK", () => {
+                        res.status(500).send("Erro ao processar a venda.");
+                    });
+                } else {
+                    db.run("COMMIT", () => {
+                        res.status(201).send({
+                            message: "Venda registrada com sucesso.",
+                        });
+                    });
+                }
             }
+        };
 
-            // Registrar a venda
-            db.run(
-                insertSaleQuery,
-                [cli_cpf, id_serv, quantidade, dataVenda],
-                function (err) {
-                    if (err) {
-                        console.error("Erro ao registrar venda:", err.message);
-                        erroOcorrido = true;
+        // Check stock availability first
+        let stockChecksPending = itens.length;
+        let stockErrors = [];
+
+        itens.forEach(({ idProduto, quantidade }) => {
+            db.get(
+                "SELECT quantidade_estoque FROM produtos WHERE id = ?",
+                [idProduto],
+                (err, row) => {
+                    stockChecksPending--;
+
+                    if (err || !row) {
+                        stockErrors.push(`Produto ${idProduto} não encontrado`);
+                    } else if (row.quantidade_estoque < quantidade) {
+                        stockErrors.push(
+                            `Estoque insuficiente para produto ${idProduto}. Disponível: ${row.quantidade_estoque}, Solicitado: ${quantidade}`,
+                        );
+                    }
+
+                    if (stockChecksPending === 0) {
+                        if (stockErrors.length > 0) {
+                            return res
+                                .status(400)
+                                .send(
+                                    `Erros de estoque: ${stockErrors.join(", ")}`,
+                                );
+                        }
+
+                        // Proceed with operations
+                        itens.forEach(({ idProduto, quantidade }) => {
+                            // Insert sale record
+                            db.run(
+                                "INSERT INTO vendas (cli_cpf, id_produto, quantidade, data_venda) VALUES (?, ?, ?, ?)",
+                                [cli_cpf, idProduto, quantidade, dataVenda],
+                                function (err) {
+                                    if (err) {
+                                        console.error(
+                                            "Erro ao registrar venda:",
+                                            err.message,
+                                        );
+                                        hasError = true;
+                                    }
+                                    completeOperation();
+                                },
+                            );
+
+                            // Update stock
+                            db.run(
+                                "UPDATE produtos SET quantidade_estoque = quantidade_estoque - ? WHERE id = ?",
+                                [quantidade, idProduto],
+                                function (err) {
+                                    if (err) {
+                                        console.error(
+                                            "Erro ao atualizar estoque:",
+                                            err.message,
+                                        );
+                                        hasError = true;
+                                    }
+                                    completeOperation();
+                                },
+                            );
+                        });
                     }
                 },
             );
-
-            // Atualizar o estoque
-            db.run(updateStockQuery, [quantidade, id_serv], function (err) {
-                if (err) {
-                    console.error("Erro ao atualizar estoque:", err.message);
-                    erroOcorrido = true;
-                }
-            });
         });
-
-        if (erroOcorrido) {
-            res.status(500).send("Erro ao processar a venda.");
-        } else {
-            res.status(201).send({ message: "Venda registrada com sucesso." });
-        }
     });
 });
 
@@ -627,16 +700,77 @@ app.post("/cadastrar-servico", (req, res) => {
     );
 });
 
-//nao mexa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// Rota principal para verificar se o servidor está funcionando
-app.get("/api/status", (req, res) => {
-    res.json({
-        message: "Servidor está rodando e tabelas criadas!",
-        status: "ok",
+///////////////////////////// Rotas para produtos /////////////////////////////
+///////////////////////////// Rotas para Produtos /////////////////////////////
+///////////////////////////// Rotas para Produtos /////////////////////////////
+///////////////////////////// Rotas para Produtos /////////////////////////////
+
+// Cadastrar produto
+app.post("/produtos", (req, res) => {
+    const { nome, preco, descricao, categoria, quantidade_estoque, dimensoes } =
+        req.body;
+    const sql = `INSERT INTO produtos (nome, preco, descricao, categoria, quantidade_estoque, dimensoes) VALUES (?, ?, ?, ?, ?, ?)`;
+
+    db.run(
+        sql,
+        [nome, preco, descricao, categoria, quantidade_estoque, dimensoes],
+        function (err) {
+            if (err) {
+                return res
+                    .status(500)
+                    .json({ message: "Erro ao cadastrar produto", error: err });
+            }
+            res.status(200).json({
+                message: "Produto cadastrado com sucesso",
+                id: this.lastID,
+            });
+        },
+    );
+});
+
+// Listar produtos
+app.get("/produtos", (req, res) => {
+    const query = `SELECT * FROM produtos`;
+
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            return res.status(500).send("Erro ao listar produtos.");
+        }
+        res.send(rows);
     });
 });
 
+// Atualizar produto
+app.put("/produtos/:id", (req, res) => {
+    const { id } = req.params;
+    const { nome, preco, descricao, categoria, quantidade_estoque, dimensoes } =
+        req.body;
+
+    const query = `UPDATE produtos SET nome = ?, preco = ?, descricao = ?, categoria = ?, quantidade_estoque = ?, dimensoes = ?, WHERE id = ?`;
+    db.run(
+        query,
+        [nome, preco, descricao, categoria, quantidade_estoque, dimensoes, id],
+        function (err) {
+            if (err) {
+                return res.status(500).send("Erro ao atualizar produto.");
+            }
+            if (this.changes === 0) {
+                return res.status(404).send("Produto não encontrado.");
+            }
+            res.send("Produto atualizado com sucesso.");
+        },
+    );
+});
+
+//nao mexa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Rota principal para verificar se o servidor está funcionando
+
+// Teste para verificar se o servidor está rodando
+app.get("/", (req, res) => {
+    res.send("Servidor está rodando e tabelas criadas!");
+});
+
 // Iniciando o servidor
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });

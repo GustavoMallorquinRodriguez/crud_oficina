@@ -17,9 +17,9 @@ function buscarCliente() {
         .then((cliente) => {
             const clienteInfo = document.getElementById("cliente-info");
             clienteInfo.innerHTML = `
-        <p>Nome: ${cliente.nome}</p>
-        <p>CPF: ${cliente.cpf}</p>
-        <p>Email: ${cliente.email}</p>
+        <p>Nome: ${cliente.cli_nome}</p>
+        <p>CPF: ${cliente.cli_cpf}</p>
+        <p>Email: ${cliente.cli_email}</p>
       `;
         })
         .catch((error) => {
@@ -29,19 +29,19 @@ function buscarCliente() {
 
 // Função para buscar produto e adicioná-lo ao carrinho
 function adicionarProdutoAoCarrinho() {
-    const id = document.getElementById("produto-nome").value;
+    const id_serv = document.getElementById("produto-nome").value;
     const quantidade = parseInt(
         document.getElementById("produto-quantidade").value,
     );
 
-    if (!id || isNaN(quantidade) || quantidade <= 0) {
+    if (!id_serv || isNaN(quantidade) || quantidade <= 0) {
         alert(
             "Por favor, insira um produto válido e uma quantidade maior que zero.",
         );
         return;
     }
 
-    fetch(`/produtos_carrinho/${id}`)
+    fetch(`/produtos_carrinho/${id_serv}`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Produto não encontrado.");

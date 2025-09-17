@@ -8,17 +8,15 @@ async function cadastrarProduto(event) {
         categoria: document.getElementById("categoria").value,
         quantidade_estoque: parseInt(document.getElementById("quantidade_estoque").value),
         dimensoes: document.getElementById("dimensoes").value,
-        fornecedor_id: parseInt(document.getElementById("fornecedoresSelecionado").value)
     };
-    alert('fornecedor_id');
 
     try {
-        const response = await fetch('/produtos', {
-            method: 'POST',
+        const response = await fetch("/produtos", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(produto)
+            body: JSON.stringify(produto),
         });
 
         const result = await response.json();
@@ -33,39 +31,18 @@ async function cadastrarProduto(event) {
         alert("Erro ao cadastrar produto.");
     }
 }
-function buscarFornededores() {
-    fetch('/buscar-fornecedores')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao buscar fornecedores');
-            }
-            return response.json();
-        })
-        .then(servicos => {
-            const select = document.getElementById('fornecedoresSelecionado');
-            servicos.forEach(servico => {
-                const option = document.createElement('option');
-                option.value = servico.id; // Usa o id como valor
-                option.textContent = servico.nome; // Nome do serviço exibido
-                select.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('Erro ao carregar os serviços:', error);
-        });
-}
 async function listarProdutos() {
     try {
-        const response = await fetch('/produtos');
+        const response = await fetch("/produtos");
 
         if (response.ok) {
             const produtos = await response.json();
 
-            const tabela = document.getElementById('tabela-clientes');
-            tabela.innerHTML = ''; // Limpa a tabela antes de preencher
+            const tabela = document.getElementById("tabela-clientes");
+            tabela.innerHTML = ""; // Limpa a tabela antes de preencher
 
-            produtos.forEach(produto => {
-                const linha = document.createElement('tr');
+            produtos.forEach((produto) => {
+                const linha = document.createElement("tr");
                 linha.innerHTML = `
                     <td>${produto.id}</td>
                     <td>${produto.nome}</td>
@@ -75,10 +52,10 @@ async function listarProdutos() {
                 tabela.appendChild(linha);
             });
         } else {
-            alert('Erro ao listar produtos.');
+            alert("Erro ao listar produtos.");
         }
     } catch (error) {
-        console.error('Erro ao listar produtos:', error);
-        alert('Erro ao listar produtos.');
+        console.error("Erro ao listar produtos:", error);
+        alert("Erro ao listar produtos.");
     }
 }
