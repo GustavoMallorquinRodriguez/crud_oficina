@@ -17,6 +17,8 @@ const db = new sqlite3.Database("./database.db", (err) => {
         console.error("Erro ao conectar ao banco de dados:", err.message);
     } else {
         console.log("Conectado ao banco de dados SQLite.");
+        // Enable foreign key enforcement
+        db.run("PRAGMA foreign_keys = ON");
     }
 });
 
@@ -61,37 +63,42 @@ db.serialize(() => {
             mt_modelo VARCHAR(100),
             mt_ano INTEGER,
             id_servico INTEGER,
-            FOREIGN KEY (id_cli) REFERENCES clientes (id_cli)
-            FOREIGN KEY (id_servico) REFERENCES servicos (id_servico)
+            FOREIGN KEY (id_cli) REFERENCES clientes (id_cli),
+            FOREIGN KEY (id_servico) REFERENCES servico (id)
         )
     `);
 
     db.run(`
         CREATE TABLE IF NOT EXISTS agendamentos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            age_entrada DATE NOT NULL,
-            age_saida DATE NOT NULL,
-            cli_cpf VARCHAR(11) NOT NULL,
+            age_entrada DATETIME NOT NULL,
+            age_saida DATETIME NOT NULL,
+            cli_cpf VARCHAR(14) NOT NULL,
             fun_cpf VARCHAR(14) NOT NULL,
             id_servico INTEGER NOT NULL,
-            mt_placa INTEGER NOT NULL,
-            FOREIGN KEY (mt_placa) REFERENCES clientes (mt_placa),
+            mt_placa VARCHAR(7) NOT NULL,
             FOREIGN KEY (cli_cpf) REFERENCES clientes (cli_cpf),
-            FOREIGN KEY (fun_cpf) REFERENCES fornecedores (fun_cpf),
-            FOREIGN KEY (id_servico) REFERENCES servico (id)
+            FOREIGN KEY (fun_cpf) REFERENCES funcionario (fun_cpf),
+            FOREIGN KEY (id_servico) REFERENCES servico (id),
+            FOREIGN KEY (mt_placa) REFERENCES moto (mt_placa)
         )
     `);
 
     db.run(`
         CREATE TABLE IF NOT EXISTS servico (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            serv_nome VARCHAR(100) NOT NULL
+            serv_nome VARCHAR(100) NOT NULL UNIQUE
         )
     `);
 
     db.run(`
-        CREATE TABLE IF NOT EXISTS relatorio (
-            FOREIGN KEY (cli_cpf) REFERENCE clientes (cli_cpf),
+        CREATE TABLE IF NOT EXISTS vendas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cli_cpf TEXT NOT NULL,
+            id_serv INTEGER NOT NULL,
+            quantidade INTEGER NOT NULL,
+            FOREIGN KEY (cli_cpf) REFERENCES clientes (cpf),
+            FOREIGN KEY (id_serv) REFERENCES servico (id)
         )
     `);
 
@@ -130,7 +137,8 @@ app.get("/horarios-disponiveis", (req, res) => {
         "17:00",
     ];
 
-    const sql = `SELECT horario FROM agendamentos WHERE data = ? AND id_servico = ?`;
+    // Query using age_entrada and extracting just the date part for comparison
+    const sql = `SELECT age_entrada FROM agendamentos WHERE DATE(age_entrada) = ? AND id_servico = ?`;
 
     db.all(sql, [data, id], (err, rows) => {
         if (err) {
@@ -138,7 +146,12 @@ app.get("/horarios-disponiveis", (req, res) => {
             return res.status(500).send("Erro ao buscar horários ocupados");
         }
 
-        const ocupados = rows.map((r) => String(r.horario).slice(0, 5));
+        // Extract time portion from age_entrada datetime
+        const ocupados = rows.map((r) => {
+            const datetime = new Date(r.age_entrada);
+            return datetime.toTimeString().slice(0, 5); // Get HH:MM format
+        });
+
         const disponiveis = todosHorarios.filter((h) => !ocupados.includes(h));
         res.json(disponiveis);
     });
@@ -438,6 +451,159 @@ app.get("/moto", (req, res) => {
             res.json(rows); // Retorna todos os moto
         });
     }
+});
+
+//vendas///////////////////////////////////////////////////////////////////////////
+app.post("/vendas", (req, res) => {
+    const { cli_cpf, itens } = req.body;
+
+    if (!cli_cpf || !itens || itens.length === 0) {
+        return res.status(400).send("Dados da venda incompletos.");
+    }
+
+    const dataVenda = new Date().toISOString();
+
+    db.serialize(() => {
+        const insertSaleQuery = `INSERT INTO vendas (cli_cpf, id_serv, quantidade, data) VALUES (?, ?, ?, ?)`;
+        const updateStockQuery = `UPDATE produtos SET quantidade_estoque = quantidade_estoque - ? WHERE id = ?`;
+
+        let erroOcorrido = false;
+
+        itens.forEach(({ id_serv, quantidade }) => {
+            if (!idProduto || !quantidade || quantidade <= 0) {
+                console.error(
+                    `Dados inválidos para o produto ID: ${id_serv}, quantidade: ${quantidade}`,
+                );
+                erroOcorrido = true;
+                return;
+            }
+
+            // Registrar a venda
+            db.run(
+                insertSaleQuery,
+                [cli_cpf, id_serv, quantidade, dataVenda],
+                function (err) {
+                    if (err) {
+                        console.error("Erro ao registrar venda:", err.message);
+                        erroOcorrido = true;
+                    }
+                },
+            );
+
+            // Atualizar o estoque
+            db.run(updateStockQuery, [quantidade, id_serv], function (err) {
+                if (err) {
+                    console.error("Erro ao atualizar estoque:", err.message);
+                    erroOcorrido = true;
+                }
+            });
+        });
+
+        if (erroOcorrido) {
+            res.status(500).send("Erro ao processar a venda.");
+        } else {
+            res.status(201).send({ message: "Venda registrada com sucesso." });
+        }
+    });
+});
+
+app.get("/clientes/:cli_cpf", (req, res) => {
+    const cli_cpf = req.params.cli_cpf;
+    db.get(
+        "SELECT * FROM clientes WHERE cli_cpf = ?",
+        [cli_cpf],
+        (err, row) => {
+            if (err) {
+                res.status(500).json({ error: "Erro no servidor." });
+            } else if (!row) {
+                res.status(404).json({ error: "Cliente não encontrado." });
+            } else {
+                res.json(row);
+            }
+        },
+    );
+});
+app.get("/produtos_carrinho/:id", (req, res) => {
+    const id = req.params.id;
+    db.get("SELECT * FROM produtos WHERE id = ? ", [id], (err, row) => {
+        if (err) {
+            res.status(500).json({ error: "Erro no servidor." });
+        } else if (!row) {
+            res.status(404).json({ error: "Produto não encontrado.." });
+        } else {
+            res.json(row);
+        }
+    });
+});
+
+// ROTA PARA BUSCAR TODOS OS PRODUTOS PÁGINA DE VENDAS
+app.get("/buscar-produtos", (req, res) => {
+    db.all(
+        "SELECT id, nome, quantidade_estoque FROM produtos",
+        [],
+        (err, rows) => {
+            if (err) {
+                console.error("Erro ao buscar produtos:", err);
+                res.status(500).send("Erro ao buscar produtos");
+            } else {
+                res.json(rows); // Retorna os serviços em formato JSON
+            }
+        },
+    );
+});
+
+///////////////////////////// Rotas para consulta /////////////////////////////
+///////////////////////////// Rotas para consulta /////////////////////////////
+///////////////////////////// Rotas para consulta /////////////////////////////
+
+// Rota para buscar vendas com filtros (cpf, produto, data)
+app.get("/relatorios", (req, res) => {
+    const { cli_cpf, produto, dataInicio, dataFim } = req.query;
+
+    let query = `SELECT
+                    vendas.id,
+                    vendas.cli_cpf,
+                    vendas.id_serv,
+                    vendas.quantidade,
+                    vendas.data, 
+                    produtos.nome AS produto_nome,
+                    clientes.nome AS cliente_nome
+                 FROM vendas
+                 JOIN produtos ON vendas.produto_id = produtos.id
+                 JOIN clientes ON vendas.cli_cpf = cli.cpf
+                 WHERE 1=1`; // Começar com um WHERE sempre verdadeiro (1=1)
+
+    const params = [];
+
+    // Filtro por CPF do cliente
+    if (cli_cpf) {
+        query += ` AND vendas.cli_cpf = ?`;
+        params.push(cli_cpf);
+    }
+
+    // Filtro por nome do produto
+    if (produto) {
+        query += ` AND produtos.nome LIKE ?`;
+        params.push(`%${produto}%`);
+    }
+
+    // Filtro por data
+    if (dataInicio && dataFim) {
+        query += ` AND vendas.data BETWEEN ? AND ?`;
+        params.push(dataInicio, dataFim);
+    }
+
+    // Executa a query com os filtros aplicados
+    db.all(query, params, (err, rows) => {
+        if (err) {
+            return res.status(500).json({
+                message: "Erro ao buscar relatórios.",
+                error: err.message,
+            });
+        }
+
+        res.json(rows); // Retorna os resultados da query
+    });
 });
 
 ///////////////////////////// Rotas para servico /////////////////////////////

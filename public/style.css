@@ -13,6 +13,8 @@ body {
 
 .h1 {
     margin-top: 10px;
+    margin-right: 100px;
+    margin-left: 10px;
 }
 
 header {
@@ -58,7 +60,7 @@ table th {
 
 #total-venda {
     font-weight: bold;
-    margin-left: 1250px;
+    margin-left: 630px;
     margin-top: 10px;
     font-size: 18px;
 }
@@ -71,7 +73,7 @@ table th {
     width: 400px;
     margin: 20px 10;
     margin-left: 220px;
-    margin-top: 10px;
+    margin-top: 20px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -96,15 +98,27 @@ table {
     margin: 20px 0;
 }
 
+.cp {
+    margin-top: 10px;
+    width: 300px;
+}
+
+.qua {
+    margin-top: 10px;
+    width: 300px;
+}
+
 .main-content {
-    max-width: 830px;
+    max-width: 800px;
     margin: 90px auto;
-    margin-left: 350px;
+    margin-top: 20px;
+    margin-left: 380px;
     background: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 30px;
+    background: linear-gradient(135deg, #a8b8c8, #90a4b3);
 }
 
 
@@ -122,7 +136,7 @@ textarea {
 
 
 .agavi {
-    margin-left: 425px;
+    margin-left: 490px;
     height: 160px;
     width: 140px;
     margin-top: -5px;
@@ -213,7 +227,7 @@ h1 {
     text-align: center;
     margin-bottom: 20px;
     margin-top: 20px;
-    margin-left: 300px;
+    margin-left: 130px;
 }
 
 textarea {
