@@ -2,12 +2,11 @@ async function cadastrarProduto(event) {
     event.preventDefault();
 
     const produto = {
-        nome: document.getElementById("nome").value,
-        preco: parseFloat(document.getElementById("preco").value),
-        descricao: document.getElementById("descricao").value,
-        categoria: document.getElementById("categoria").value,
-        quantidade_estoque: parseInt(document.getElementById("quantidade_estoque").value),
-        dimensoes: document.getElementById("dimensoes").value,
+        pro_nome: document.getElementById("pro_nome").value,
+        pro_preco: parseFloat(document.getElementById("pro_preco").value),
+        pro_descricao: document.getElementById("pro_descricao").value,
+        pro_categoria: document.getElementById("pro_categoria").value,
+        pro_quantidade_estoque: parseInt(document.getElementById("pro_quantidade_estoque").value),
     };
 
     try {
@@ -44,10 +43,12 @@ async function listarProdutos() {
             produtos.forEach((produto) => {
                 const linha = document.createElement("tr");
                 linha.innerHTML = `
-                    <td>${produto.id}</td>
-                    <td>${produto.nome}</td>
-                    <td>${produto.preco.toFixed(2)}</td>
-                    <td>${produto.quantidade_estoque}</td>
+                    <td>${produto.id_pro}</td>
+                    <td>${produto.pro_nome}</td>
+                    <td>${produto.pro_preco.toFixed(2)}</td>
+                    <td>${produto.pro_descricao}</td>
+                    <td>${produto.pro_categoria}</td>
+                    <td>${produto.pro_quantidade_estoque}</td>
                 `;
                 tabela.appendChild(linha);
             });

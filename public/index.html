@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="relatorio.js"></script>
 </head>
-<body>
+<body onload="buscarProdutos()">
     <header>
             
                 <img class="ccm" src="imagens/ccm.jpeg" alt="">
@@ -64,7 +64,9 @@
                        <th>Subtotal</th>
                        <th>Ações</th>
                    </tr>
-               </thead>
+               </thead><tbody id="tabela-vendas">
+                    <!-- As vendas filtradas aparecerão aqui -->
+               </tbody>
                <tbody id="carrinho">
                    <!-- Preenchido dinamicamente -->
                </tbody>

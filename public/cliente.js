@@ -3,8 +3,7 @@ async function cadastrarCliente(event) {
 
     const cliente = {
         cli_nome: document.getElementById("cli_nome").value,
-        cli_data_nascimento: document.getElementById("cli_data_nascimento")
-            .value,
+        cli_data_nascimento: document.getElementById("cli_data_nascimento").value,
         cli_telefone: document.getElementById("cli_telefone").value,
         cli_cpf: document.getElementById("cli_cpf").value,
         cli_cep: document.getElementById("cli_cep").value,

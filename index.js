@@ -17,8 +17,6 @@ const db = new sqlite3.Database("./database.db", (err) => {
         console.error("Erro ao conectar ao banco de dados:", err.message);
     } else {
         console.log("Conectado ao banco de dados SQLite.");
-        // Enable foreign key enforcement
-        db.run("PRAGMA foreign_keys = ON");
     }
 });
 
@@ -97,21 +95,19 @@ db.serialize(() => {
             cli_cpf TEXT NOT NULL,
             id_produto INTEGER NOT NULL,
             quantidade INTEGER NOT NULL,
-            data_venda TEXT NOT NULL,
             FOREIGN KEY (cli_cpf) REFERENCES clientes (cli_cpf),
-            FOREIGN KEY (id_produto) REFERENCES produtos (id)
+            FOREIGN KEY (id_produto) REFERENCES produtos (id_pro)
         )
     `);
 
     db.run(`
         CREATE TABLE IF NOT EXISTS produtos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            preco REAL NOT NULL,
-            descricao TEXT,
-            categoria TEXT,
-            quantidade_estoque INTEGER NOT NULL,
-            dimensoes TEXT,
+            id_pro INTEGER PRIMARY KEY AUTOINCREMENT,
+            pro_nome TEXT NOT NULL,
+            pro_preco REAL NOT NULL,
+            pro_descricao TEXT,
+            pro_categoria TEXT,
+            pro_quantidade_estoque INTEGER NOT NULL
         )
     `);
 
@@ -466,7 +462,7 @@ app.get("/moto", (req, res) => {
     }
 });
 
-//vendas///////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
 app.post("/vendas", (req, res) => {
     const { cli_cpf, itens } = req.body;
 
@@ -474,109 +470,49 @@ app.post("/vendas", (req, res) => {
         return res.status(400).send("Dados da venda incompletos.");
     }
 
-    // Validate items first
-    for (const item of itens) {
-        if (!item.idProduto || !item.quantidade || item.quantidade <= 0) {
-            return res
-                .status(400)
-                .send(
-                    `Dados inválidos para o produto ID: ${item.idProduto}, quantidade: ${item.quantidade}`,
-                );
-        }
-    }
-
     const dataVenda = new Date().toISOString();
 
-    // Use transaction for data integrity
     db.serialize(() => {
-        db.run("BEGIN TRANSACTION");
+        const insertSaleQuery = `INSERT INTO vendas (cli_cpf, id_produto, quantidade, ) VALUES (?, ?, ?, )`;
+        const updateStockQuery = `UPDATE produtos SET pro_quantidade_estoque = pro_quantidade_estoque - ? WHERE id_pro = ?`;
 
-        let operationsLeft = itens.length * 2; // Insert + update per item
-        let hasError = false;
-
-        const completeOperation = () => {
-            operationsLeft--;
-            if (operationsLeft === 0) {
-                if (hasError) {
-                    db.run("ROLLBACK", () => {
-                        res.status(500).send("Erro ao processar a venda.");
-                    });
-                } else {
-                    db.run("COMMIT", () => {
-                        res.status(201).send({
-                            message: "Venda registrada com sucesso.",
-                        });
-                    });
-                }
-            }
-        };
-
-        // Check stock availability first
-        let stockChecksPending = itens.length;
-        let stockErrors = [];
+        let erroOcorrido = false;
 
         itens.forEach(({ idProduto, quantidade }) => {
-            db.get(
-                "SELECT quantidade_estoque FROM produtos WHERE id = ?",
-                [idProduto],
-                (err, row) => {
-                    stockChecksPending--;
+            if (!idProduto || !quantidade || quantidade <= 0) {
+                console.error(
+                    `Dados inválidos para o produto ID: ${idProduto}, quantidade: ${quantidade}`,
+                );
+                erroOcorrido = true;
+                return;
+            }
 
-                    if (err || !row) {
-                        stockErrors.push(`Produto ${idProduto} não encontrado`);
-                    } else if (row.quantidade_estoque < quantidade) {
-                        stockErrors.push(
-                            `Estoque insuficiente para produto ${idProduto}. Disponível: ${row.quantidade_estoque}, Solicitado: ${quantidade}`,
-                        );
-                    }
-
-                    if (stockChecksPending === 0) {
-                        if (stockErrors.length > 0) {
-                            return res
-                                .status(400)
-                                .send(
-                                    `Erros de estoque: ${stockErrors.join(", ")}`,
-                                );
-                        }
-
-                        // Proceed with operations
-                        itens.forEach(({ idProduto, quantidade }) => {
-                            // Insert sale record
-                            db.run(
-                                "INSERT INTO vendas (cli_cpf, id_produto, quantidade, data_venda) VALUES (?, ?, ?, ?)",
-                                [cli_cpf, idProduto, quantidade, dataVenda],
-                                function (err) {
-                                    if (err) {
-                                        console.error(
-                                            "Erro ao registrar venda:",
-                                            err.message,
-                                        );
-                                        hasError = true;
-                                    }
-                                    completeOperation();
-                                },
-                            );
-
-                            // Update stock
-                            db.run(
-                                "UPDATE produtos SET quantidade_estoque = quantidade_estoque - ? WHERE id = ?",
-                                [quantidade, idProduto],
-                                function (err) {
-                                    if (err) {
-                                        console.error(
-                                            "Erro ao atualizar estoque:",
-                                            err.message,
-                                        );
-                                        hasError = true;
-                                    }
-                                    completeOperation();
-                                },
-                            );
-                        });
+            // Registrar a venda
+            db.run(
+                insertSaleQuery,
+                [cli_cpf, idProduto, quantidade, dataVenda],
+                function (err) {
+                    if (err) {
+                        console.error("Erro ao registrar venda:", err.message);
+                        erroOcorrido = true;
                     }
                 },
             );
+
+            // Atualizar o estoque
+            db.run(updateStockQuery, [quantidade, id_pro], function (err) {
+                if (err) {
+                    console.error("Erro ao atualizar estoque:", err.message);
+                    erroOcorrido = true;
+                }
+            });
         });
+
+        if (erroOcorrido) {
+            res.status(500).send("Erro ao processar a venda.");
+        } else {
+            res.status(201).send({ message: "Venda registrada com sucesso." });
+        }
     });
 });
 
@@ -596,9 +532,9 @@ app.get("/clientes/:cli_cpf", (req, res) => {
         },
     );
 });
-app.get("/produtos_carrinho/:id", (req, res) => {
-    const id = req.params.id;
-    db.get("SELECT * FROM produtos WHERE id = ? ", [id], (err, row) => {
+app.get("/produtos_carrinho/:id_pro", (req, res) => {
+    const id_pro = req.params.id_pro;
+    db.get("SELECT * FROM produtos WHERE id_pro = ? ", [id_pro], (err, row) => {
         if (err) {
             res.status(500).json({ error: "Erro no servidor." });
         } else if (!row) {
@@ -612,7 +548,7 @@ app.get("/produtos_carrinho/:id", (req, res) => {
 // ROTA PARA BUSCAR TODOS OS PRODUTOS PÁGINA DE VENDAS
 app.get("/buscar-produtos", (req, res) => {
     db.all(
-        "SELECT id, nome, quantidade_estoque FROM produtos",
+        "SELECT id_pro, pro_nome, pro_quantidade_estoque FROM produtos",
         [],
         (err, rows) => {
             if (err) {
@@ -631,18 +567,17 @@ app.get("/buscar-produtos", (req, res) => {
 
 // Rota para buscar vendas com filtros (cpf, produto, data)
 app.get("/relatorios", (req, res) => {
-    const { cli_cpf, produto, dataInicio, dataFim } = req.query;
+    const { cli_cpf, pro } = req.query;
 
     let query = `SELECT
                     vendas.id,
                     vendas.cli_cpf,
-                    vendas.id_serv,
+                    vendas.id_produto,
                     vendas.quantidade,
-                    vendas.data, 
-                    produtos.nome AS produto_nome,
+                    produtos.pro_nome AS produto_nome,
                     clientes.nome AS cliente_nome
                  FROM vendas
-                 JOIN produtos ON vendas.produto_id = produtos.id
+                  JOIN produtos ON vendas.id_produto = id.produto
                  JOIN clientes ON vendas.cli_cpf = cli.cpf
                  WHERE 1=1`; // Começar com um WHERE sempre verdadeiro (1=1)
 
@@ -655,28 +590,10 @@ app.get("/relatorios", (req, res) => {
     }
 
     // Filtro por nome do produto
-    if (produto) {
-        query += ` AND produtos.nome LIKE ?`;
-        params.push(`%${produto}%`);
+    if (pro_nome) {
+        query += ` AND produtos.pro_nome LIKE ?`;
+        params.push(`%${pro_nome}%`);
     }
-
-    // Filtro por data
-    if (dataInicio && dataFim) {
-        query += ` AND vendas.data BETWEEN ? AND ?`;
-        params.push(dataInicio, dataFim);
-    }
-
-    // Executa a query com os filtros aplicados
-    db.all(query, params, (err, rows) => {
-        if (err) {
-            return res.status(500).json({
-                message: "Erro ao buscar relatórios.",
-                error: err.message,
-            });
-        }
-
-        res.json(rows); // Retorna os resultados da query
-    });
 });
 
 ///////////////////////////// Rotas para servico /////////////////////////////
@@ -707,13 +624,24 @@ app.post("/cadastrar-servico", (req, res) => {
 
 // Cadastrar produto
 app.post("/produtos", (req, res) => {
-    const { nome, preco, descricao, categoria, quantidade_estoque, dimensoes } =
-        req.body;
-    const sql = `INSERT INTO produtos (nome, preco, descricao, categoria, quantidade_estoque, dimensoes) VALUES (?, ?, ?, ?, ?, ?)`;
+    const {
+        pro_nome,
+        pro_preco,
+        pro_descricao,
+        pro_categoria,
+        pro_quantidade_estoque,
+    } = req.body;
+    const sql = `INSERT INTO produtos (pro_nome, pro_preco, pro_descricao, pro_categoria, pro_quantidade_estoque) VALUES (?, ?, ?, ?, ?)`;
 
     db.run(
         sql,
-        [nome, preco, descricao, categoria, quantidade_estoque, dimensoes],
+        [
+            pro_nome,
+            pro_preco,
+            pro_descricao,
+            pro_categoria,
+            pro_quantidade_estoque,
+        ],
         function (err) {
             if (err) {
                 return res
@@ -741,15 +669,27 @@ app.get("/produtos", (req, res) => {
 });
 
 // Atualizar produto
-app.put("/produtos/:id", (req, res) => {
-    const { id } = req.params;
-    const { nome, preco, descricao, categoria, quantidade_estoque, dimensoes } =
-        req.body;
+app.put("/produtos/:id_pro", (req, res) => {
+    const { id_pro } = req.params;
+    const {
+        pro_nome,
+        pro_preco,
+        pro_descricao,
+        pro_categoria,
+        pro_quantidade_estoque,
+    } = req.body;
 
-    const query = `UPDATE produtos SET nome = ?, preco = ?, descricao = ?, categoria = ?, quantidade_estoque = ?, dimensoes = ?, WHERE id = ?`;
+    const query = `UPDATE produtos SET pro_nome = ?, pro_preco = ?, pro_descricao = ?, pro_categoria = ?, pro_quantidade_estoque = ?, WHERE id_pro = ?`;
     db.run(
         query,
-        [nome, preco, descricao, categoria, quantidade_estoque, dimensoes, id],
+        [
+            pro_nome,
+            pro_preco,
+            pro_descricao,
+            pro_categoria,
+            pro_quantidade_estoque,
+            id_pro,
+        ],
         function (err) {
             if (err) {
                 return res.status(500).send("Erro ao atualizar produto.");
