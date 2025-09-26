@@ -69,4 +69,39 @@ async function listarmoto() {
     } catch (error) {
         console.error("Erro ao listar funcionario:", error);
     }
+} // Função para atualizar as informações do cliente
+async function atualizarMoto() {
+    const id_cli = document.getElementById("id_cli").value;
+    const mt_placa = document.getElementById("mt_placa").value;
+    const mt_modelo = document.getElementById("mt_modelo").value;
+    const mt_ano = document.getElementById("mt_ano").value;
+    const id_servico = document.getElementById("id_servico").value;
+
+    const motoAtualizado = {
+        id_cli,
+        mt_modelo,
+        mt_placa,
+        mt_ano,
+        id_servico,
+    };
+
+    try {
+        const response = await fetch(`/moto/cpf/${mt_placa}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(motoAtualizado),
+        });
+
+        if (response.ok) {
+            alert("moto atualizado com sucesso!");
+        } else {
+            const errorMessage = await response.text();
+            alert("Erro ao atualizar motomoto1: " + errorMessage);
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar moto:", error);
+        alert("Erro ao atualizar motomoto.");
+    }
 }

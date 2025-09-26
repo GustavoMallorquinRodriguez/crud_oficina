@@ -74,3 +74,42 @@ async function listarfuncionario() {
         console.error("Erro ao listar funcionario:", error);
     }
 }
+// Função para atualizar as informações do funcionario
+async function atualizarfuncionario() {
+    const fun_nome = document.getElementById("fun_nome").value;
+    const fun_cpf = document.getElementById("fun_cpf").value;
+    const fun_telefone = document.getElementById("fun_telefone").value;
+    const fun_setor = document.getElementById("fun_setor").value;
+    const fun_cargo = document.getElementById("fun_cargo").value;
+    const fun_data_nascimento = document.getElementById("fun_data_nascimento").value;
+
+
+    const funcionarioAtualizado = {
+        fun_nome,
+        fun_cpf,
+        fun_telefone,
+        fun_setor,
+        fun_cargo,
+        fun_data_nascimento
+    };
+
+    try {
+        const response = await fetch(`/funcionario/cpf/${fun_cpf}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(funcionarioAtualizado)
+        });
+
+        if (response.ok) {
+            alert("funcionario atualizado com sucesso!");
+        } else {
+            const errorMessage = await response.text();
+            alert("Erro ao atualizar funcionariofuncionario1: " + errorMessage);
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar cliente:", error);
+        alert("Erro ao atualizar funcionariofuncionario.");
+    }
+}
