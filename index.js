@@ -500,7 +500,7 @@ app.post("/vendas", (req, res) => {
             );
 
             // Atualizar o estoque
-            db.run(updateStockQuery, [quantidade, id_pro], function (err) {
+            db.run(updateStockQuery, [quantidade, idProduto], function (err) {
                 if (err) {
                     console.error("Erro ao atualizar estoque:", err.message);
                     erroOcorrido = true;
