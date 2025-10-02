@@ -401,6 +401,41 @@ app.get("/funcionario", (req, res) => {
         });
     }
 });
+// Atualizar funcionario
+app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
+    const { fun_cpf } = req.params;
+    const {
+        fun_nome,
+        fun_telefone,
+        fun_setor,
+        fun_cargo,
+        fun_data_nascimento,
+        fun_endereco,
+    } = req.body;
+
+    const query = `UPDATE funcionario SET fun_nome = ?, fun_telefone = ?, fun_setor = ?, fun_cargo = ?, fun_data_nascimento = ?, fun_endereco = ? WHERE fun_cpf = ?`;
+    db.run(
+        query,
+        [
+            fun_nome,
+            fun_telefone,
+            fun_setor,
+            fun_cargo,
+            fun_data_nascimento,
+            fun_endereco,
+            fun_cpf,
+        ],
+        function (err) {
+            if (err) {
+                return res.status(500).send("Erro ao atualizar funcionario.");
+            }
+            if (this.changes === 0) {
+                return res.status(404).send("funcionario não encontrado.");
+            }
+            res.send("funcionario atualizado com sucesso.");
+        },
+    );
+});
 
 ///////////////////////////// Rotas para Moto /////////////////////////////
 ///////////////////////////// Rotas para Moto /////////////////////////////
@@ -429,7 +464,7 @@ app.post("/moto", (req, res) => {
     );
 });
 // Listar moto
-// Endpoint para listar todos os moto ou buscar por CPF
+// Endpoint para listar todos os moto ou buscar por Placa
 app.get("/moto", (req, res) => {
     const placa = req.query.placa || ""; // Recebe a placa da query string (se houver)
 
@@ -461,7 +496,30 @@ app.get("/moto", (req, res) => {
         });
     }
 });
+// Atualizar Moto
+app.put("/moto/cpf/:mt_placa", (req, res) => {
+    const { mt_placa } = req.params;
+    const { id_cli, mt_modelo, mt_ano, id_servico } = req.body;
 
+    const query = `UPDATE moto SET id_cli = ?, mt_modelo = ?, mt_ano = ?, id_servico = ? WHERE mt_placa = ?`;
+    db.run(
+        query,
+        [id_cli, mt_modelo, mt_ano, id_servico, mt_placa],
+        function (err) {
+            if (err) {
+                return res.status(500).send("Erro ao atualizar moto.");
+            }
+            if (this.changes === 0) {
+                return res.status(404).send("moto não encontrado.");
+            }
+            res.send("moto atualizado com sucesso.");
+        },
+    );
+});
+
+////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
+////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
+////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
 ////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
 app.post("/vendas", (req, res) => {
     const { cli_cpf, itens } = req.body;
