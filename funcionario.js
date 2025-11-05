@@ -1,0 +1,133 @@
+async function cadastrarfuncionario(event) {
+    event.preventDefault();
+
+    const funcionario = {
+        fun_nome: document.getElementById("fun_nome").value,       // Nome de usuário
+        fun_cpf: document.getElementById("fun_cpf").value,         // Senha
+        fun_telefone: document.getElementById("fun_telefone").value,
+        fun_setor: document.getElementById("fun_setor").value,
+        fun_cargo: document.getElementById("fun_cargo").value,
+        fun_data_nascimento: document.getElementById("fun_data_nascimento").value,
+        fun_endereco: document.getElementById("fun_endereco").value,
+    };
+
+    try {
+        const response = await fetch("/funcionario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(funcionario),  // Envia os dados para o servidor
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert("Funcionário cadastrado com sucesso!");
+            document.getElementById("cadastro-form").reset();  // Limpa o formulário após o cadastro
+        } else {
+            alert(`Erro: ${result.message}`);
+        }
+    } catch (err) {
+        console.error("Erro na solicitação:", err);
+        alert("Erro ao cadastrar funcionário.");
+    }
+}
+
+async function listarfuncionario() {
+    const fun_cpf = document.getElementById("fun_cpf").value.trim(); // Pega o valor do CPF digitado no input
+
+    let url = "/funcionario"; // URL padrão para todos os clientes
+
+    if (fun_cpf) {
+        // Se CPF foi digitado, adiciona o parâmetro de consulta
+        url += `?cpf=${fun_cpf}`;
+    }
+
+    try {
+        const response = await fetch(url);
+        const funcionario = await response.json();
+
+        const tabela = document.getElementById("tabela-funcionario");
+        tabela.innerHTML = ""; // Limpa a tabela antes de preencher
+
+        if (funcionario.length === 0) {
+            // Caso não encontre clientes, exibe uma mensagem
+            tabela.innerHTML =
+                '<tr><td colspan="6">Nenhum funcionario encontrado.</td></tr>';
+        } else {
+            funcionario.forEach((funcionario) => {
+                const linha = document.createElement("tr");
+                linha.innerHTML = `
+                    <td>${funcionario.id_fun}</td>
+                    <td>${funcionario.fun_nome}</td>
+                    <td>${funcionario.fun_cpf}</td>
+                    <td>${funcionario.fun_telefone}</td>
+                    <td>${funcionario.fun_setor}</td>
+                    <td>${funcionario.fun_cargo}</td>
+                    <td>${funcionario.fun_data_nascimento}</td>
+                    <td>${funcionario.fun_endereco}</td>
+                `;
+                tabela.appendChild(linha);
+            });
+        }
+    } catch (error) {
+        console.error("Erro ao listar funcionario:", error);
+    }
+}
+// Função para atualizar as informações do funcionario
+async function atualizarfuncionario() {
+    const fun_nome = document.getElementById("fun_nome").value;
+    const fun_cpf = document.getElementById("fun_cpf").value;
+    const fun_telefone = document.getElementById("fun_telefone").value;
+    const fun_setor = document.getElementById("fun_setor").value;
+    const fun_cargo = document.getElementById("fun_cargo").value;
+    const fun_data_nascimento = document.getElementById(
+        "fun_data_nascimento",
+    ).value;
+
+    const funcionarioAtualizado = {
+        fun_nome,
+        fun_cpf,
+        fun_telefone,
+        fun_setor,
+        fun_cargo,
+        fun_data_nascimento,
+    };
+
+    try {
+        const response = await fetch(`/funcionario/cpf/${fun_cpf}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(funcionarioAtualizado),
+        });
+
+        if (response.ok) {
+            alert("funcionario atualizado com sucesso!");
+        } else {
+            const errorMessage = await response.text();
+            alert("Erro ao atualizar funcionariofuncionario1: " + errorMessage);
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar cliente:", error);
+        alert("Erro ao atualizar funcionariofuncionario.");
+    }
+}
+
+// Ao digitar: só números e max 14
+input.addEventListener("input", () => {
+    let s = input.value.replace(/\D/g, ""); // tira não-dígitos
+    if (s.length > 14) s = s.slice(0, 14); // trava em 14
+    input.value = s;
+});
+// Máscara para CPF
+    document
+        .querySelector('input[placeholder="CPF"]')
+        .addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            e.target.value = value;
+        });

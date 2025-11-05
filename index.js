@@ -110,6 +110,7 @@ db.serialize(() => {
             pro_quantidade_estoque INTEGER NOT NULL
         )
     `);
+    
 
     console.log("Tabela de serviços criada com sucesso.");
 });
