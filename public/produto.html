@@ -7,23 +7,6 @@
         <link rel="stylesheet" href="produto.css" />
         <script src="produto.js"></script>
     </head>
-    <body onload="buscarFornededores()">
-        <header>
-            <div class="cabecalho">
-                <h2>Controle de Vendas</h2>
-                <nav>
-                    <ul>
-                        <li><a href="produto.html">Produtos</a></li>
-                        <li><a href="cliente.html">Clientes</a></li>
-                        <li><a href="fornecedor.html">Fornecedores</a></li>
-                        <li><a href="venda.html">Venda</a></li>
-                        <li><a href="relatorios.html">Relatórios</a></li>
-                        <li><a href="servicos.html">Serviços</a></li>
-                        <li><a href="agendamento.html">Agendamento</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
 
         <div id="main-container">
             <h1>Cadastro de Produto</h1>
@@ -32,7 +15,7 @@
                     <label for="nome">Nome:</label>
                     <input
                         type="text"
-                        id="nome"
+                        id="pro_nome"
                         name="nome"
                         placeholder="Digite o nome do produto"
                         required
@@ -42,7 +25,7 @@
                     <label for="preco">Preço:</label>
                     <input
                         type="number"
-                        id="preco"
+                        id="pro_preco"
                         name="preco"
                         placeholder="Digite o preço"
                         required
@@ -52,7 +35,7 @@
                     <label for="categoria">Categoria:</label>
                     <input
                         type="text"
-                        id="categoria"
+                        id="pro_categoria"
                         name="categoria"
                         placeholder="Digite a categoria"
                         required
@@ -61,7 +44,7 @@
                 <div class="full-box">
                     <label for="descricao">Descrição:</label>
                     <textarea
-                        id="descricao"
+                        id="pro_descricao"
                         name="descricao"
                         placeholder="Descrição do produto"
                     ></textarea>
@@ -72,19 +55,9 @@
                     >
                     <input
                         type="number"
-                        id="quantidade_estoque"
+                        id="pro_quantidade_estoque"
                         name="quantidade_estoque"
                         placeholder="Quantidade em estoque"
-                        required
-                    />
-                </div>
-                <div class="full-box">
-                    <label for="dimensoes">Dimensões:</label>
-                    <input
-                        type="text"
-                        id="dimensoes"
-                        name="dimensoes"
-                        placeholder="Dimensões do produto"
                         required
                     />
                 </div>

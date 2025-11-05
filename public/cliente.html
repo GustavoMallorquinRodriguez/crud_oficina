@@ -51,17 +51,21 @@
                                 type="tel"
                                 id="cli_telefone"
                                 name="telefone"
+                                inputmode="numeric"
+                                maxlength="15"
+                                pattern="\d{15}"
                                 placeholder="Telefone"
                                 required
                             />
                         </div>
                         <div class="form-group">
-                            <input
-                                type="text"
-                                id="cli_cpf"
-                                name="cpf"
-                                placeholder="CPF"
-                                required
+                            <input id="cli_cpf" name="cpf"
+                                   type="text"
+                                   inputmode="numeric"
+                                   maxlength="14"
+                                   pattern="\d{14}"
+                                   placeholder="CPF"
+                                   required
                             />
                         </div>
                     </div>
@@ -74,6 +78,7 @@
                                 name="cep"
                                 placeholder="CEP"
                                 required
+                                onblur="buscarEnderecoPorCEP()"
                             />
                         </div>
                         <div class="form-group quarter">
@@ -219,4 +224,30 @@
     </body>
     
 </html>
+
+
+<script>
+    // Máscara para CPF
+    document
+        .querySelector('input[placeholder="CPF"]')
+        .addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            e.target.value = value;
+        });
+
+    // Máscara para telefone
+    document
+        .querySelector('input[placeholder="Telefone"]')
+        .addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{2})(\d)/, "($1) $2");
+            value = value.replace(/(\d{5})(\d)/, "$1-$2");
+            e.target.value = value;
+        });
+
+    
+</script>
 

@@ -60,8 +60,10 @@
 
                     <div class="form-group">
                         <input
-                            type="number"
+                            type="text"
                             id="mt_placa"
+                            maxlength="8"
+                            pattern="\d{8}"
                             placeholder="Placa da Moto"
                             required
                         />
@@ -69,11 +71,11 @@
 
                     <div class="form-group">
                         <input
-                            type="number"
+                            type="text"
                             id="mt_ano"
+                            maxlength="7"
+                            pattern="\d{7}"
                             placeholder="Ano da Moto"
-                            min="1980"
-                            max="2025"
                             required
                         />
                     </div>
@@ -138,3 +140,24 @@
         <script src="moto.js"></script>
     </body>
 </html>
+<script>
+    // Máscara para placa
+    document
+        .querySelector('input[placeholder="Placa da Moto"]')
+        .addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1$2");
+            value = value.replace(/(\d{4})(\d)/, "$1-$2");
+            e.target.value = value;
+        });
+
+    // Máscara para ano da moto
+    document
+        .querySelector('input[placeholder="Ano da Moto"]')
+        .addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{2})(\d)/, "$1$2");
+            value = value.replace(/(\d{4})(\d)/, "$1/$2");
+            e.target.value = value;
+        });
+</script>

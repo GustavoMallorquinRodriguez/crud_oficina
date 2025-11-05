@@ -38,10 +38,14 @@
 
                     <div class="form-group">
                         <input
+                            id="fun_cpf"
+                            name="cpf"
                             type="text"
                             class="form-control"
-                            id="fun_cpf"
-                            placeholder="cpf"
+                            inputmode="numeric"
+                            maxlength="14"
+                            pattern="\d{14}"
+                            placeholder="CPF"
                             required
                         />
                     </div>
@@ -51,6 +55,9 @@
                             type="text"
                             class="form-control"
                             id="fun_telefone"
+                            inputmode="numeric"
+                            maxlength="15"
+                            pattern="\d{15}"
                             placeholder="Telefone"
                             required
                         />
@@ -153,3 +160,26 @@
         </div>
     </body>
 </html>
+
+<script>
+    // Máscara para CPF
+    document
+        .querySelector('input[placeholder="CPF"]')
+        .addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            e.target.value = value;
+        });
+
+    // Máscara para telefone
+    document
+        .querySelector('input[placeholder="Telefone"]')
+        .addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{2})(\d)/, "($1) $2");
+            value = value.replace(/(\d{5})(\d)/, "$1-$2");
+            e.target.value = value;
+        });
+</script>
