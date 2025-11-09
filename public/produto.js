@@ -6,7 +6,7 @@ async function cadastrarProduto(event) {
         pro_preco: parseFloat(document.getElementById("pro_preco").value),
         pro_descricao: document.getElementById("pro_descricao").value,
         pro_categoria: document.getElementById("pro_categoria").value,
-        pro_quantidade_estoque: parseInt(document.getElementById("pro_quantidade_estoque").value),
+        pro_quantidade_estoque: document.getElementById("pro_quantidade_estoque").value,
     };
 
     try {

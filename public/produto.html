@@ -9,7 +9,7 @@
     </head>
 
         <div id="main-container">
-            <h1>Cadastro de Produto</h1>
+            <h1>Cadastro de Serviço</h1>
             <form id="produto-form" onsubmit="return cadastrarProduto(event)">
                 <div class="full-box">
                     <label for="nome">Nome:</label>
@@ -46,18 +46,18 @@
                     <textarea
                         id="pro_descricao"
                         name="descricao"
-                        placeholder="Descrição do produto"
+                        placeholder="Descrição do serviço"
                     ></textarea>
                 </div>
                 <div class="half-box">
                     <label for="quantidade_estoque"
-                        >Quantidade em Estoque:</label
+                        >Duração de Serviço:</label
                     >
                     <input
-                        type="number"
+                        type="text"
                         id="pro_quantidade_estoque"
                         name="quantidade_estoque"
-                        placeholder="Quantidade em estoque"
+                        placeholder="Quantidade "
                         required
                     />
                 </div>
@@ -67,9 +67,9 @@
                     <input type="reset" value="Limpar" class="alinhaBtns" />
                 </div>
             </form>
-            <h2>Listagem de Produtos</h2>
+            <h2>Listagem de Serviços</h2>
             <button type="button" onclick="listarProdutos()" class="alinhaBtns">
-                Listar Produtos
+                Listar Serviços
             </button>
 
             <table border="1">
@@ -78,7 +78,9 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Preço</th>
-                        <th>Quant. Estoque</th>
+                        <th>Categoria</th>
+                        <th>Descrição</th>
+                        <th>Duração de serviço</th>
                     </tr>
                 </thead>
                 <tbody id="tabela-clientes">
