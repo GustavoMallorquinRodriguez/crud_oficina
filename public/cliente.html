@@ -101,14 +101,14 @@
                         </tr>
                     </thead>
                     <tbody id="tabela-clientes">
-                        <!-- Clientes serão carregados aqui dinamicamente -->
+                        
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Modal para editar cliente -->
+    
     <div id="clienteAtualizado" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -142,13 +142,13 @@
         </div>
     </div>
 
-    <!-- BOTÃO VOLTAR FIXO -->
+    
     <div class="btn-voltar">
         <a href="index.html">VOLTAR</a>
     </div>
 
     <script>
-        // Máscara para CPF
+       
         document.querySelector('input[placeholder="CPF"]').addEventListener("input", function (e) {
             let value = e.target.value.replace(/\D/g, "");
             value = value.replace(/(\d{3})(\d)/, "$1.$2");
@@ -157,7 +157,7 @@
             e.target.value = value;
         });
 
-        // Máscara para telefone
+       
         document.querySelector('input[placeholder="Telefone"]').addEventListener("input", function (e) {
             let value = e.target.value.replace(/\D/g, "");
             value = value.replace(/(\d{2})(\d)/, "($1) $2");

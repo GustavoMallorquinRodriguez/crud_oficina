@@ -28,7 +28,7 @@ body {
     color: var(--text-dark);
 }
 
-/* Header Styles */
+
 .header {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
     padding: 1rem 2rem;
@@ -63,7 +63,7 @@ body {
     max-height: 90px;
 }
 
-/* Main Container */
+
 .container {
     max-width: 1400px;
     margin: 0 auto;
@@ -80,7 +80,7 @@ body {
 
 }
 
-/* Controls Panel */
+
 .controls-panel {
     background: var(--card-background);
     border-radius: 16px;
@@ -157,7 +157,7 @@ body {
 .legend-weekend { background: #f8f9ff; }
 .legend-maintenance { background: var(--warning-color); }
 
-/* Calendar Grid */
+
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -281,7 +281,7 @@ body {
     text-align: center;
 }
 
-/* Modal Styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -420,7 +420,7 @@ body {
     color: var(--text-dark);
 }
 
-/* Back Button */
+
 .back-button {
     position: fixed;
     bottom: 2rem;
@@ -455,7 +455,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .header {
         flex-direction: column;

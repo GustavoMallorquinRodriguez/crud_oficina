@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-/* ====== BASE ====== */
+
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: #f5f5f5;
@@ -17,7 +17,7 @@ body {
     min-height: 100vh;
 }
 
-/* ====== CABEÇALHO ====== */
+
 header {
     grid-area: cabeca;
     background: linear-gradient(135deg, #ff6b35, #f7931e);
@@ -30,7 +30,7 @@ header {
     position: relative;
 }
 
-/* ====== IMAGENS DO CABEÇALHO ====== */
+
 header img {
     object-fit: contain;
 }
@@ -92,7 +92,7 @@ nav.menu-lateral:hover {
     cursor: pointer;
 }
 
-/* ====== ITENS DO MENU ====== */
+
 ul {
     list-style: none;
     padding: 0;
@@ -123,7 +123,7 @@ ul li.item-menu a {
     transition: 0.3s;
 }
 
-/* ====== ÍCONES ====== */
+
 ul li.item-menu a .icon {
     display: flex;
     align-items: center;
@@ -171,7 +171,7 @@ h1 {
     color: #222;
 }
 
-/* ====== FORMULÁRIOS ====== */
+
 form {
     margin-bottom: 25px;
 }
@@ -203,7 +203,7 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 4px rgba(255, 107, 53, 0.5);
 }
 
-/* ====== BOTÕES ====== */
+
 .alinhaBtns, .alinhaBtns2 {
     background-color: #ff6b35;
     color: white;
@@ -223,7 +223,7 @@ input:focus, select:focus, textarea:focus {
     transform: scale(1.03);
 }
 
-/* ====== TABELA ====== */
+
 .form-row {
     width: 100%;
     margin: 30px auto;

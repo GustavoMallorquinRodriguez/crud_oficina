@@ -12,7 +12,7 @@ body {
 
 .header {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
-    padding: 12px 30px; /* header mais fino */
+    padding: 12px 30px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,19 +27,19 @@ body {
 }
 
 .main-logo img {
-    height: 120px; /* AN MOTOS maior */
+    height: 120px; 
     max-width: 250px;
     object-fit: contain;
 }
 
 .agave-logo img {
-    height: 130px; /* AGAVI maior */
+    height: 130px; 
     max-width: 160px;
     object-fit: contain;
 }
 
 .ccm-logo img {
-    height: 120px; /* CCM ajustada */
+    height: 120px; 
     max-width: 140px;
     object-fit: contain;
 }
@@ -199,7 +199,7 @@ input:disabled {
     z-index: 0;
 }
 
-/* CLIENT SECTION */
+
 .client-section {
      background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     border-radius: 20px;
@@ -418,7 +418,7 @@ input:disabled {
     box-shadow: 0 8px 20px rgba(149, 165, 166, 0.3);
 }
 
-/* BOTÃO VOLTAR COM SETA - PADRÃO LARANJA, TEXTO MENOR */
+
 .btn-voltar {
     position: fixed;
     bottom: 25px;
@@ -452,7 +452,7 @@ input:disabled {
     box-shadow: 0 8px 20px rgba(0,0,0,0.35);
 }
 
-/* BOTÃO LISTAR CLIENTES - MENOR TAMANHO, PADRÃO LARANJA */
+
 .alinhaBtns {
     display: inline-flex;
     align-items: center;
