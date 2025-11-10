@@ -1,116 +1,78 @@
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="agenda" content="width=device-width, initial-scale=1.0" />
-        <title>RV Motos - Agendamento</title>
-        <link rel="stylesheet" href="agenda.css" />
-        <script src="agenda.js"></script>
-    </head>
-    <body>
-        <header class="header">
-            <div class="logo-left">
-                <img src="imagens/ccm.jpeg" alt="Logo ccm" />
-            </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="agenda" content="width=device-width, initial-scale=1.0" />
+    <title>RV Motos - Agendamento</title>
+    <link rel="stylesheet" href="agenda.css" />
+    <script src="agenda.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-left">
+            <img src="imagens/ccm.jpeg" alt="Logo ccm" />
+        </div>
 
-            <div class="logo-center">
-                <img src="imagens/an_motos.png" alt="Logo RV Motos" />
-                <a class="visualizar-btn" href="login.html" onclick="abrirCalendario()"
-                    >Visualizar Agenda</a
-                >
-            </div>
+        <div class="logo-center">
+            <img src="imagens/an_motos.png" alt="Logo RV Motos" />
+            <a class="visualizar-btn" href="login.html" onclick="abrirCalendario()">Visualizar Agenda</a>
+        </div>
 
-            <div class="logo-right">
-                <img src="imagens/agavi.png" alt="Logo AGAVL" />
-            </div>
-        </header>
+        <div class="logo-right">
+            <img src="imagens/agavi.png" alt="Logo AGAVL" />
+        </div>
+    </header>
 
-        <div class="container">
-            <div class="form-header">Dados da Agenda</div>
+    <div class="container">
+        <div class="form-header">Dados da Agenda</div>
 
-            <div class="success-message" id="successMessage">
-                Agendamento realizado com sucesso!
-            </div>
+        <div class="success-message" id="successMessage">
+            Agendamento realizado com sucesso!
+        </div>
 
-            <div class="form-content">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <form class="agendaForm" id="agendaForm">
-                                
-                                <label for="cli_cpf">Nome Cliente:</label>
-                                <input
-                                    type="text"
-                                    id="cli_cpf"
-                                    name="nomeCliente"
-                                    required
-                                />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="mt_placa">Placa da moto:</label>
-                                <input
-                                    type="text"
-                                    id="mt_placa"
-                                    name="modeloMoto"
-                                    required
-                                />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="fun_cpf">Funcionario:</label>
-                                <input
-                                    type="text"
-                                    id="fun_cpf"
-                                    name="placaMoto"
-                                    required
-                                />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id_servico">Tipo de serviço:</label>
-                                <input
-                                    type="text"
-                                    id="id_servico"
-                                    name="tiposervico"
-                                    required
-                                />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="age_entrada">Data de Entrada:</label>
-                                <input
-                                    type="date"
-                                    id="age_entrada"
-                                    name="dataEntrada"
-                                    required
-                                />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="dataSaida">Data de Saída:</label>
-                                <input
-                                    type="date"
-                                    id="age_saida"
-                                    name="dataSaida"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div class="btn-container">
-                            <input
-                                type="submit"
-                                value="Cadastrar"
-                                class="submit-btn"
-                                onclick="cadastrarAgendamento(event)"
-                            />
-                        </div>
-                            </form>
+        <div class="form-content">
+            <div class="form-row">
+                <div class="form-group">
+                    <form class="agendaForm" id="agendaForm">
+                        <label for="cli_cpf">Nome Cliente:</label>
+                        <input type="text" id="cli_cpf" name="nomeCliente" required />
                 </div>
-            
+
+                <div class="form-group">
+                    <label for="mt_placa">Placa da moto:</label>
+                    <input type="text" id="mt_placa" name="modeloMoto" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="fun_cpf">Funcionario:</label>
+                    <input type="text" id="fun_cpf" name="placaMoto" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="id_servico">Tipo de serviço:</label>
+                    <input type="text" id="id_servico" name="tiposervico" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="age_entrada">Data de Entrada:</label>
+                    <input type="date" id="age_entrada" name="dataEntrada" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="dataSaida">Data de Saída:</label>
+                    <input type="date" id="age_saida" name="dataSaida" required />
+                </div>
             </div>
-            <div class="btn-cadastro">
-                <a class="voltar" href="index.html">Voltar</a>
+
+            <div class="btn-container">
+                <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarAgendamento(event)" />
             </div>
-        </body>
+        </div>
+    </div>
+
+    <!-- Botão Voltar -->
+    <div class="btn-voltar">
+        <a href="index.html">VOLTAR</a>
+    </div>
+</body>
 </html>

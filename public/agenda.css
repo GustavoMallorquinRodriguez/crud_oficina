@@ -9,6 +9,7 @@ body {
     background-color: #f0f0f0;
 }
 
+/* Header */
 .header {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
     padding: 30px;
@@ -24,9 +25,10 @@ body {
     height: 80px;
 }
 
-.logo-left img{
+.logo-left img {
     border-radius: 50%;
 }
+
 .logo-left img, .logo-right img {
     max-width: 140px;
     max-height: 120px;
@@ -63,7 +65,7 @@ body {
 .container {
     max-width: 800px;
     margin: 20px auto;
-    background-color: #fff;
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     overflow: hidden;
@@ -113,34 +115,6 @@ body {
     border-color: #ff7b00;
 }
 
-.textarea-section {
-    margin-bottom: 20px;
-}
-
-.textarea-section label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-.textarea-section textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    min-height: 120px;
-    resize: vertical;
-    font-family: Arial, sans-serif;
-    transition: border-color 0.3s;
-}
-
-.textarea-section textarea:focus {
-    outline: none;
-    border-color: #ff7b00;
-}
-
 .btn-container {
     text-align: center;
 }
@@ -162,29 +136,41 @@ body {
     transform: translateY(-2px);
 }
 
-.btn-cadastro {
-    background-color: #ffffff;
-    color: rgb(255, 255, 255);
-    padding: 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    font-size: 14px;
+/* Botão voltar fixo */
+.btn-voltar {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 100;
+}
+
+.btn-voltar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ff6600;
+    color: white;
     font-weight: bold;
-    text-align: center;
-    width: 110px;
-    margin: 20px auto;
-    transition: 1.0s;
-}
-
-.voltar {
+    font-size: 16px;
+    padding: 14px 24px;
+    border-radius: 40px;
     text-decoration: none;
-    color: #000000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
 }
 
-.btn-cadastro:hover {
-    background-color: #FF6600;
+.btn-voltar a::before {
+    content: '←';
+    font-size: 18px;
 }
 
+.btn-voltar a:hover {
+    background: #ff7f33;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+/* Mensagem de sucesso */
 .success-message {
     background-color: #4CAF50;
     color: white;
@@ -200,11 +186,11 @@ body {
         flex-direction: column;
         gap: 10px;
     }
-    
+
     .logo-left, .logo-center, .logo-right {
         height: 60px;
     }
-    
+
     .logo-left img, .logo-center img, .logo-right img {
         max-width: 100px;
         max-height: 50px;

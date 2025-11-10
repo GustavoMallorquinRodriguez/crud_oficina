@@ -1,105 +1,216 @@
-body {
-    background-color: rgb(87, 87, 87);
-    font-family: 'Montserrat', sans-serif;
+/* RESET */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-header {
-    background-color: rgb(34, 34, 34);
-    padding: 20px;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    position: relative;
 }
 
-.cabecalho {
+/* HEADER COM LOGOS */
+.header {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    padding: 12px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    padding: 0;
+.ccm-logo img {
+    width: 140px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-nav ul li {
-    margin: 0 15px;
+.main-logo img {
+    height: 100px;
+    max-width: 250px;
+    object-fit: contain;
 }
 
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
+.agave-logo img {
+    height: 120px;
+    max-width: 160px;
+    object-fit: contain;
 }
 
+/* CONTAINER PRINCIPAL */
 #main-container {
-    max-width: 600px;
-    margin: 50px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 40px auto;
+     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    color: black
 }
 
+/* FORMULÁRIO */
 label {
     font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
 }
 
 input, select, textarea, option {
     width: 97%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 12px;
+    margin: 8px 0 15px 0;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 textarea {
     resize: none;
+    min-height: 80px;
 }
 
+/* BOTÕES */
 .alinhaBtns {
-    background-color: #0056b3;
+    background-color: #ff6600;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 12px;
     width: 100%;
     margin: 10px 0;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+.alinhaBtns:hover {
+    background-color: #ff7f33;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* FORMATAÇÃO DE BOXES */
+.full-box {
+    width: 100%;
+}
+
+.half-box {
+    width: 48%;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 4%;
+}
+
+.half-box:last-child {
+    margin-right: 0;
+}
+
+/* TABELA */
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 table th, table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
 }
 
 table th {
-    background-color: #f2f2f2;
+    background-color: #ff6600;
+    color: white;
     font-weight: bold;
 }
-footer{
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
-body{
-    position: relative;
+
+table tr:hover {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    transform: scale(1.01);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
-body{
-    position: relative;
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 15px 0;
+    color: #666;
+    font-size: 14px;
+    margin-top: 20px;
 }
-.cabecalho h2{
+
+/* BOTÃO VOLTAR FIXO */
+.btn-voltar {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 100;
+}
+
+.btn-voltar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ff6600;
     color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 14px 24px;
+    border-radius: 40px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-voltar a::before {
+    content: '←';
+    font-size: 18px;
+}
+
+.btn-voltar a:hover {
+    background: #ff7f33;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .half-box {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    #main-container {
+        padding: 20px;
+    }
+
+    .logo img, .main-logo img, .agave-logo img, .ccm-logo img {
+        height: auto;
+        max-width: 80%;
+    }
 }

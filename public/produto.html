@@ -1,96 +1,113 @@
 <!doctype html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Cadastro de Produtos</title>
-        <link rel="stylesheet" href="produto.css" />
-        <script src="produto.js"></script>
-    </head>
-
-        <div id="main-container">
-            <h1>Cadastro de Serviço</h1>
-            <form id="produto-form" onsubmit="return cadastrarProduto(event)">
-                <div class="full-box">
-                    <label for="nome">Nome:</label>
-                    <input
-                        type="text"
-                        id="pro_nome"
-                        name="nome"
-                        placeholder="Digite o nome do produto"
-                        required
-                    />
-                </div>
-                <div class="half-box">
-                    <label for="preco">Preço:</label>
-                    <input
-                        type="number"
-                        id="pro_preco"
-                        name="preco"
-                        placeholder="Digite o preço"
-                        required
-                    />
-                </div>
-                <div class="half-box">
-                    <label for="categoria">Categoria:</label>
-                    <input
-                        type="text"
-                        id="pro_categoria"
-                        name="categoria"
-                        placeholder="Digite a categoria"
-                        required
-                    />
-                </div>
-                <div class="full-box">
-                    <label for="descricao">Descrição:</label>
-                    <textarea
-                        id="pro_descricao"
-                        name="descricao"
-                        placeholder="Descrição do serviço"
-                    ></textarea>
-                </div>
-                <div class="half-box">
-                    <label for="quantidade_estoque"
-                        >Duração de Serviço:</label
-                    >
-                    <input
-                        type="text"
-                        id="pro_quantidade_estoque"
-                        name="quantidade_estoque"
-                        placeholder="Quantidade "
-                        required
-                    />
-                </div>
-
-                <div class="full-box">
-                    <input type="submit" value="Cadastrar" class="alinhaBtns" />
-                    <input type="reset" value="Limpar" class="alinhaBtns" />
-                </div>
-            </form>
-            <h2>Listagem de Serviços</h2>
-            <button type="button" onclick="listarProdutos()" class="alinhaBtns">
-                Listar Serviços
-            </button>
-
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Categoria</th>
-                        <th>Descrição</th>
-                        <th>Duração de serviço</th>
-                    </tr>
-                </thead>
-                <tbody id="tabela-clientes">
-                    <!-- Linhas serão preenchidas pelo JavaScript -->
-                </tbody>
-            </table>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de Serviço</title>
+    <link rel="stylesheet" href="produto.css" />
+    <script src="produto.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo ccm-logo">
+            <img src="imagens/ccm.jpeg" alt="Colégio CCMH" />
         </div>
 
-        <footer>
-            <p>©2025</p>
-        </footer>
-    </body>
+        <div class="main-logo">
+            <img src="imagens/an_motos.png" alt="AN Motos" />
+        </div>
+
+        <div class="agave-logo">
+            <img src="imagens/agavi.png" alt="Agave" />
+        </div>
+    </header>
+
+    <div id="main-container">
+        <h1>Cadastro de Serviço</h1>
+        <form id="produto-form" onsubmit="return cadastrarProduto(event)">
+            <div class="full-box">
+                <label for="pro_nome">Nome:</label>
+                <input
+                    type="text"
+                    id="pro_nome"
+                    name="nome"
+                    placeholder="Digite o nome do produto"
+                    required
+                />
+            </div>
+            <div class="half-box">
+                <label for="pro_preco">Preço:</label>
+                <input
+                    type="number"
+                    id="pro_preco"
+                    name="preco"
+                    placeholder="Digite o preço"
+                    required
+                />
+            </div>
+            <div class="half-box">
+                <label for="pro_categoria">Categoria:</label>
+                <input
+                    type="text"
+                    id="pro_categoria"
+                    name="categoria"
+                    placeholder="Digite a categoria"
+                    required
+                />
+            </div>
+            <div class="full-box">
+                <label for="pro_descricao">Descrição:</label>
+                <textarea
+                    id="pro_descricao"
+                    name="descricao"
+                    placeholder="Descrição do serviço"
+                ></textarea>
+            </div>
+            <div class="half-box">
+                <label for="pro_quantidade_estoque">Duração de Serviço:</label>
+                <input
+                    type="text"
+                    id="pro_quantidade_estoque"
+                    name="quantidade_estoque"
+                    placeholder="Quantidade"
+                    required
+                />
+            </div>
+            <div class="full-box">
+                <input type="submit" value="Cadastrar" class="alinhaBtns" />
+                <input type="reset" value="Limpar" class="alinhaBtns" />
+            </div>
+        </form>
+
+        <h2>Listagem de Serviços</h2>
+        <button type="button" onclick="listarProdutos()" class="alinhaBtns">
+            Listar Serviços
+        </button>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Categoria</th>
+                    <th>Descrição</th>
+                    <th>Duração de serviço</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-clientes">
+                <!-- Linhas serão preenchidas pelo JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- BOTÃO VOLTAR FIXO -->
+    <div class="btn-voltar">
+        <a href="index.html">VOLTAR</a>
+    </div>
+
+    <footer>
+        <p>©2025</p>
+    </footer>
+</body>
 </html>
