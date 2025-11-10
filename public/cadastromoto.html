@@ -88,23 +88,20 @@
                             min="0"
                             required
                         />
-                    </div>
+                    </div><br>
 
-                    <input
-                        type="submit"
-                        value="Cadastrar"
-                        class="submit-btn"
-                        onclick="cadastrarmoto(event)"
-                    />
-                    <input
-                        type="button"
-                        value="Atualizar Cliente"
-                        class="submit-btn"
-                        onclick="atualizarMoto(); limpaCliente();"
-                    />
+                    <div class="opções">
+                        <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarmoto(event)">
+                        <input type="reset" value="Limpar" class="submit-btn">
+                        <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarMoto(); limpaCliente();" />
+                    </div>
                 </form>
             </div>
         </div>
+
+        <div class="btn-voltar">
+        <a href="index.html">VOLTAR</a>
+    </div>
         <div class="container">
             <div class="client-section">
                 <h2 class="section-title">Visualizar funcionario</h2>
@@ -133,9 +130,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="btn-cadastro">
-            <a class="voltar" href="index.html">Voltar</a>
         </div>
         <script src="moto.js"></script>
     </body>

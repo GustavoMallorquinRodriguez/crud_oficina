@@ -80,26 +80,28 @@ body {
     margin: 20px;
     display: flex;
     padding: 15px 40px;
-    background-color: white;
-    color: #333;
+    background-color: #ff6600;
+    color: white;
     border: none;
     border-radius: 5px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .submit-btn:hover {
-    background-color: #ff6600;
-    color: white;
+    background-color: #ff7f33;
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    justify-content: center;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
-
+.opções{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    flex-wrap: wrap;
+}
 @media (max-width: 768px) {
     .header {
         flex-direction: column;
@@ -251,4 +253,37 @@ body {
     bottom: 0;
 
     pointer-events: none;
+}
+
+.btn-voltar {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 100;
+}
+
+.btn-voltar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ff6600;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 14px 24px;
+    border-radius: 40px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-voltar a::before {
+    content: '←';
+    font-size: 18px;
+}
+
+.btn-voltar a:hover {
+    background: #ff7f33;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
 }

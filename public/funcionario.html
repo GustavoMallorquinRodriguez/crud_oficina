@@ -103,18 +103,11 @@
                         />
                     </div>
 
-                    <input
-                        type="submit"
-                        value="Cadastrar"
-                        class="submit-btn"
-                        onclick="cadastrarfuncionario(event)"
-                    />
-                    <input
-                        type="button"
-                        value="Atualizar Cliente"
-                        class="submit-btn"
-                        onclick="atualizarfuncionario(); limpaCliente();"
-                    />
+                    <div class="opções">
+                    <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarfuncionario(event)">
+                    <input type="reset" value="Limpar" class="submit-btn">
+                    <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarfuncionario(); limpaCliente();" />
+                </div>
                 </form>
             </div>
             <div class="container">
@@ -155,9 +148,10 @@
                 </div>
             </div>
         </main>
-        <div class="btn-cadastro">
-            <a class="voltar" href="index.html">Voltar</a>
-        </div>
+    
+        <div class="btn-voltar">
+        <a href="index.html">VOLTAR</a>
+    </div>
     </body>
 </html>
 
