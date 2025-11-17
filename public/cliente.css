@@ -51,7 +51,7 @@ body {
 }
 
 .form-container {
-     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);

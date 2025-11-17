@@ -72,7 +72,7 @@ body {
     max-width: 900px;
     margin: 40px auto;
     padding: 0 20px;
-    background: linear-gradient(135deg, #a8b8c8, #90a4b3);
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -183,7 +183,7 @@ button:hover {
 }
 
 .form-container {
-    background: linear-gradient(135deg, #a8b8c8, #90a4b3);
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -197,7 +197,7 @@ button:hover {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(231, 227, 227, 0.877);
     position: relative;
     z-index: 1;
 }
@@ -227,7 +227,7 @@ button:hover {
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
 }
 
 .client-table td {
@@ -242,7 +242,7 @@ button:hover {
 }
 
 .client-table tbody tr:hover {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     transform: scale(1.01);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -265,9 +265,8 @@ button:hover {
 }
 
 
-/* Seção de visualização de cliente */
 .client-section {
-    background: linear-gradient(135deg, #a8b8c8, #90a4b3);
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
