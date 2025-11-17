@@ -1,62 +1,89 @@
+/* RESET GLOBAL - Remove margens e paddings padrão do navegador */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Inclui padding e border no cálculo de largura/altura */
 }
 
+/* ESTILO GLOBAL DO BODY */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
+    /* Cinza claro para fundo */
     min-height: 100vh;
+    /* Garante altura mínima de 100% da viewport */
 }
 
+/* CABEÇALHO */
 .header {
+    /* Gradiente laranja para o header */
     background: linear-gradient(135deg, #ff6b35, #f7931e);
-    padding: 12px 30px; 
+    padding: 12px 30px;
     display: flex;
     justify-content: space-between;
+    /* Distribui logos nas extremidades */
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    /* Centraliza verticalmente */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
 }
 
+/* LOGOS DO CABEÇALHO */
+/* Logo padrão (CCM) */
 .logo img {
     width: 140px;
     height: 120px;
     border-radius: 50%;
+    /* Torna a imagem circular */
     object-fit: cover;
+    /* Mantém proporção cortando se necessário */
 }
 
+/* Logo principal (AN Motos - centro) */
 .main-logo img {
-    height: 120px; 
+    height: 120px;
     max-width: 250px;
     object-fit: contain;
+    /* Mantém proporção sem cortar */
 }
 
+/* Logo AGAVI (direita) */
 .agave-logo img {
-    height: 130px; 
+    height: 130px;
     max-width: 160px;
     object-fit: contain;
 }
 
+/* Logo CCM específica */
 .ccm-logo img {
-    height: 120px; 
+    height: 120px;
     max-width: 140px;
     object-fit: contain;
 }
 
+/* CONTAINER PRINCIPAL */
 .container {
     max-width: 1200px;
+    /* Limita largura máxima */
     margin: 40px auto;
+    /* Centraliza horizontalmente */
     padding: 0 20px;
+    /* Padding lateral */
 }
 
+/* CONTAINER DO FORMULÁRIO */
 .form-container {
+    /* Gradiente azul claro para fundo do formulário */
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    /* Bordas arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Sombra para profundidade */
 }
 
+/* TÍTULO DO FORMULÁRIO */
 .form-title {
     text-align: center;
     font-size: 24px;
@@ -64,31 +91,42 @@ body {
     color: #333;
     margin-bottom: 30px;
     text-transform: uppercase;
+    /* Letras maiúsculas */
     letter-spacing: 1px;
+    /* Espaçamento entre letras */
 }
 
+/* LINHA DE CAMPOS DO FORMULÁRIO */
 .form-row {
     display: flex;
     gap: 20px;
+    /* Espaço entre campos */
     margin-bottom: 20px;
 }
 
+/* GRUPO DE CAMPO INDIVIDUAL */
 .form-group {
     flex: 1;
+    /* Ocupa espaço disponível igualmente */
 }
 
+/* MODIFICADORES DE LARGURA DOS CAMPOS */
 .form-group.full-width {
     flex: 100%;
+    /* Largura total */
 }
 
 .form-group.quarter {
     flex: 0 0 23%;
+    /* 23% de largura fixa */
 }
 
 .form-group.half {
     flex: 0 0 48%;
+    /* 48% de largura fixa */
 }
 
+/* ESTILIZAÇÃO DOS INPUTS */
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -99,52 +137,80 @@ select {
     border-radius: 5px;
     font-size: 16px;
     background-color: white;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra interna */
     transition: all 0.3s ease;
+    /* Transição suave para interações */
 }
 
+/* ESTADO DE FOCO DOS INPUTS */
 input:focus,
 select:focus {
     outline: none;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1), 0 0 10px rgba(255,102,0,0.3);
+    /* Remove borda padrão do navegador */
+    /* Adiciona sombra laranja e eleva o campo */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 102, 0, 0.3);
     transform: translateY(-2px);
+    /* Move 2px para cima */
 }
 
+/* PLACEHOLDER DOS INPUTS */
 input::placeholder {
     color: #666;
+    /* Cinza médio */
     font-size: 14px;
 }
 
+/* INPUT DESABILITADO */
 input:disabled {
     background-color: #f5f5f5;
+    /* Cinza claro */
     color: #999;
+    /* Texto cinza */
     cursor: not-allowed;
+    /* Cursor de proibido */
 }
 
+/* ANIMAÇÃO DE CARREGAMENTO */
 .loading-input {
+    /* Gradiente animado para indicar carregamento */
     background: linear-gradient(-45deg, #f0f0f0, #e0e0e0, #f0f0f0, #e0e0e0);
     background-size: 400% 400%;
     animation: loading 1.5s ease-in-out infinite;
 }
 
+/* KEYFRAMES DA ANIMAÇÃO DE CARREGAMENTO */
 @keyframes loading {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.opções{
+/* CONTAINER DOS BOTÕES DE OPÇÕES */
+.opções {
     display: flex;
     justify-content: center;
+    /* Centraliza botões */
     padding: 10px;
     flex-wrap: wrap;
+    /* Quebra linha se necessário */
 }
 
+/* BOTÕES SUBMIT/RESET */
 .submit-btn {
     margin: 20px;
     display: flex;
     padding: 15px 40px;
     background-color: #ff6600;
+    /* Laranja */
     color: white;
     border: none;
     border-radius: 5px;
@@ -152,15 +218,20 @@ input:disabled {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* HOVER DOS BOTÕES SUBMIT */
 .submit-btn:hover {
     background-color: #ff7f33;
+    /* Laranja mais claro */
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    /* Eleva o botão */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    /* Sombra maior */
 }
 
+/* RESPONSIVIDADE PARA TELAS PEQUENAS */
 @media (max-width: 768px) {
     .header {
         gap: 20px;
@@ -171,20 +242,24 @@ input:disabled {
         font-size: 36px;
     }
 
+    /* Campos em coluna única em mobile */
     .form-row {
         flex-direction: column;
     }
 
+    /* Remove larguras fixas em mobile */
     .form-group.quarter,
     .form-group.half {
         flex: 1;
     }
 
+    /* Reduz padding em telas pequenas */
     .form-container {
         padding: 20px;
     }
 }
 
+/* EFEITO DE FUNDO PARA LOGO DE MOTO */
 .motorcycle-bg {
     position: relative;
 }
@@ -192,61 +267,79 @@ input:disabled {
 .motorcycle-bg::before {
     font-size: 40px;
     opacity: 0.1;
+    /* Muito transparente */
     position: absolute;
     right: -10px;
     top: -10px;
     z-index: 0;
+    /* Atrás do conteúdo */
 }
 
-
+/* SEÇÃO DE CLIENTES/LISTAGEM */
 .client-section {
-     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    /* Esconde overflow do pseudo-elemento */
     animation: fadeInUp 0.8s ease-out;
+    /* Animação de entrada */
 }
 
+/* PSEUDO-ELEMENTO DE FUNDO DA SEÇÃO */
 .client-section::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
     pointer-events: none;
+    /* Não interfere com cliques */
 }
 
+/* TÍTULO DA SEÇÃO */
 .section-title {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
     color: #2c3e50;
+    /* Azul escuro */
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 1px;
     position: relative;
     z-index: 1;
+    /* Sobre o pseudo-elemento */
 }
 
-/* TABLE */
+/* CONTAINER DA TABELA */
 .table-container {
     background: rgba(255, 255, 255, 0.95);
+    /* Branco semi-transparente */
     border-radius: 15px;
     overflow: hidden;
+    /* Esconde bordas da tabela */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
 }
 
+/* TABELA DE CLIENTES */
 .client-table {
     width: 100%;
     border-collapse: collapse;
+    /* Remove espaços entre células */
     font-size: 14px;
 }
 
+/* CABEÇALHO DA TABELA */
 .client-table th {
     background: #ff6600;
+    /* Laranja */
     color: white;
     padding: 18px 15px;
     text-align: left;
@@ -257,6 +350,7 @@ input:disabled {
     position: relative;
 }
 
+/* EFEITO DE GRADIENTE NO CABEÇALHO */
 .client-table th::after {
     content: '';
     position: absolute;
@@ -264,35 +358,45 @@ input:disabled {
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    /* Linha gradiente decorativa */
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
+/* CÉLULAS DA TABELA */
 .client-table td {
     padding: 15px;
     border-bottom: 1px solid #e8f4f8;
+    /* Borda azul clara */
     transition: all 0.3s ease;
     background: white;
 }
 
+/* LINHAS DA TABELA */
 .client-table tbody tr {
     transition: all 0.3s ease;
 }
 
+/* HOVER NAS LINHAS */
 .client-table tbody tr:hover {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     transform: scale(1.01);
+    /* Aumenta ligeiramente */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* LINHAS PARES (zebrado) */
 .client-table tbody tr:nth-child(even) {
     background: #f8f9fa;
 }
 
+/* HOVER NAS LINHAS PARES */
 .client-table tbody tr:nth-child(even):hover {
     background: linear-gradient(135deg, #e9ecef, #dee2e6);
 }
 
-.edit-btn, .delete-btn {
+/* BOTÕES DE AÇÃO NA TABELA */
+.edit-btn,
+.delete-btn {
     padding: 8px 15px;
     border: none;
     border-radius: 6px;
@@ -303,18 +407,23 @@ input:disabled {
     transition: all 0.3s ease;
 }
 
+/* BOTÃO EDITAR */
 .edit-btn {
     background: #ff6600;
+    /* Laranja */
     color: white;
 }
 
 .edit-btn:hover {
     transform: translateY(-2px);
+    /* Eleva */
     box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
 }
 
+/* BOTÃO EXCLUIR */
 .delete-btn {
     background: #e74c3c;
+    /* Vermelho */
     color: white;
 }
 
@@ -323,39 +432,60 @@ input:disabled {
     box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
 }
 
-/* MODAL */
+/* MODAL (POP-UP) */
 .modal {
     display: none;
+    /* Inicialmente escondido */
     position: fixed;
     z-index: 1000;
-    left: 0; top: 0;
+    /* Sobre todos os elementos */
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo escuro semi-transparente */
     backdrop-filter: blur(5px);
+    /* Desfoque do fundo */
 }
 
+/* CONTEÚDO DO MODAL */
 .modal-content {
     background: white;
     margin: 5% auto;
+    /* Centralizado com margem no topo */
     padding: 0;
     border-radius: 15px;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease;
+    /* Animação de entrada */
 }
 
+/* ANIMAÇÃO DE ENTRADA DO MODAL */
 @keyframes modalSlideIn {
-    from { opacity: 0; transform: translateY(-50px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+        /* Começa 50px acima */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        /* Posição final */
+    }
 }
 
+/* CABEÇALHO DO MODAL */
 .modal-header {
     background: #ff6600;
+    /* Laranja */
     color: white;
     padding: 20px;
     border-radius: 15px 15px 0 0;
+    /* Arredonda só o topo */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -366,6 +496,7 @@ input:disabled {
     font-size: 20px;
 }
 
+/* BOTÃO X DE FECHAR */
 .close {
     font-size: 28px;
     font-weight: bold;
@@ -375,20 +506,25 @@ input:disabled {
 
 .close:hover {
     color: #ff6b6b;
+    /* Vermelho claro */
 }
 
+/* CORPO DO MODAL */
 .modal-body {
     padding: 30px;
 }
 
+/* BOTÕES DO MODAL */
 .modal-buttons {
     margin-top: 25px;
     display: flex;
     gap: 15px;
     justify-content: flex-end;
+    /* Alinha à direita */
 }
 
-.save-btn, .cancel-btn {
+.save-btn,
+.cancel-btn {
     padding: 12px 25px;
     border: none;
     border-radius: 8px;
@@ -397,8 +533,10 @@ input:disabled {
     transition: all 0.3s ease;
 }
 
+/* BOTÃO SALVAR */
 .save-btn {
     background: #27ae60;
+    /* Verde */
     color: white;
 }
 
@@ -407,8 +545,10 @@ input:disabled {
     box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
 }
 
+/* BOTÃO CANCELAR */
 .cancel-btn {
     background: #95a5a6;
+    /* Cinza */
     color: white;
 }
 
@@ -417,12 +557,16 @@ input:disabled {
     box-shadow: 0 8px 20px rgba(149, 165, 166, 0.3);
 }
 
-
+/* BOTÃO VOLTAR (FIXO NO CANTO) */
 .btn-voltar {
     position: fixed;
+    /* Fixo na tela */
     bottom: 25px;
+    /* 25px do fundo */
     left: 25px;
+    /* 25px da esquerda */
     z-index: 100;
+    /* Sobre a maioria dos elementos */
 }
 
 .btn-voltar a {
@@ -435,23 +579,27 @@ input:disabled {
     font-size: 16px;
     padding: 14px 24px;
     border-radius: 40px;
+    /* Muito arredondado */
     text-decoration: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease;
 }
 
+/* SETA ANTES DO TEXTO DO BOTÃO VOLTAR */
 .btn-voltar a::before {
     content: '←';
+    /* Seta para esquerda */
     font-size: 18px;
 }
 
 .btn-voltar a:hover {
     background: #ff7f33;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    /* Eleva mais */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
-
+/* BOTÕES ALINHADOS (LISTAR, ETC) */
 .alinhaBtns {
     display: inline-flex;
     align-items: center;
@@ -465,14 +613,15 @@ input:disabled {
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     position: relative;
     top: -15px;
+    /* Move 15px para cima */
 }
 
 .alinhaBtns:hover {
     background: #ff7f33;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }

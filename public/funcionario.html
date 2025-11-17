@@ -4,65 +4,165 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>An Motos</title>
+    <!-- Arquivo CSS para estilização da página de funcionários -->
     <link rel="stylesheet" href="funcionario.css" />
+    <!-- Arquivo JavaScript com funções de funcionários -->
     <script src="funcionario.js"></script>
   </head>
   <body>
+    <!-- CABEÇALHO COM LOGOS -->
     <header class="header">
+      <!-- Logo do Colégio Cívico-Militar do Paraná (esquerda) -->
       <div>
         <img src="imagens/ccm.jpeg" alt="Logo CCMP" class="ccm" />
       </div>
+
+      <!-- Logo principal da empresa AN Motos (centro) -->
       <div class="center-logo">
         <img src="imagens/an_motos.png" alt="Logo AK Motos" />
       </div>
+
+      <!-- Logo da AGAVI (direita) -->
       <div>
         <img src="imagens/agavi.png" alt="Logo Paraná" class="logo" />
       </div>
     </header>
 
+    <!-- CONTEÚDO PRINCIPAL -->
     <main>
+      <!-- CONTAINER DO FORMULÁRIO DE CADASTRO -->
       <div class="form-container">
         <h2 class="form-title">Cadastrar Funcionário</h2>
+
         <form id="cadastro-form">
+          <!-- Campo: Nome do Funcionário -->
           <div class="form-group">
-            <input type="text" class="form-control" id="fun_nome" placeholder="nome" required />
-          </div>
-          <div class="form-group">
-            <input id="fun_cpf" name="cpf" type="text" class="form-control" inputmode="numeric" maxlength="14" pattern="\d{14}" placeholder="CPF" required />
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" id="fun_telefone" inputmode="numeric" maxlength="15" pattern="\d{15}" placeholder="Telefone" required />
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" id="fun_setor" placeholder="setor" required />
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" id="fun_cargo" placeholder="cargo" required />
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" id="fun_data_nascimento" placeholder="Data de nascimento" required />
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" id="fun_endereco" placeholder="endereço" required />
+            <input
+              type="text"
+              class="form-control"
+              id="fun_nome"
+              placeholder="nome"
+              required
+            />
           </div>
 
+          <!-- Campo: CPF (máximo 14 caracteres com formatação) -->
+          <div class="form-group">
+            <input
+              id="fun_cpf"
+              name="cpf"
+              type="text"
+              class="form-control"
+              inputmode="numeric"
+              maxlength="14"
+              pattern="\d{14}"
+              placeholder="CPF"
+              required
+            />
+          </div>
+
+          <!-- Campo: Telefone (máximo 15 caracteres) -->
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="fun_telefone"
+              inputmode="numeric"
+              maxlength="15"
+              pattern="\d{15}"
+              placeholder="Telefone"
+              required
+            />
+          </div>
+
+          <!-- Campo: Setor (departamento onde trabalha) -->
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="fun_setor"
+              placeholder="setor"
+              required
+            />
+          </div>
+
+          <!-- Campo: Cargo (função desempenhada) -->
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="fun_cargo"
+              placeholder="cargo"
+              required
+            />
+          </div>
+
+          <!-- Campo: Data de Nascimento -->
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="fun_data_nascimento"
+              placeholder="Data de nascimento"
+              required
+            />
+          </div>
+
+          <!-- Campo: Endereço completo -->
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="fun_endereco"
+              placeholder="endereço"
+              required
+            />
+          </div>
+
+          <!-- BOTÕES DE AÇÃO DO FORMULÁRIO -->
           <div class="opções">
-            <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarfuncionario(event)">
-            <input type="reset" value="Limpar" class="submit-btn">
-            <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarfuncionario(); limpaCliente();" />
+            <!-- Botão para cadastrar novo funcionário -->
+            <input
+              type="submit"
+              value="Cadastrar"
+              class="submit-btn"
+              onclick="cadastrarfuncionario(event)"
+            />
+            <!-- Botão para limpar todos os campos -->
+            <input type="reset" value="Limpar" class="submit-btn" />
+            <!-- Botão para atualizar funcionário existente -->
+            <!-- INCONSISTÊNCIA: O texto diz "Atualizar Cliente" mas deveria ser "Atualizar Funcionário" -->
+            <input
+              type="button"
+              value="Atualizar Cliente"
+              class="submit-btn"
+              onclick="atualizarfuncionario(); limpaCliente();"
+            />
           </div>
         </form>
       </div>
 
+      <!-- SEÇÃO DE LISTAGEM DE FUNCIONÁRIOS -->
       <div class="container">
         <div class="client-section">
           <h2 class="section-title">Visualizar funcionário</h2>
-          <button type="button" onclick="listarfuncionario()" class="listar-funcionarios-btn">Listar Funcionários</button>
 
+          <!-- Botão para carregar/listar todos os funcionários -->
+          <button
+            type="button"
+            onclick="listarfuncionario()"
+            class="listar-funcionarios-btn"
+          >
+            Listar Funcionários
+          </button>
+
+          <!-- Contador de funcionários cadastrados -->
+          <!-- INCONSISTÊNCIA: Diz "Total de clientes" mas deveria ser "Total de funcionários" -->
           <div class="client-stats">
             <p>Total de clientes: <span id="totalClientes">0</span></p>
           </div>
 
+          <!-- Tabela para exibir os funcionários cadastrados -->
           <div class="table-container">
             <table class="client-table">
               <thead>
@@ -77,6 +177,7 @@
                   <th>Endereço</th>
                 </tr>
               </thead>
+              <!-- Corpo da tabela preenchido dinamicamente via JavaScript -->
               <tbody id="tabela-funcionario">
                 <!-- Funcionários serão carregados aqui dinamicamente -->
               </tbody>
@@ -86,27 +187,40 @@
       </div>
     </main>
 
+    <!-- BOTÃO PARA VOLTAR À PÁGINA INICIAL -->
     <div class="btn-voltar">
       <a href="index.html">VOLTAR</a>
     </div>
 
+    <!-- SCRIPTS INLINE PARA MÁSCARAS DE ENTRADA -->
     <script>
-      // Máscara para CPF
-      document.querySelector('input[placeholder="CPF"]').addEventListener("input", function (e) {
-        let value = e.target.value.replace(/\D/g, "");
-        value = value.replace(/(\d{3})(\d)/, "$1.$2");
-        value = value.replace(/(\d{3})(\d)/, "$1.$2");
-        value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-        e.target.value = value;
-      });
+      // Máscara para CPF: Formata como 123.456.789-01
+      document
+        .querySelector('input[placeholder="CPF"]')
+        .addEventListener("input", function (e) {
+          // Remove todos os caracteres não numéricos
+          let value = e.target.value.replace(/\D/g, "");
+          // Adiciona o primeiro ponto após 3 dígitos
+          value = value.replace(/(\d{3})(\d)/, "$1.$2");
+          // Adiciona o segundo ponto após mais 3 dígitos
+          value = value.replace(/(\d{3})(\d)/, "$1.$2");
+          // Adiciona o hífen antes dos últimos 2 dígitos
+          value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+          e.target.value = value;
+        });
 
-      // Máscara para telefone
-      document.querySelector('input[placeholder="Telefone"]').addEventListener("input", function (e) {
-        let value = e.target.value.replace(/\D/g, "");
-        value = value.replace(/(\d{2})(\d)/, "($1) $2");
-        value = value.replace(/(\d{5})(\d)/, "$1-$2");
-        e.target.value = value;
-      });
+      // Máscara para Telefone: Formata como (12) 34567-8901
+      document
+        .querySelector('input[placeholder="Telefone"]')
+        .addEventListener("input", function (e) {
+          // Remove todos os caracteres não numéricos
+          let value = e.target.value.replace(/\D/g, "");
+          // Adiciona parênteses no DDD (2 primeiros dígitos)
+          value = value.replace(/(\d{2})(\d)/, "($1) $2");
+          // Adiciona hífen após o quinto dígito do número
+          value = value.replace(/(\d{5})(\d)/, "$1-$2");
+          e.target.value = value;
+        });
     </script>
   </body>
 </html>

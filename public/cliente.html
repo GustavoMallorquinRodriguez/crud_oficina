@@ -1,169 +1,386 @@
 <!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AN Motos</title>
-    <link rel="stylesheet" href="cliente.css" />
-    <script src="cliente.js"></script>
-</head>
-<body>
-    <header class="header">
-        <div class="logo">
-            <img src="imagens/ccm.jpeg" alt="Colégio CCMH" />
-        </div>
-
-        <div class="main-logo motorcycle-bg">
-            <img src="imagens/an_motos.png" alt="RW Motos" />
-        </div>
-
-        <div class="agave-logo">
-            <img src="imagens/agavi.png" alt="Agave" />
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="form-container">
-            <h2 class="form-title">Cadastrar Cliente</h2>
-
-            <form id="clienteForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="cli_nome" name="nomeCliente" placeholder="Nome do Cliente" required />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="cli_data_nascimento" name="dataNascimento" placeholder="Data de nascimento" required />
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="cli_telefone" name="telefone" inputmode="numeric" maxlength="15" pattern="\d{15}" placeholder="Telefone" required />
-                    </div>
-                    <div class="form-group">
-                        <input id="cli_cpf" name="cpf" type="text" inputmode="numeric" maxlength="14" pattern="\d{14}" placeholder="CPF" required />
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group quarter">
-                        <input type="text" id="cli_cep" name="cep" placeholder="CEP" required onblur="buscarEnderecoPorCEP()" />
-                    </div>
-                    <div class="form-group quarter">
-                        <input type="text" id="cli_cidade" name="cidade" placeholder="Cidade" />
-                    </div>
-                    <div class="form-group quarter">
-                        <input type="text" id="cli_bairro" name="bairro" placeholder="Bairro" required />
-                    </div>
-                    <div class="form-group quarter">
-                        <input type="text" id="cli_complemento" name="complemento" placeholder="Complemento" />
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="cli_nome_rua" name="nomeRua" placeholder="Nome da Rua" required />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="cli_numero_casa" name="numeroCasa" placeholder="Nº Casa" required />
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="cli_email" name="email" placeholder="E-mail" required />
-                    </div>
-                </div>
-
-                <div class="opções">
-                    <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarCliente(event)">
-                    <input type="reset" value="Limpar" class="submit-btn">
-                    <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarCliente(); limpaCliente();" />
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="client-section">
-            <h2 class="section-title">Visualizar Cliente</h2>
-            <button type="button" onclick="listarClientes()" class="alinhaBtns">Listar Clientes</button>
-            <div class="client-stats">
-                <p>Total de clientes: <span id="totalClientes">0</span></p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AN Motos</title>
+        <!-- Arquivo CSS para estilização da página -->
+        <link rel="stylesheet" href="cliente.css" />
+        <!-- Arquivo JavaScript com funções de cliente -->
+        <script src="cliente.js"></script>
+    </head>
+    <body>
+        <!-- CABEÇALHO COM LOGOS -->
+        <header class="header">
+            <!-- Logo do Colégio CCMH -->
+            <div class="logo">
+                <img src="imagens/ccm.jpeg" alt="Colégio CCMH" />
             </div>
 
-            <div class="table-container">
-                <table class="client-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome do Cliente</th>
-                            <th>Telefone</th>
-                            <th>CPF</th>
-                            <th>Nome da Rua</th>
-                            <th>Nº Casa</th>
-                            <th>E-mail</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela-clientes">
-                        
-                    </tbody>
-                </table>
+            <!-- Logo principal da empresa (AN Motos) com fundo temático de moto -->
+            <div class="main-logo motorcycle-bg">
+                <img src="imagens/an_motos.png" alt="RW Motos" />
+            </div>
+
+            <!-- Logo da AGAVI -->
+            <div class="agave-logo">
+                <img src="imagens/agavi.png" alt="Agave" />
+            </div>
+        </header>
+
+        <!-- CONTAINER PRINCIPAL DO FORMULÁRIO DE CADASTRO -->
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title">Cadastrar Cliente</h2>
+
+                <form id="clienteForm">
+                    <!-- PRIMEIRA LINHA: Dados Pessoais Básicos -->
+                    <div class="form-row">
+                        <!-- Campo: Nome do Cliente -->
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_nome"
+                                name="nomeCliente"
+                                placeholder="Nome do Cliente"
+                                required
+                            />
+                        </div>
+
+                        <!-- Campo: Data de Nascimento -->
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_data_nascimento"
+                                name="dataNascimento"
+                                placeholder="Data de nascimento"
+                                required
+                            />
+                        </div>
+
+                        <!-- Campo: Telefone (máximo 15 caracteres, apenas números) -->
+                        <div class="form-group">
+                            <input
+                                type="tel"
+                                id="cli_telefone"
+                                name="telefone"
+                                inputmode="numeric"
+                                maxlength="15"
+                                pattern="\d{15}"
+                                placeholder="Telefone"
+                                required
+                            />
+                        </div>
+
+                        <!-- Campo: CPF (máximo 14 caracteres com pontos e hífen) -->
+                        <div class="form-group">
+                            <input
+                                id="cli_cpf"
+                                name="cpf"
+                                type="text"
+                                inputmode="numeric"
+                                maxlength="14"
+                                pattern="\d{14}"
+                                placeholder="CPF"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- SEGUNDA LINHA: Dados de Endereço (Parte 1) -->
+                    <div class="form-row">
+                        <!-- Campo: CEP (com busca automática de endereço) -->
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_cep"
+                                name="cep"
+                                placeholder="CEP"
+                                required
+                                onblur="buscarEnderecoPorCEP()"
+                            />
+                        </div>
+
+                        <!-- Campo: Cidade (preenchido automaticamente pelo CEP) -->
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_cidade"
+                                name="cidade"
+                                placeholder="Cidade"
+                            />
+                        </div>
+
+                        <!-- Campo: Bairro -->
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_bairro"
+                                name="bairro"
+                                placeholder="Bairro"
+                                required
+                            />
+                        </div>
+
+                        <!-- Campo: Complemento (opcional) -->
+                        <div class="form-group quarter">
+                            <input
+                                type="text"
+                                id="cli_complemento"
+                                name="complemento"
+                                placeholder="Complemento"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- TERCEIRA LINHA: Dados de Endereço (Parte 2) e Email -->
+                    <div class="form-row">
+                        <!-- Campo: Nome da Rua -->
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_nome_rua"
+                                name="nomeRua"
+                                placeholder="Nome da Rua"
+                                required
+                            />
+                        </div>
+
+                        <!-- Campo: Número da Casa -->
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                id="cli_numero_casa"
+                                name="numeroCasa"
+                                placeholder="Nº Casa"
+                                required
+                            />
+                        </div>
+
+                        <!-- Campo: E-mail -->
+                        <div class="form-group">
+                            <input
+                                type="email"
+                                id="cli_email"
+                                name="email"
+                                placeholder="E-mail"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- BOTÕES DE AÇÃO DO FORMULÁRIO -->
+                    <div class="opções">
+                        <!-- Botão para cadastrar novo cliente -->
+                        <input
+                            type="submit"
+                            value="Cadastrar"
+                            class="submit-btn"
+                            onclick="cadastrarCliente(event)"
+                        />
+                        <!-- Botão para limpar todos os campos -->
+                        <input type="reset" value="Limpar" class="submit-btn" />
+                        <!-- Botão para atualizar cliente existente -->
+                        <input
+                            type="button"
+                            value="Atualizar Cliente"
+                            class="submit-btn"
+                            onclick="atualizarCliente(); limpaCliente();"
+                        />
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
 
-    
-    <div id="clienteAtualizado" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Editar Cliente</h3>
-                <span class="close" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="form-row">
-                    <input type="text" class="form-input" placeholder="ID" id="id_cli" readonly>
-                    <input type="text" class="form-input" placeholder="Nome do Cliente" id="cli_nome">
-                    <input type="text" class="form-input" placeholder="data de nascimento" id="cli_data_nascimento">
-                    <input type="text" class="form-input" placeholder="Telefone" id="cli_telefone">
+        <!-- SEÇÃO DE LISTAGEM DE CLIENTES -->
+        <div class="container">
+            <div class="client-section">
+                <h2 class="section-title">Visualizar Cliente</h2>
+
+                <!-- Botão para carregar/listar todos os clientes -->
+                <button
+                    type="button"
+                    onclick="listarClientes()"
+                    class="alinhaBtns"
+                >
+                    Listar Clientes
+                </button>
+
+                <!-- Contador de clientes cadastrados -->
+                <div class="client-stats">
+                    <p>Total de clientes: <span id="totalClientes">0</span></p>
                 </div>
-                <div class="form-row">
-                    <input type="text" class="form-input" placeholder="CPF" id="cli_cpf">
-                    <input type="text" class="form-input" placeholder="CEP" id="cli_cep">
-                    <input type="text" class="form-input" placeholder="Cidade" id="cli_cidade">
-                    <input type="text" class="form-input" placeholder="Bairro" id="cli_bairro">
-                </div>
-                <div class="form-row">
-                    <input type="text" class="form-input" placeholder="Complemento" id="cli_complemento">
-                    <input type="text" class="form-input" placeholder="Nome Rua" id="cli_nome_rua">
-                    <input type="text" class="form-input" placeholder="Nº Casa" id="cli_numero_casa">
-                    <input type="email" class="form-input" placeholder="E-mail" id="cli_email">
-                </div>
-                <div class="modal-buttons">
-                    <button class="save-btn" onclick="saveClient()">💾 Salvar</button>
-                    <button class="cancel-btn" onclick="closeModal()">❌ Cancelar</button>
+
+                <!-- Tabela para exibir os clientes -->
+                <div class="table-container">
+                    <table class="client-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome do Cliente</th>
+                                <th>Telefone</th>
+                                <th>CPF</th>
+                                <th>Nome da Rua</th>
+                                <th>Nº Casa</th>
+                                <th>E-mail</th>
+                                <th>Ações</th>
+                                <!-- Coluna para botões de editar/excluir -->
+                            </tr>
+                        </thead>
+                        <!-- Corpo da tabela preenchido dinamicamente via JavaScript -->
+                        <tbody id="tabela-clientes"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
 
-    
-    <div class="btn-voltar">
-        <a href="index.html">VOLTAR</a>
-    </div>
+        <!-- MODAL PARA EDIÇÃO DE CLIENTE -->
+        <div id="clienteAtualizado" class="modal">
+            <div class="modal-content">
+                <!-- Cabeçalho do modal -->
+                <div class="modal-header">
+                    <h3>Editar Cliente</h3>
+                    <!-- Botão X para fechar o modal -->
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
 
-    <script>
-       
-        document.querySelector('input[placeholder="CPF"]').addEventListener("input", function (e) {
-            let value = e.target.value.replace(/\D/g, "");
-            value = value.replace(/(\d{3})(\d)/, "$1.$2");
-            value = value.replace(/(\d{3})(\d)/, "$1.$2");
-            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-            e.target.value = value;
-        });
+                <!-- Corpo do modal com campos para edição -->
+                <div class="modal-body">
+                    <!-- Primeira linha de campos do modal -->
+                    <div class="form-row">
+                        <!-- ID é readonly (não pode ser alterado) -->
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="ID"
+                            id="id_cli"
+                            readonly
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Nome do Cliente"
+                            id="cli_nome"
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="data de nascimento"
+                            id="cli_data_nascimento"
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Telefone"
+                            id="cli_telefone"
+                        />
+                    </div>
 
-       
-        document.querySelector('input[placeholder="Telefone"]').addEventListener("input", function (e) {
-            let value = e.target.value.replace(/\D/g, "");
-            value = value.replace(/(\d{2})(\d)/, "($1) $2");
-            value = value.replace(/(\d{5})(\d)/, "$1-$2");
-            e.target.value = value;
-        });
-    </script>
-</body>
+                    <!-- Segunda linha de campos do modal -->
+                    <div class="form-row">
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="CPF"
+                            id="cli_cpf"
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="CEP"
+                            id="cli_cep"
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Cidade"
+                            id="cli_cidade"
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Bairro"
+                            id="cli_bairro"
+                        />
+                    </div>
+
+                    <!-- Terceira linha de campos do modal -->
+                    <div class="form-row">
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Complemento"
+                            id="cli_complemento"
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Nome Rua"
+                            id="cli_nome_rua"
+                        />
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Nº Casa"
+                            id="cli_numero_casa"
+                        />
+                        <input
+                            type="email"
+                            class="form-input"
+                            placeholder="E-mail"
+                            id="cli_email"
+                        />
+                    </div>
+
+                    <!-- Botões de ação do modal -->
+                    <div class="modal-buttons">
+                        <!-- Botão para salvar alterações -->
+                        <button class="save-btn" onclick="saveClient()">
+                            💾 Salvar
+                        </button>
+                        <!-- Botão para cancelar e fechar modal -->
+                        <button class="cancel-btn" onclick="closeModal()">
+                            ❌ Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÃO PARA VOLTAR À PÁGINA INICIAL -->
+        <div class="btn-voltar">
+            <a href="index.html">VOLTAR</a>
+        </div>
+
+        <!-- SCRIPTS INLINE PARA MÁSCARAS DE ENTRADA -->
+        <script>
+            // Máscara para CPF: Formata como 123.456.789-01
+            document
+                .querySelector('input[placeholder="CPF"]')
+                .addEventListener("input", function (e) {
+                    // Remove todos os caracteres não numéricos
+                    let value = e.target.value.replace(/\D/g, "");
+                    // Adiciona o primeiro ponto após 3 dígitos
+                    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                    // Adiciona o segundo ponto após mais 3 dígitos
+                    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                    // Adiciona o hífen antes dos últimos 2 dígitos
+                    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                    e.target.value = value;
+                });
+
+            // Máscara para Telefone: Formata como (12) 34567-8901
+            document
+                .querySelector('input[placeholder="Telefone"]')
+                .addEventListener("input", function (e) {
+                    // Remove todos os caracteres não numéricos
+                    let value = e.target.value.replace(/\D/g, "");
+                    // Adiciona parênteses no DDD
+                    value = value.replace(/(\d{2})(\d)/, "($1) $2");
+                    // Adiciona hífen no número
+                    value = value.replace(/(\d{5})(\d)/, "$1-$2");
+                    e.target.value = value;
+                });
+        </script>
+    </body>
 </html>

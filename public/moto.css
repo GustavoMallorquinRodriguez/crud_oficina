@@ -1,318 +1,537 @@
+/* ===== RESET UNIVERSAL E CONFIGURAÇÕES GLOBAIS ===== */
 * {
     margin: 0;
+    /* Remove todas as margens padrão dos elementos */
     padding: 0;
+    /* Remove todos os preenchimentos padrão */
     box-sizing: border-box;
+    /* Inclui padding e border no cálculo da largura/altura total */
     font-family: Arial, sans-serif;
+    /* Define Arial como fonte padrão para todo o site */
 }
 
+/* ===== BODY (CORPO DA PÁGINA) ===== */
 body {
     background-color: #f0f0f0;
+    /* Fundo cinza claro para toda a página */
 }
 
+/* ===== CABEÇALHO PRINCIPAL ===== */
 .header {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
+    /* Gradiente diagonal laranja */
     padding: 20px 40px;
+    /* Espaçamento interno: 20px vertical, 40px horizontal */
     display: flex;
+    /* Ativa flexbox para layout flexível */
     justify-content: space-between;
+    /* Distribui espaço igualmente entre os elementos */
     align-items: center;
+    /* Alinha elementos verticalmente ao centro */
     height: 150px;
+    /* Altura fixa do cabeçalho */
 }
 
+/* Container que agrupa todas as logos */
 .logo-container {
     display: flex;
+    /* Ativa flexbox */
     justify-content: space-between;
+    /* Distribui logos com espaço igual entre elas */
     align-items: center;
+    /* Centraliza verticalmente */
     width: 100%;
+    /* Ocupa toda a largura disponível */
 }
 
+/* Estilo base para containers de logo */
 .logo {
     display: flex;
+    /* Ativa flexbox */
     justify-content: center;
+    /* Centraliza conteúdo horizontalmente */
     align-items: center;
+    /* Centraliza conteúdo verticalmente */
     height: 80px;
+    /* Altura fixa para o container */
 }
 
-/* Ajustes específicos para cada logo */
+/* ===== AJUSTES ESPECÍFICOS PARA CADA LOGO ===== */
+
+/* Logo CCM (primeira logo à esquerda) */
 .logo-ccm {
     max-width: 140px;
+    /* Largura máxima */
     max-height: 120px;
+    /* Altura máxima */
     object-fit: contain;
+    /* Mantém proporções da imagem sem distorcer */
     border-radius: 50%;
+    /* Torna a logo circular */
 }
 
+/* Logo central (do meio) */
 .center-logo {
     max-width: 150px;
+    /* Largura máxima um pouco maior */
     max-height: 90px;
+    /* Altura máxima */
     object-fit: contain;
+    /* Mantém proporções */
 }
 
+/* Logo Agavi (terceira logo) */
 .logo-agavi {
     max-width: 140px;
+    /* Largura máxima */
     max-height: 120px;
+    /* Altura máxima */
     object-fit: contain;
+    /* Mantém proporções */
 }
 
+/* Logo da motocicleta (quarta logo) */
 .motorcycle-logo {
     max-width: 150px;
+    /* Largura máxima */
     max-height: 100px;
+    /* Altura máxima */
 }
 
+/* ===== SUBTÍTULO ===== */
 .subtitle {
     margin-top: 10px;
+    /* Espaço acima do subtítulo */
     font-size: 16px;
+    /* Tamanho da fonte */
     color: #000000;
+    /* Cor preta */
     text-align: center;
+    /* Centraliza o texto */
 }
 
+/* ===== TÍTULO DO FORMULÁRIO ===== */
 .form-title {
     text-align: center;
+    /* Centraliza o título */
 }
 
+/* ===== CONTAINER DO FORMULÁRIO ===== */
 .form-container {
     max-width: 900px;
+    /* Largura máxima de 900px */
     margin: 40px auto;
+    /* Margem vertical de 40px e centralização horizontal */
     padding: 0 20px;
+    /* Padding horizontal de 20px (sobrescrito abaixo) */
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    /* Gradiente azul claro suave */
     padding: 40px;
+    /* Padding de 40px em todos os lados (sobrescreve o anterior) */
     border-radius: 10px;
+    /* Cantos arredondados */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Sombra suave para dar profundidade */
 }
 
+/* ===== GRUPOS DE CAMPOS DO FORMULÁRIO ===== */
 .form-group {
     margin-bottom: 30px;
+    /* Espaçamento de 30px entre grupos de campos */
 }
 
+/* ===== CAMPOS DE ENTRADA (INPUT TEXT E NUMBER) ===== */
 input[type="text"],
 input[type="number"] {
     width: 100%;
+    /* Ocupa toda a largura disponível */
     padding: 12px;
+    /* Espaçamento interno */
     border: none;
+    /* Remove borda padrão */
     border-radius: 3px;
+    /* Cantos levemente arredondados */
     font-size: 16px;
+    /* Tamanho da fonte */
 }
 
+/* ===== BOTÕES PADRÃO ===== */
 button {
     background-color: #ffffff;
+    /* Fundo branco */
     color: #000000;
+    /* Texto preto */
     border: none;
+    /* Sem borda */
     padding: 12px 30px;
+    /* Espaçamento interno */
     font-size: 16px;
+    /* Tamanho da fonte */
     cursor: pointer;
+    /* Cursor de mão ao passar sobre o botão */
     border-radius: 3px;
+    /* Cantos levemente arredondados */
     width: 100%;
+    /* Ocupa toda a largura */
 }
 
+/* Efeito hover nos botões padrão */
 button:hover {
     background-color: #f0f0f0;
+    /* Fundo cinza claro ao passar o mouse */
 }
 
+/* ===== BOTÃO DE CADASTRO ===== */
 .btn-cadastro {
     background-color: #ffffff;
+    /* Fundo branco */
     color: rgb(255, 255, 255);
+    /* Texto branco */
     padding: 8px;
+    /* Espaçamento interno */
     border-radius: 20px;
+    /* Bem arredondado (formato pílula) */
     text-transform: uppercase;
+    /* Texto em maiúsculas */
     font-size: 14px;
+    /* Tamanho da fonte */
     font-weight: bold;
+    /* Texto em negrito */
     text-align: center;
+    /* Centraliza o texto */
     width: 110px;
+    /* Largura fixa */
     margin-left: 47%;
+    /* Posiciona próximo ao centro (aproximadamente) */
     transition: 1.0s;
+    /* Transição suave de 1 segundo para mudanças */
 }
 
+/* Link dentro do botão de cadastro */
 .voltar {
     text-decoration: none;
+    /* Remove sublinhado do link */
     color: #000000;
+    /* Cor preta */
 }
 
+/* Efeito hover no botão de cadastro */
 .btn-cadastro:hover {
     background-color: #FF6600;
+    /* Fundo muda para laranja */
     color: #FF6600;
+    /* Texto muda para laranja (pode ficar invisível) */
 }
 
-/* Media queries para responsividade */
+/* ===== RESPONSIVIDADE - MEDIA QUERIES ===== */
+/* Aplica estilos apenas em telas com largura máxima de 768px (tablets e celulares) */
 @media (max-width: 768px) {
     .logo-container {
         gap: 10px;
+        /* Adiciona espaço de 10px entre logos */
     }
 
     .logo {
         height: 60px;
+        /* Reduz altura dos containers de logo */
     }
 
+    /* Reduz tamanho de todas as logos em telas menores */
     .logo-ccm,
     .center-logo,
     .logo-agavi {
         max-width: 100px;
+        /* Largura máxima reduzida */
         max-height: 50px;
+        /* Altura máxima reduzida */
     }
 }
 
+/* ===== BOTÃO DE SUBMIT (ENVIAR) ===== */
 .submit-btn {
     margin: 20px;
+    /* Margem ao redor do botão */
     display: flex;
+    /* Ativa flexbox */
     padding: 15px 40px;
+    /* Espaçamento interno generoso */
     background-color: #ff6600;
+    /* Fundo laranja vibrante */
     color: white;
+    /* Texto branco */
     border: none;
+    /* Sem borda */
     border-radius: 5px;
+    /* Cantos arredondados */
     font-size: 18px;
+    /* Fonte grande */
     font-weight: bold;
+    /* Texto em negrito */
     cursor: pointer;
+    /* Cursor de mão */
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    /* Transição suave de 0.3s para todas as propriedades */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
 }
 
+/* Efeito hover no botão de submit */
 .submit-btn:hover {
     background-color: #ff7f33;
+    /* Laranja mais claro */
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-}
-.opções{
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    flex-wrap: wrap;
+    /* Move o botão 2px para cima */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    /* Sombra mais intensa */
 }
 
+/* ===== CONTAINER DE OPÇÕES ===== */
+.opções {
+    display: flex;
+    /* Ativa flexbox */
+    justify-content: center;
+    /* Centraliza conteúdo horizontalmente */
+    padding: 10px;
+    /* Espaçamento interno */
+    flex-wrap: wrap;
+    /* Permite quebra de linha dos elementos */
+}
+
+/* ===== CONTAINER PRINCIPAL ===== */
 .container {
     max-width: 900px;
+    /* Largura máxima */
     margin: 40px auto;
+    /* Margem vertical de 40px e centralização horizontal */
     padding: 0 20px;
+    /* Padding horizontal */
 }
 
+/* Nota: .form-container é redefinido abaixo, este bloco é redundante */
 .form-container {
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    /* Gradiente azul claro */
     padding: 40px;
+    /* Espaçamento interno */
     border-radius: 10px;
+    /* Cantos arredondados */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
 }
 
+/* Redefinição do padding do form-container */
 .form-container {
     padding: 20px;
+    /* Padding reduzido para 20px (sobrescreve os 40px anteriores) */
 }
 
+/* ===== CONTAINER DA TABELA ===== */
 .table-container {
     background: rgba(255, 255, 255, 0.95);
+    /* Fundo branco quase opaco */
     border-radius: 15px;
+    /* Cantos bem arredondados */
     overflow: hidden;
+    /* Esconde conteúdo que ultrapassa os limites */
     box-shadow: 0 10px 25px rgba(231, 227, 227, 0.877);
+    /* Sombra pronunciada */
     position: relative;
+    /* Contexto de posicionamento para elementos filhos */
     z-index: 1;
+    /* Camada de empilhamento */
 }
 
+/* ===== TABELA DE CLIENTES ===== */
 .client-table {
     width: 100%;
+    /* Ocupa toda a largura disponível */
     border-collapse: collapse;
+    /* Remove espaçamento entre células */
     font-size: 14px;
+    /* Tamanho da fonte */
 }
 
+/* ===== CABEÇALHO DA TABELA (TH) ===== */
 .client-table th {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
+    /* Gradiente laranja */
     color: white;
+    /* Texto branco */
     padding: 18px 15px;
+    /* Espaçamento interno */
     text-align: left;
+    /* Alinha texto à esquerda */
     font-weight: 600;
+    /* Negrito médio */
     text-transform: uppercase;
+    /* Texto em maiúsculas */
     letter-spacing: 0.5px;
+    /* Espaçamento entre letras */
     border-bottom: 3px solid #2c3e50;
+    /* Borda inferior espessa e escura */
     position: relative;
+    /* Permite posicionamento do pseudo-elemento ::after */
 }
 
+/* Pseudo-elemento decorativo após o cabeçalho da tabela */
 .client-table th::after {
     content: '';
+    /* Conteúdo vazio (apenas visual) */
     position: absolute;
+    /* Posicionamento absoluto em relação ao th */
     bottom: 0;
+    /* Alinha à parte inferior */
     left: 0;
+    /* Alinha à esquerda */
     right: 0;
+    /* Alinha à direita */
     height: 2px;
+    /* Altura de 2px */
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    /* Gradiente azul claro */
 }
 
+/* ===== CÉLULAS DA TABELA (TD) ===== */
 .client-table td {
     padding: 15px;
+    /* Espaçamento interno */
     border-bottom: 1px solid #e8f4f8;
+    /* Borda inferior clara */
     transition: all 0.3s ease;
+    /* Transição suave para efeitos */
     background: white;
+    /* Fundo branco */
 }
 
+/* ===== LINHAS DO CORPO DA TABELA ===== */
 .client-table tbody tr {
     transition: all 0.3s ease;
+    /* Transição suave para efeitos hover */
 }
 
+/* Efeito hover nas linhas da tabela */
 .client-table tbody tr:hover {
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    /* Gradiente azul claro ao passar mouse */
     transform: scale(1.01);
+    /* Aumenta ligeiramente o tamanho da linha */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* Adiciona sombra */
 }
 
+/* Linhas pares da tabela (efeito zebrado) */
 .client-table tbody tr:nth-child(even) {
     background: #f8f9fa;
+    /* Fundo cinza muito claro */
 }
 
+/* Efeito hover nas linhas pares */
 .client-table tbody tr:nth-child(even):hover {
     background: linear-gradient(135deg, #e9ecef, #dee2e6);
+    /* Gradiente cinza claro */
 }
 
+/* ===== REDEFINIÇÃO DE TAMANHO DA TABELA ===== */
 .client-table {
     font-size: 12px;
+    /* Reduz fonte para 12px (sobrescreve os 14px anteriores) */
 }
 
+/* Reduz padding das células */
 .client-table th,
 .client-table td {
     padding: 10px 8px;
+    /* Padding menor para economizar espaço */
 }
 
-
+/* ===== SEÇÃO DE CLIENTE ===== */
 .client-section {
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    /* Gradiente azul claro */
     border-radius: 20px;
+    /* Cantos bem arredondados */
     padding: 40px;
+    /* Espaçamento interno generoso */
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    /* Sombra pronunciada */
     position: relative;
+    /* Contexto para pseudo-elemento */
     overflow: hidden;
+    /* Esconde conteúdo que ultrapassa */
 }
 
+/* Pseudo-elemento decorativo na seção de cliente */
 .client-section::before {
     content: '';
+    /* Conteúdo vazio (apenas decorativo) */
     position: absolute;
+    /* Posicionamento absoluto */
     top: 0;
+    /* Cobre do topo */
     left: 0;
+    /* Até a esquerda */
     right: 0;
+    /* Até a direita */
     bottom: 0;
-
+    /* Até o fundo */
     pointer-events: none;
+    /* Não interfere com cliques do mouse */
 }
 
+/* ===== BOTÃO VOLTAR (FIXO) ===== */
 .btn-voltar {
     position: fixed;
+    /* Fixo na tela, não rola com a página */
     bottom: 25px;
+    /* 25px da parte inferior da tela */
     left: 25px;
+    /* 25px da lateral esquerda */
     z-index: 100;
+    /* Fica acima de praticamente todos os outros elementos */
 }
 
+/* Link dentro do botão voltar */
 .btn-voltar a {
     display: inline-flex;
+    /* Flexbox inline para alinhar ícone e texto */
     align-items: center;
+    /* Alinha verticalmente ao centro */
     gap: 8px;
+    /* Espaço de 8px entre ícone e texto */
     background: #ff6600;
+    /* Fundo laranja */
     color: white;
+    /* Texto branco */
     font-weight: bold;
+    /* Negrito */
     font-size: 16px;
+    /* Tamanho da fonte */
     padding: 14px 24px;
+    /* Espaçamento interno */
     border-radius: 40px;
+    /* Muito arredondado (formato pílula) */
     text-decoration: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    /* Remove sublinhado do link */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    /* Sombra */
     transition: all 0.3s ease;
+    /* Transição suave */
 }
 
+/* Adiciona seta antes do texto do botão voltar */
 .btn-voltar a::before {
     content: '←';
+    /* Caractere de seta para esquerda */
     font-size: 18px;
+    /* Tamanho da seta */
 }
 
+/* Efeito hover no botão voltar */
 .btn-voltar a:hover {
     background: #ff7f33;
+    /* Laranja mais claro */
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    /* Move 3px para cima */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    /* Sombra mais intensa */
 }

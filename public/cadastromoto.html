@@ -4,11 +4,15 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Cadastro Moto</title>
+        <!-- Link para o arquivo CSS externo -->
         <link rel="stylesheet" href="moto.css" />
     </head>
     <body>
+        <!-- CABEÇALHO -->
         <header class="header">
+            <!-- Container que agrupa os 3 logos -->
             <div class="logo-container">
+                <!-- Logo do Colégio Cívico-Militar -->
                 <div class="logo">
                     <img
                         src="imagens/ccm.jpeg"
@@ -17,6 +21,7 @@
                     />
                 </div>
 
+                <!-- Logo central da RN Motos -->
                 <div class="logo">
                     <img
                         src="imagens/an_motos.png"
@@ -25,6 +30,7 @@
                     />
                 </div>
 
+                <!-- Logo da AGAVI -->
                 <div class="logo">
                     <img
                         src="imagens/agavi.png"
@@ -35,11 +41,14 @@
             </div>
         </header>
 
+        <!-- CONTAINER PRINCIPAL DO FORMULÁRIO -->
         <div class="main-container">
             <div class="form-container">
                 <h2 class="form-title">Cadastrar moto</h2>
 
+                <!-- Formulário de cadastro -->
                 <form id="cadastro-moto">
+                    <!-- Campo: Proprietário da Moto -->
                     <div class="form-group">
                         <input
                             type="text"
@@ -49,6 +58,7 @@
                         />
                     </div>
 
+                    <!-- Campo: Modelo da Moto -->
                     <div class="form-group">
                         <input
                             type="text"
@@ -58,6 +68,7 @@
                         />
                     </div>
 
+                    <!-- Campo: Placa da Moto (máximo 8 caracteres, apenas números) -->
                     <div class="form-group">
                         <input
                             type="text"
@@ -69,6 +80,7 @@
                         />
                     </div>
 
+                    <!-- Campo: Ano da Moto (máximo 7 caracteres, apenas números) -->
                     <div class="form-group">
                         <input
                             type="text"
@@ -80,6 +92,7 @@
                         />
                     </div>
 
+                    <!-- Campo: Número de Serviço -->
                     <div class="form-group">
                         <input
                             type="text"
@@ -88,28 +101,58 @@
                             min="0"
                             required
                         />
-                    </div><br>
+                    </div>
+                    <br />
 
+                    <!-- Botões de ação do formulário -->
                     <div class="opções">
-                        <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarmoto(event)">
-                        <input type="reset" value="Limpar" class="submit-btn">
-                        <input type="button" value="Atualizar Cliente" class="submit-btn" onclick="atualizarMoto(); limpaCliente();" />
+                        <!-- Botão para cadastrar (chama função cadastrarmoto) -->
+                        <input
+                            type="submit"
+                            value="Cadastrar"
+                            class="submit-btn"
+                            onclick="cadastrarmoto(event)"
+                        />
+                        <!-- Botão para limpar o formulário -->
+                        <input type="reset" value="Limpar" class="submit-btn" />
+                        <!-- Botão para atualizar (chama duas funções) -->
+                        <input
+                            type="button"
+                            value="Atualizar Cliente"
+                            class="submit-btn"
+                            onclick="atualizarMoto(); limpaCliente();"
+                        />
                     </div>
                 </form>
             </div>
         </div>
 
+        <!-- Botão para voltar à página inicial -->
         <div class="btn-voltar">
-        <a href="index.html">VOLTAR</a>
-    </div>
+            <a href="index.html">VOLTAR</a>
+        </div>
+
+        <!-- SEÇÃO DE VISUALIZAÇÃO DE MOTOS CADASTRADAS -->
         <div class="container">
             <div class="client-section">
+                <!-- Título da seção (inconsistência: diz "funcionário" mas é para motos) -->
                 <h2 class="section-title">Visualizar funcionario</h2>
-                <button type="button" onclick="listarClientes()" class="alinhaBtns">Listar Clientes</button>
+
+                <!-- Botão para listar todos os clientes/motos -->
+                <button
+                    type="button"
+                    onclick="listarClientes()"
+                    class="alinhaBtns"
+                >
+                    Listar Clientes
+                </button>
+
+                <!-- Contador de total de clientes -->
                 <div class="client-stats">
                     <p>Total de clientes: <span id="totalClientes">0</span></p>
                 </div>
 
+                <!-- Tabela para exibir as motos cadastradas -->
                 <div class="table-container">
                     <table class="client-table">
                         <thead>
@@ -122,6 +165,7 @@
                                 <th>N° de serviço</th>
                             </tr>
                         </thead>
+                        <!-- Corpo da tabela será preenchido dinamicamente via JavaScript -->
                         <tbody id="tabela-moto">
                             <!-- Motos serão carregados aqui dinamicamente -->
                         </tbody>
@@ -129,25 +173,35 @@
                 </div>
             </div>
         </div>
+
+        <!-- Link para o arquivo JavaScript externo -->
         <script src="moto.js"></script>
     </body>
 </html>
+
+<!-- SCRIPT INLINE PARA MÁSCARAS DE ENTRADA -->
 <script>
-    // Máscara para placa
+    // Máscara para o campo de placa
+    // Formata como: 123-4567
     document
         .querySelector('input[placeholder="Placa da Moto"]')
         .addEventListener("input", function (e) {
+            // Remove todos os caracteres não numéricos
             let value = e.target.value.replace(/\D/g, "");
+            // Adiciona hífen após os primeiros 3 dígitos
             value = value.replace(/(\d{3})(\d)/, "$1$2");
             value = value.replace(/(\d{4})(\d)/, "$1-$2");
             e.target.value = value;
         });
 
-    // Máscara para ano da moto
+    // Máscara para o campo de ano da moto
+    // Formata como: 2020/2021 (ano fabricação/ano modelo)
     document
         .querySelector('input[placeholder="Ano da Moto"]')
         .addEventListener("input", function (e) {
+            // Remove todos os caracteres não numéricos
             let value = e.target.value.replace(/\D/g, "");
+            // Adiciona barra após os primeiros 4 dígitos
             value = value.replace(/(\d{2})(\d)/, "$1$2");
             value = value.replace(/(\d{4})(\d)/, "$1/$2");
             e.target.value = value;

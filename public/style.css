@@ -101,9 +101,9 @@ ul {
 
 ul li.item-menu {
     transition: background 0.3s;
-    margin-bottom: 18px; 
+    margin-bottom: 18px;
     display: flex;
-    align-items: center; 
+    align-items: center;
     justify-content: flex-start;
 }
 
@@ -144,7 +144,7 @@ ul li.item-menu a .link {
     transition: opacity 0.3s ease;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
 }
 
 
@@ -187,7 +187,9 @@ label {
     margin-bottom: 8px;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     width: 70%;
     padding: 10px 12px;
     border: 1px solid #ccc;
@@ -197,14 +199,17 @@ input, select, textarea {
     transition: 0.3s;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
     outline: none;
     border-color: #ff6b35;
     box-shadow: 0 0 4px rgba(255, 107, 53, 0.5);
 }
 
 
-.alinhaBtns, .alinhaBtns2 {
+.alinhaBtns,
+.alinhaBtns2 {
     background-color: #ff6b35;
     color: white;
     border: none;
@@ -218,7 +223,8 @@ input:focus, select:focus, textarea:focus {
     margin: 15px auto;
 }
 
-.alinhaBtns:hover, .alinhaBtns2:hover {
+.alinhaBtns:hover,
+.alinhaBtns2:hover {
     background-color: #e85a24;
     transform: scale(1.03);
 }
@@ -237,10 +243,11 @@ table {
     background: white;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-table th, table td {
+table th,
+table td {
     border: 1px solid #ddd;
     padding: 10px 15px;
     text-align: left;
@@ -269,6 +276,7 @@ table tr:hover {
     body {
         grid-template-areas:
             "cabeca"
+            "lateral"
             "main-content";
         grid-template-columns: 1fr;
     }
@@ -278,7 +286,6 @@ table tr:hover {
         width: 100%;
         height: auto;
         box-shadow: none;
-        display: flex;
         justify-content: center;
         padding: 10px 0;
     }
@@ -288,12 +295,16 @@ table tr:hover {
     }
 
     .main-content {
-        margin: 40px auto;
+        margin: 20px auto;
         max-width: 90%;
         padding: 20px;
     }
 
-    input, select, textarea, .alinhaBtns, .alinhaBtns2 {
+    input,
+    select,
+    textarea,
+    .alinhaBtns,
+    .alinhaBtns2 {
         width: 100%;
     }
 
