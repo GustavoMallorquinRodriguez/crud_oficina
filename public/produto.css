@@ -195,7 +195,6 @@ footer {
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
     header {
-        flex-direction: column;
         gap: 15px;
         text-align: center;
     }

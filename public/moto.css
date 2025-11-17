@@ -133,7 +133,6 @@ button:hover {
 /* Media queries para responsividade */
 @media (max-width: 768px) {
     .logo-container {
-        flex-direction: column;
         gap: 10px;
     }
 
