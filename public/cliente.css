@@ -19,7 +19,7 @@ body {
 .header {
     /* Gradiente laranja para o header */
     background: linear-gradient(135deg, #ff6b35, #f7931e);
-    padding: 12px 30px;
+    padding: 18px 50px;
     display: flex;
     justify-content: space-between;
     /* Distribui logos nas extremidades */
@@ -219,6 +219,7 @@ input:disabled {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
 }
 
 /* HOVER DOS BOTÕES SUBMIT */
