@@ -47,7 +47,7 @@ db.serialize(() => {
                 fun_nome VARCHAR(100) NOT NULL,
                 fun_cpf VARCHAR(14) NOT NULL UNIQUE,
                 fun_telefone VARCHAR(15),
-                fun_setor VARCHAR(100),
+                fun_senhas VARCHAR(100),
                 fun_cargo VARCHAR(100),
                 fun_data_nascimento DATE,
                 fun_endereco TEXT
@@ -342,7 +342,7 @@ app.post("/funcionario", (req, res) => {
         fun_nome,
         fun_cpf,
         fun_telefone,
-        fun_setor,
+        fun_senha,
         fun_cargo,
         fun_data_nascimento,
         fun_endereco,
@@ -352,14 +352,14 @@ app.post("/funcionario", (req, res) => {
         return res.status(400).send("Nome e CPF são obrigatórios.");
     }
 
-    const query = `INSERT INTO funcionario (fun_nome, fun_cpf, fun_telefone, fun_setor, fun_cargo, fun_data_nascimento, fun_endereco) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO funcionario (fun_nome, fun_cpf, fun_telefone, fun_senha, fun_cargo, fun_data_nascimento, fun_endereco) VALUES (?, ?, ?, ?, ?, ?, ?)`;
     db.run(
         query,
         [
             fun_nome,
             fun_cpf,
             fun_telefone,
-            fun_setor,
+            fun_senha,
             fun_cargo,
             fun_data_nascimento,
             fun_endereco,
@@ -414,7 +414,7 @@ app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
     const {
         fun_nome,
         fun_telefone,
-        fun_setor,
+        fun_senha,
         fun_cargo,
         fun_data_nascimento,
         fun_endereco,
@@ -426,7 +426,7 @@ app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
         [
             fun_nome,
             fun_telefone,
-            fun_setor,
+            fun_senha,
             fun_cargo,
             fun_data_nascimento,
             fun_endereco,
@@ -754,15 +754,47 @@ app.put("/moto/placa/:mt_placa", (req, res) => {
     });
 });
 
+///////////////////////////// Rota para Login /////////////////////////////
+///////////////////////////// Rota para Login /////////////////////////////
+///////////////////////////// Rota para Login /////////////////////////////
+
+app.post("/login", (req, res) => {
+    const { fun_nome, fun_cpf } = req.body;
+
+    if (!fun_nome || !fun_cpf) {
+        return res.status(400).json({ success: false, message: "Nome e CPF são obrigatórios." });
+    }
+
+    const query = `SELECT fun_nome, fun_cargo FROM funcionario WHERE fun_nome = ? AND fun_cpf = ?`;
+    
+    db.get(query, [fun_nome, fun_cpf], (err, row) => {
+        if (err) {
+            console.error("Erro ao fazer login:", err);
+            return res.status(500).json({ success: false, message: "Erro no servidor." });
+        }
+        
+        if (!row) {
+            return res.status(401).json({ success: false, message: "Usuário ou senha incorretos." });
+        }
+        
+        res.json({ 
+            success: true, 
+            message: "Login realizado com sucesso!", 
+            cargo: row.fun_cargo,
+            nome: row.fun_nome
+        });
+    });
+});
+
 //nao mexa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // Rota principal para verificar se o servidor está funcionando
 
 // Teste para verificar se o servidor está rodando
 app.get("/", (req, res) => {
-    res.send("Servidor está rodando e tabelas criadas!");
+    res.sendFile(__dirname + "/public/login.html");
 });
 
 // Iniciando o servidor
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
