@@ -23,94 +23,90 @@ const db = new sqlite3.Database("./database.db", (err) => {
 // Criação das tabelas
 db.serialize(() => {
     db.run(`
-        CREATE TABLE IF NOT EXISTS clientes (
-            id_cli INTEGER PRIMARY KEY AUTOINCREMENT,
-            cli_nome VARCHAR(100) not NULL,
-            cli_data_nascimento text,
-            cli_telefone VARCHAR(15),
-            cli_cpf VARCHAR(14) NOT NULL UNIQUE,
-            cli_cep TEXT,
-            cli_cidade TEXT,
-            cli_bairro TEXT,
-            cli_complemento TEXT,
-            cli_nome_rua TEXT,
-            cli_numero_casa NUMBER,
-            cli_email VARCHAR(100)
-
-        )
-    `);
+            CREATE TABLE IF NOT EXISTS clientes (
+                id_cli INTEGER PRIMARY KEY AUTOINCREMENT,
+                cli_nome VARCHAR(100) NOT NULL,
+                cli_data_nascimento TEXT,
+                cli_telefone VARCHAR(15),
+                cli_cpf VARCHAR(14) NOT NULL UNIQUE,
+                cli_cep TEXT,
+                cli_cidade TEXT,
+                cli_bairro TEXT,
+                cli_complemento TEXT,
+                cli_nome_rua TEXT,
+                cli_numero_casa NUMBER,
+                cli_email VARCHAR(100),
+                id_mt INTEGER,
+                FOREIGN KEY (id_mt) REFERENCES moto (id_mt)
+            )
+        `);
 
     db.run(`
-        CREATE TABLE IF NOT EXISTS funcionario (
-            id_fun INTEGER PRIMARY KEY AUTOINCREMENT,
-            fun_nome VARCHAR(100) NOT NULL,
-            fun_cpf VARCHAR(14) NOT NULL UNIQUE,
-            fun_telefone VARCHAR(15),
-            fun_setor VARCHAR(100),
-            fun_cargo VARCHAR(100),
-            fun_data_nascimento DATE,
-            fun_endereco TEXT
-        )
-    `);
-
+            CREATE TABLE IF NOT EXISTS funcionario (
+                id_fun INTEGER PRIMARY KEY AUTOINCREMENT,
+                fun_nome VARCHAR(100) NOT NULL,
+                fun_cpf VARCHAR(14) NOT NULL UNIQUE,
+                fun_telefone VARCHAR(15),
+                fun_setor VARCHAR(100),
+                fun_cargo VARCHAR(100),
+                fun_data_nascimento DATE,
+                fun_endereco TEXT
+            )
+        `);
+    
     db.run(`
         CREATE TABLE IF NOT EXISTS moto (
             id_mt INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_cli INTEGER,
             mt_placa VARCHAR(7) NOT NULL UNIQUE,
             mt_modelo VARCHAR(100),
-            mt_ano INTEGER,
-            id_servico INTEGER,
-            FOREIGN KEY (id_cli) REFERENCES clientes (id_cli),
-            FOREIGN KEY (id_servico) REFERENCES servico (id)
+            mt_ano VARCHAR(4)
         )
     `);
 
     db.run(`
-        CREATE TABLE IF NOT EXISTS agendamentos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            age_entrada DATETIME NOT NULL,
-            age_saida DATETIME NOT NULL,
-            cli_cpf VARCHAR(14) NOT NULL,
-            fun_cpf VARCHAR(14) NOT NULL,
-            id_servico INTEGER NOT NULL,
-            mt_placa VARCHAR(7) NOT NULL,
-            FOREIGN KEY (cli_cpf) REFERENCES clientes (cli_cpf),
-            FOREIGN KEY (fun_cpf) REFERENCES funcionario (fun_cpf),
-            FOREIGN KEY (id_servico) REFERENCES servico (id),
-            FOREIGN KEY (mt_placa) REFERENCES moto (mt_placa)
-        )
-    `);
+            CREATE TABLE IF NOT EXISTS agendamentos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                age_entrada DATETIME NOT NULL,
+                age_saida DATETIME NOT NULL,
+                cli_cpf VARCHAR(14) NOT NULL,
+                fun_cpf VARCHAR(14) NOT NULL,
+                id_servico INTEGER NOT NULL,
+                mt_placa VARCHAR(7) NOT NULL,
+                FOREIGN KEY (cli_cpf) REFERENCES clientes (cli_cpf),
+                FOREIGN KEY (fun_cpf) REFERENCES funcionario (fun_cpf),
+                FOREIGN KEY (id_servico) REFERENCES servico (id),
+                FOREIGN KEY (mt_placa) REFERENCES moto (mt_placa)
+            )
+        `);
 
     db.run(`
-        CREATE TABLE IF NOT EXISTS servico (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            serv_nome VARCHAR(100) NOT NULL UNIQUE
-        )
-    `);
+            CREATE TABLE IF NOT EXISTS servico (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                serv_nome VARCHAR(100) NOT NULL UNIQUE
+            )
+        `);
 
     db.run(`
-        CREATE TABLE IF NOT EXISTS vendas (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            cli_cpf TEXT NOT NULL,
-            id_produto INTEGER NOT NULL,
-            quantidade INTEGER NOT NULL,
-            FOREIGN KEY (cli_cpf) REFERENCES clientes (cli_cpf),
-            FOREIGN KEY (id_produto) REFERENCES produtos (id_pro)
-        )
-    `);
+            CREATE TABLE IF NOT EXISTS vendas (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                cli_cpf TEXT NOT NULL,
+                id_produto INTEGER NOT NULL,
+                quantidade INTEGER NOT NULL,
+                FOREIGN KEY (cli_cpf) REFERENCES clientes (cli_cpf),
+                FOREIGN KEY (id_produto) REFERENCES produtos (id_pro)
+            )
+        `);
 
     db.run(`
-        CREATE TABLE IF NOT EXISTS produtos (
-            id_pro INTEGER PRIMARY KEY AUTOINCREMENT,
-            pro_nome TEXT NOT NULL,
-            pro_preco REAL NOT NULL,
-            pro_descricao TEXT,
-            pro_categoria TEXT,
-            pro_quantidade_estoque INTEGER NOT NULL
-        )
-    `);
-    
+            CREATE TABLE IF NOT EXISTS produtos (
+                id_pro INTEGER PRIMARY KEY AUTOINCREMENT,
+                pro_nome TEXT NOT NULL,
+                pro_preco REAL NOT NULL,
+                pro_descricao TEXT,
+                pro_categoria TEXT,
+                pro_quantidade_estoque INTEGER NOT NULL
+            )
+        `);
 
     console.log("Tabela de serviços criada com sucesso.");
 });
@@ -202,13 +198,14 @@ app.post("/clientes", (req, res) => {
         cli_nome_rua,
         cli_numero_casa,
         cli_email,
+        id_mt
     } = req.body;
 
     if (!cli_nome || !cli_cpf) {
         return res.status(400).send("Nome e CPF são obrigatórios.");
     }
 
-    const query = `INSERT INTO clientes (cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nome_rua, cli_numero_casa, cli_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO clientes (cli_nome, cli_data_nascimento, cli_telefone, cli_cpf, cli_cep, cli_cidade, cli_bairro, cli_complemento, cli_nome_rua, cli_numero_casa, cli_email, id_mt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     db.run(
         query,
         [
@@ -223,6 +220,7 @@ app.post("/clientes", (req, res) => {
             cli_nome_rua,
             cli_numero_casa,
             cli_email,
+            id_mt
         ],
         function (err) {
             if (err) {
@@ -243,7 +241,10 @@ app.get("/clientes", (req, res) => {
 
     if (cpf) {
         // Se CPF foi passado, busca clientes que possuam esse CPF ou parte dele
-        const query = `SELECT * FROM clientes WHERE cli_cpf LIKE ?`;
+        const query = `SELECT clientes.*, moto.mt_placa, moto.mt_modelo, moto.mt_ano 
+                       FROM clientes 
+                       LEFT JOIN moto ON clientes.id_mt = moto.id_mt 
+                       WHERE cli_cpf LIKE ?`;
 
         db.all(query, [`%${cpf}%`], (err, rows) => {
             if (err) {
@@ -256,7 +257,9 @@ app.get("/clientes", (req, res) => {
         });
     } else {
         // Se CPF não foi passado, retorna todos os clientes
-        const query = `SELECT * FROM clientes`;
+        const query = `SELECT clientes.*, moto.mt_placa, moto.mt_modelo, moto.mt_ano 
+                       FROM clientes 
+                       LEFT JOIN moto ON clientes.id_mt = moto.id_mt`;
 
         db.all(query, (err, rows) => {
             if (err) {
@@ -284,6 +287,7 @@ app.put("/clientes/cpf/:cli_cpf", (req, res) => {
         cli_nome_rua,
         cli_numero_casa,
         cli_email,
+        id_mt
     } = req.body;
     console.log("Updating client:", {
         cli_bairro,
@@ -297,9 +301,10 @@ app.put("/clientes/cpf/:cli_cpf", (req, res) => {
         cli_telefone,
         cli_cep,
         cli_cpf,
+        id_mt
     });
 
-    const query = `UPDATE clientes SET cli_nome = ?, cli_data_nascimento = ?, cli_telefone = ?, cli_cep = ?, cli_cidade = ?, cli_bairro = ?, cli_complemento = ?, cli_nome_rua = ?, cli_numero_casa = ?, cli_email = ? WHERE cli_cpf = ?`;
+    const query = `UPDATE clientes SET cli_nome = ?, cli_data_nascimento = ?, cli_telefone = ?, cli_cep = ?, cli_cidade = ?, cli_bairro = ?, cli_complemento = ?, cli_nome_rua = ?, cli_numero_casa = ?, cli_email = ?, id_mt = ? WHERE cli_cpf = ?`;
 
     db.run(
         query,
@@ -314,6 +319,7 @@ app.put("/clientes/cpf/:cli_cpf", (req, res) => {
             cli_nome_rua,
             cli_numero_casa,
             cli_email,
+            id_mt,
             cli_cpf,
         ],
         function (err) {
@@ -438,86 +444,6 @@ app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
     );
 });
 
-///////////////////////////// Rotas para Moto /////////////////////////////
-///////////////////////////// Rotas para Moto /////////////////////////////
-///////////////////////////// Rotas para Moto /////////////////////////////
-// Cadastrar moto
-app.post("/moto", (req, res) => {
-    const { id_cli, mt_modelo, mt_placa, mt_ano, id_servico } = req.body;
-
-    if (!id_cli || !mt_placa) {
-        return res.status(400).send("Nome e Placa são obrigatórios.");
-    }
-
-    const query = `INSERT INTO moto (id_cli, mt_modelo, mt_placa, mt_ano, id_servico) VALUES (?, ?, ?, ?, ?)`;
-    db.run(
-        query,
-        [id_cli, mt_modelo, mt_placa, mt_ano, id_servico],
-        function (err) {
-            if (err) {
-                return res.status(500).send("Erro ao cadastrar moto.");
-            }
-            res.status(201).send({
-                id: this.lastID,
-                message: "moto cadastrado com sucesso.",
-            });
-        },
-    );
-});
-// Listar moto
-// Endpoint para listar todos os moto ou buscar por Placa
-app.get("/moto", (req, res) => {
-    const placa = req.query.placa || ""; // Recebe a placa da query string (se houver)
-
-    if (placa) {
-        // Se placa foi passada, busca motos que possuam essa placa ou parte dela
-        const query = `SELECT * FROM moto WHERE mt_placa LIKE ?`;
-
-        db.all(query, [`%${placa}%`], (err, rows) => {
-            if (err) {
-                console.error(err);
-                return res
-                    .status(500)
-                    .json({ message: "Erro ao buscar moto." });
-            }
-            res.json(rows); // Retorna os moto encontrados ou um array vazio
-        });
-    } else {
-        // Se CPF não foi passado, retorna todos os moto
-        const query = `SELECT * FROM moto`;
-
-        db.all(query, (err, rows) => {
-            if (err) {
-                console.error(err);
-                return res
-                    .status(500)
-                    .json({ message: "Erro ao buscar moto." });
-            }
-            res.json(rows); // Retorna todos os moto
-        });
-    }
-});
-// Atualizar Moto
-app.put("/moto/cpf/:mt_placa", (req, res) => {
-    const { mt_placa } = req.params;
-    const { id_cli, mt_modelo, mt_ano, id_servico } = req.body;
-
-    const query = `UPDATE moto SET id_cli = ?, mt_modelo = ?, mt_ano = ?, id_servico = ? WHERE mt_placa = ?`;
-    db.run(
-        query,
-        [id_cli, mt_modelo, mt_ano, id_servico, mt_placa],
-        function (err) {
-            if (err) {
-                return res.status(500).send("Erro ao atualizar moto.");
-            }
-            if (this.changes === 0) {
-                return res.status(404).send("moto não encontrado.");
-            }
-            res.send("moto atualizado com sucesso.");
-        },
-    );
-});
-
 ////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
 ////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
 ////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
@@ -629,16 +555,16 @@ app.get("/relatorios", (req, res) => {
     const { cli_cpf, pro } = req.query;
 
     let query = `SELECT
-                    vendas.id,
-                    vendas.cli_cpf,
-                    vendas.id_produto,
-                    vendas.quantidade,
-                    produtos.pro_nome AS produto_nome,
-                    clientes.nome AS cliente_nome
-                 FROM vendas
-                  JOIN produtos ON vendas.id_produto = id.produto
-                 JOIN clientes ON vendas.cli_cpf = cli.cpf
-                 WHERE 1=1`; // Começar com um WHERE sempre verdadeiro (1=1)
+                        vendas.id,
+                        vendas.cli_cpf,
+                        vendas.id_produto,
+                        vendas.quantidade,
+                        produtos.pro_nome AS produto_nome,
+                        clientes.nome AS cliente_nome
+                     FROM vendas
+                      JOIN produtos ON vendas.id_produto = id.produto
+                     JOIN clientes ON vendas.cli_cpf = cli.cpf
+                     WHERE 1=1`; // Começar com um WHERE sempre verdadeiro (1=1)
 
     const params = [];
 
@@ -759,6 +685,73 @@ app.put("/produtos/:id_pro", (req, res) => {
             res.send("Produto atualizado com sucesso.");
         },
     );
+});
+
+///////////////////////////// Rotas para Moto /////////////////////////////
+///////////////////////////// Rotas para Moto /////////////////////////////
+///////////////////////////// Rotas para Moto /////////////////////////////
+
+// Cadastrar moto
+app.post("/moto", (req, res) => {
+    const { mt_placa, mt_modelo, mt_ano } = req.body;
+
+    if (!mt_placa) {
+        return res.status(400).json({ message: "Placa é obrigatória." });
+    }
+
+    const query = `INSERT INTO moto (mt_placa, mt_modelo, mt_ano) VALUES (?, ?, ?)`;
+    db.run(query, [mt_placa, mt_modelo, mt_ano], function (err) {
+        if (err) {
+            console.error("Erro ao cadastrar moto:", err);
+            return res.status(500).json({ message: "Erro ao cadastrar moto." });
+        }
+        res.status(201).json({
+            id: this.lastID,
+            message: "Moto cadastrada com sucesso.",
+        });
+    });
+});
+
+// Listar motos
+app.get("/moto", (req, res) => {
+    const placa = req.query.placa || "";
+
+    if (placa) {
+        const query = `SELECT * FROM moto WHERE mt_placa LIKE ?`;
+        db.all(query, [`%${placa}%`], (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Erro ao buscar motos." });
+            }
+            res.json(rows);
+        });
+    } else {
+        const query = `SELECT * FROM moto`;
+        db.all(query, (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Erro ao buscar motos." });
+            }
+            res.json(rows);
+        });
+    }
+});
+
+// Atualizar moto
+app.put("/moto/placa/:mt_placa", (req, res) => {
+    const { mt_placa } = req.params;
+    const { mt_modelo, mt_ano } = req.body;
+
+    const query = `UPDATE moto SET mt_modelo = ?, mt_ano = ? WHERE mt_placa = ?`;
+    db.run(query, [mt_modelo, mt_ano, mt_placa], function (err) {
+        if (err) {
+            return res.status(500).send("Erro ao atualizar moto.");
+        }
+        if (this.changes === 0) {
+            return res.status(404).send("Moto não encontrada.");
+        }
+        res.send("Moto atualizada com sucesso.");
+    });
 });
 
 //nao mexa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

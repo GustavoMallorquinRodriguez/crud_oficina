@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cadastro de Serviço</title>
+        <!-- Arquivo CSS para estilização (nome inconsistente: deveria ser servico.css) -->
+        <link rel="stylesheet" href="servico.css" />
+        <!-- Arquivo JavaScript com funções (nome inconsistente: deveria ser servico.js) -->
+        <script src="servico.js"></script>
+    </head>
+    <body>
+        <!-- CABEÇALHO COM LOGOS -->
+        <header class="header">
+            <!-- Logo do Colégio Cívico-Militar (esquerda) -->
+            <div class="logo ccm-logo">
+                <img src="imagens/ccm.jpeg" alt="Colégio CCMH" />
+            </div>
+
+            <!-- Logo principal da empresa AN Motos (centro) -->
+            <div class="main-logo">
+                <img src="imagens/an_motos.png" alt="AN Motos" />
+            </div>
+
+            <!-- Logo da AGAVI (direita) -->
+            <div class="agave-logo">
+                <img src="imagens/agavi.png" alt="Agave" />
+            </div>
+        </header>
+
+        <!-- CONTAINER PRINCIPAL -->
+        <div id="main-container">
+            <h1>Cadastro de Serviço</h1>
+
+            <!-- FORMULÁRIO DE CADASTRO DE SERVIÇO -->
+            <!-- onsubmit com return previne o envio se a função retornar false -->
+            <form id="produto-form" onsubmit="return cadastrarProduto(event)">
+                <!-- Campo: Nome do Serviço (largura total) -->
+                <div class="full-box">
+                    <label for="pro_nome">Nome:</label>
+                    <input
+                        type="text"
+                        id="pro_nome"
+                        name="nome"
+                        placeholder="Digite o nome do produto"
+                        required
+                    />
+                </div>
+
+                <!-- Campo: Preço do Serviço (meia largura) -->
+                <div class="half-box">
+                    <label for="pro_preco">Preço:</label>
+                    <input
+                        type="number"
+                        id="pro_preco"
+                        name="preco"
+                        placeholder="Digite o preço"
+                        required
+                    />
+                </div>
+
+                <!-- Campo: Categoria do Serviço (meia largura) -->
+                <div class="half-box">
+                    <label for="pro_categoria">Categoria:</label>
+                    <input
+                        type="text"
+                        id="pro_categoria"
+                        name="categoria"
+                        placeholder="Digite a categoria"
+                        required
+                    />
+                </div>
+
+                <!-- Campo: Descrição do Serviço (largura total, textarea para texto longo) -->
+                <div class="full-box">
+                    <label for="pro_descricao">Descrição:</label>
+                    <textarea
+                        id="pro_descricao"
+                        name="descricao"
+                        placeholder="Descrição do serviço"
+                    ></textarea>
+                </div>
+
+                <!-- Campo: Duração do Serviço (meia largura) -->
+                <!-- INCONSISTÊNCIA: ID sugere "quantidade_estoque" mas label diz "Duração de Serviço" -->
+                <div class="half-box">
+                    <label for="pro_quantidade_estoque"
+                        >Duração de Serviço:</label
+                    >
+                    <input
+                        type="text"
+                        id="pro_quantidade_estoque"
+                        name="quantidade_estoque"
+                        placeholder="Quantidade"
+                        required
+                    />
+                </div>
+
+                <!-- BOTÕES DE AÇÃO DO FORMULÁRIO (largura total) -->
+                <div class="full-box">
+                    <!-- Botão para cadastrar novo serviço -->
+                    <input type="submit" value="Cadastrar" class="alinhaBtns" />
+                    <!-- Botão para limpar todos os campos -->
+                    <input type="reset" value="Limpar" class="alinhaBtns" />
+                </div>
+            </form>
+
+            <!-- SEÇÃO DE LISTAGEM DE SERVIÇOS -->
+            <h2>Listagem de Serviços</h2>
+
+            <!-- Botão para carregar/listar todos os serviços -->
+            <button type="button" onclick="listarProdutos()" class="alinhaBtns">
+                Listar Serviços
+            </button>
+
+            <!-- TABELA PARA EXIBIR SERVIÇOS CADASTRADOS -->
+            <!-- Atributo border="1" está obsoleto, deveria usar CSS -->
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Categoria</th>
+                        <th>Descrição</th>
+                        <th>Duração de serviço</th>
+                    </tr>
+                </thead>
+                <!-- Corpo da tabela preenchido dinamicamente via JavaScript -->
+                <!-- INCONSISTÊNCIA: ID "tabela-clientes" deveria ser "tabela-servicos" -->
+                <tbody id="tabela-clientes"></tbody>
+            </table>
+        </div>
+
+        <!-- BOTÃO PARA VOLTAR À PÁGINA INICIAL -->
+        <div class="btn-voltar">
+            <a href="index.html">VOLTAR</a>
+        </div>
+
+        <!-- RODAPÉ -->
+        <footer>
+            <p>©2025</p>
+        </footer>
+    </body>
+</html>

@@ -76,7 +76,7 @@ body {
     background: linear-gradient(135deg, #ff6b35, #ff8c42);
     color: white;
     display: grid;
-    grid-template-columns: 0.8fr 2fr 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 2fr 1fr 1.5fr;
     padding: 15px 10px;
     font-weight: bold;
     font-size: 14px;

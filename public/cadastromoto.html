@@ -48,12 +48,13 @@
 
                 <!-- Formulário de cadastro -->
                 <form id="cadastro-moto">
-                    <!-- Campo: Proprietário da Moto -->
+                    <!-- Campo: Placa da Moto -->
                     <div class="form-group">
                         <input
                             type="text"
-                            id="id_cli"
-                            placeholder="Proprietário da Moto"
+                            id="mt_placa"
+                            maxlength="8"
+                            placeholder="Placa da Moto"
                             required
                         />
                     </div>
@@ -68,37 +69,13 @@
                         />
                     </div>
 
-                    <!-- Campo: Placa da Moto (máximo 8 caracteres, apenas números) -->
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            id="mt_placa"
-                            maxlength="8"
-                            pattern="\d{8}"
-                            placeholder="Placa da Moto"
-                            required
-                        />
-                    </div>
-
-                    <!-- Campo: Ano da Moto (máximo 7 caracteres, apenas números) -->
+                    <!-- Campo: Ano da Moto -->
                     <div class="form-group">
                         <input
                             type="text"
                             id="mt_ano"
-                            maxlength="7"
-                            pattern="\d{7}"
+                            maxlength="9"
                             placeholder="Ano da Moto"
-                            required
-                        />
-                    </div>
-
-                    <!-- Campo: Número de Serviço -->
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            id="id_servico"
-                            placeholder="N° de serviço"
-                            min="0"
                             required
                         />
                     </div>
@@ -115,12 +92,12 @@
                         />
                         <!-- Botão para limpar o formulário -->
                         <input type="reset" value="Limpar" class="submit-btn" />
-                        <!-- Botão para atualizar (chama duas funções) -->
+                        <!-- Botão para atualizar -->
                         <input
                             type="button"
-                            value="Atualizar Cliente"
+                            value="Atualizar Moto"
                             class="submit-btn"
-                            onclick="atualizarMoto(); limpaCliente();"
+                            onclick="atualizarMoto()"
                         />
                     </div>
                 </form>
@@ -135,21 +112,20 @@
         <!-- SEÇÃO DE VISUALIZAÇÃO DE MOTOS CADASTRADAS -->
         <div class="container">
             <div class="client-section">
-                <!-- Título da seção (inconsistência: diz "funcionário" mas é para motos) -->
-                <h2 class="section-title">Visualizar funcionario</h2>
+                <h2 class="section-title">Visualizar Motos</h2>
 
-                <!-- Botão para listar todos os clientes/motos -->
+                <!-- Botão para listar todas as motos -->
                 <button
                     type="button"
-                    onclick="listarClientes()"
+                    onclick="listarmoto()"
                     class="alinhaBtns"
                 >
-                    Listar Clientes
+                    Listar Motos
                 </button>
 
-                <!-- Contador de total de clientes -->
+                <!-- Contador de total de motos -->
                 <div class="client-stats">
-                    <p>Total de clientes: <span id="totalClientes">0</span></p>
+                    <p>Total de motos: <span id="totalClientes">0</span></p>
                 </div>
 
                 <!-- Tabela para exibir as motos cadastradas -->
@@ -158,11 +134,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Proprietário da Moto</th>
-                                <th>Modelo da Moto</th>
-                                <th>Placa da Moto</th>
-                                <th>Ano da Moto</th>
-                                <th>N° de serviço</th>
+                                <th>Placa</th>
+                                <th>Modelo</th>
+                                <th>Ano</th>
                             </tr>
                         </thead>
                         <!-- Corpo da tabela será preenchido dinamicamente via JavaScript -->

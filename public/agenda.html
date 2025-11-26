@@ -2,10 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
-    <meta name="agenda" content="width=device-width, initial-scale=1.0" />
-    <title>RV Motos - Agendamento</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AN Motos - Agendamento</title>
     <link rel="stylesheet" href="agenda.css" />
-    <script src="agenda.js"></script>
 </head>
 <body>
     <header class="header">
@@ -14,65 +13,104 @@
         </div>
 
         <div class="logo-center">
-            <img src="imagens/an_motos.png" alt="Logo RV Motos" />
-            <a class="visualizar-btn" href="login.html" onclick="abrirCalendario()">Visualizar Agenda</a>
+            <img src="imagens/an_motos.png" alt="Logo AN Motos" />
         </div>
 
         <div class="logo-right">
-            <img src="imagens/agavi.png" alt="Logo AGAVL" />
+            <img src="imagens/agavi.png" alt="Logo AGAVI" />
         </div>
     </header>
 
     <div class="container">
-        <div class="form-header">Dados da Agenda</div>
+        <div class="form-header">Nova Agenda</div>
 
         <div class="success-message" id="successMessage">
             Agendamento realizado com sucesso!
         </div>
 
         <div class="form-content">
-            <div class="form-row">
-                <div class="form-group">
-                    <form class="agendaForm" id="agendaForm">
-                        <label for="cli_cpf">Nome Cliente:</label>
-                        <input type="text" id="cli_cpf" name="nomeCliente" required />
+            <form id="agendaForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cli_cpf">Cliente:</label>
+                        <select id="cli_cpf" name="cli_cpf" required>
+                            <option value="">Selecione o cliente</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mt_placa">Moto:</label>
+                        <select id="mt_placa" name="mt_placa" required>
+                            <option value="">Selecione a moto</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age_entrada">Data de Entrada:</label>
+                        <input type="date" id="age_entrada" name="age_entrada" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_servico">Tipo de Serviço:</label>
+                        <select id="id_servico" name="id_servico" required>
+                            <option value="">Selecione o serviço</option>
+                        </select>
+                        <div class="add-new">
+                            <input type="text" id="novo_servico" placeholder="Novo serviço" />
+                            <button type="button" onclick="adicionarServico()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fun_cpf">Funcionário:</label>
+                        <select id="fun_cpf" name="fun_cpf" required>
+                            <option value="">Selecione o funcionário</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age_saida">Data de Saída (opcional):</label>
+                        <input type="date" id="age_saida" name="age_saida" />
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="mt_placa">Placa da moto:</label>
-                    <input type="text" id="mt_placa" name="modeloMoto" required />
+                <div class="btn-container">
+                    <button type="button" class="submit-btn" onclick="cadastrarAgendamento()">Cadastrar</button>
+                    <button type="reset" class="submit-btn limpar-btn">Limpar</button>
                 </div>
-
-                <div class="form-group">
-                    <label for="fun_cpf">Funcionario:</label>
-                    <input type="text" id="fun_cpf" name="placaMoto" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="id_servico">Tipo de serviço:</label>
-                    <input type="text" id="id_servico" name="tiposervico" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="age_entrada">Data de Entrada:</label>
-                    <input type="date" id="age_entrada" name="dataEntrada" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="dataSaida">Data de Saída:</label>
-                    <input type="date" id="age_saida" name="dataSaida" required />
-                </div>
-            </div>
-
-            <div class="btn-container">
-                <input type="submit" value="Cadastrar" class="submit-btn" onclick="cadastrarAgendamento(event)" />
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- Botão Voltar -->
+    <div class="container">
+        <div class="form-header">Agendamentos Cadastrados</div>
+        <div class="table-container">
+            <table class="agenda-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Moto</th>
+                        <th>Data Entrada</th>
+                        <th>Serviço</th>
+                        <th>Funcionário</th>
+                        <th>Data Saída</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-agendamentos">
+                    <tr>
+                        <td colspan="8">Nenhum agendamento cadastrado.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="btn-voltar">
         <a href="index.html">VOLTAR</a>
     </div>
+
+    <script src="agenda.js"></script>
 </body>
 </html>

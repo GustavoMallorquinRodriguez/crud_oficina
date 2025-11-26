@@ -16,6 +16,7 @@ async function cadastrarCliente(event) {
         cli_nome_rua: document.getElementById("cli_nome_rua").value, // Nome da rua
         cli_numero_casa: document.getElementById("cli_numero_casa").value, // Número da casa/apto
         cli_email: document.getElementById("cli_email").value, // E-mail
+        id_mt: document.getElementById("id_mt").value, // Moto(s)
     };
 
     try {
@@ -84,6 +85,7 @@ async function listarClientes() {
                         <td>${cliente.cli_nome_rua}</td>     <!-- Rua -->
                         <td>${cliente.cli_numero_casa}</td>  <!-- Número -->
                         <td>${cliente.cli_email}</td>        <!-- E-mail -->
+                        <td>${cliente.id_mt}</td> 
                     `;
 
                 tabela.appendChild(linha); // Adiciona a linha preenchida à tabela
@@ -111,6 +113,7 @@ async function atualizarCliente() {
     const cli_nome_rua = document.getElementById("cli_nome_rua").value;
     const cli_numero_casa = document.getElementById("cli_numero_casa").value;
     const cli_email = document.getElementById("cli_email").value;
+    const id_mt = document.getElementById("id_mt").value;
 
     // Cria objeto com os dados atualizados (não inclui CPF pois é usado na URL)
     const clienteAtualizado = {
@@ -124,6 +127,7 @@ async function atualizarCliente() {
         cli_nome_rua,
         cli_numero_casa,
         cli_email,
+        id_mt,
     };
 
     try {
