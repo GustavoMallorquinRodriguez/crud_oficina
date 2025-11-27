@@ -17,10 +17,12 @@ function buscarCliente() {
         .then((cliente) => {
             const clienteInfo = document.getElementById("cliente-info");
             clienteInfo.innerHTML = `
-        <p>nome: ${cliente.cli_nome}</p>
-        <p>cpf: ${cliente.cli_cpf}</p>
-        <p>email: ${cliente.cli_email}</p>
-      `;
+                <h3>Informações do Cliente</h3>
+                <p><strong>Nome:</strong> ${cliente.cli_nome}</p>
+                <p><strong>CPF:</strong> ${cliente.cli_cpf}</p>
+                <p><strong>Email:</strong> ${cliente.cli_email}</p>
+                <p><strong>Telefone:</strong> ${cliente.cli_telefone || 'N/A'}</p>
+            `;
         })
         .catch((error) => {
             alert(error.message);
@@ -62,15 +64,15 @@ function adicionarProdutoNaTabela(produto, quantidade) {
     const subtotal = produto.pro_preco * quantidade;
     const novaLinha = document.createElement("tr");
 
-    novaLinha.setAttribute("data-id", produto.id);
+    novaLinha.setAttribute("data-id", produto.id_pro);
     novaLinha.innerHTML = `
-    <td>${produto.id_pro}</td>  
-    <td>${produto.pro_nome}</td>
-    <td>${quantidade}</td>
-    <td>R$ ${produto.pro_preco.toFixed(2)}</td>
-    <td>R$ ${subtotal.toFixed(2)}</td>
-    <td><button onclick="removerProduto(this, ${subtotal})">Remover</button></td>
-  `;
+        <td>${produto.id_pro}</td>  
+        <td>${produto.pro_nome}</td>
+        <td>${quantidade}</td>
+        <td>R$ ${produto.pro_preco.toFixed(2)}</td>
+        <td>R$ ${subtotal.toFixed(2)}</td>
+        <td><button onclick="removerProduto(this, ${subtotal})">Remover</button></td>
+    `;
 
     carrinhoBody.appendChild(novaLinha);
 
@@ -148,7 +150,6 @@ function finalizarVenda() {
         .then((data) => {
             alert("Venda realizada com sucesso!");
             limparFormulario();
-            //location.reload();
         })
         .catch((error) => {
             alert(error.message);
@@ -159,6 +160,8 @@ function limparFormulario() {
     document.getElementById("cli_cpf").value = "";
     document.getElementById("cliente-info").innerHTML = "";
     document.querySelector("#carrinho").innerHTML = "";
+    document.getElementById("produto-nome").value = "";
+    document.getElementById("produto-quantidade").value = "";
     const totalVendaElement = document.getElementById("total-venda");
     totalVendaElement.setAttribute("data-total", "0");
     totalVendaElement.textContent = "Total: R$ 0,00";
@@ -172,18 +175,16 @@ function buscarProdutos() {
             }
             return response.json();
         })
-        .then((servicos) => {
+        .then((produtos) => {
             const select = document.getElementById("produto-nome");
-            servicos.forEach((servico) => {
+            produtos.forEach((produto) => {
                 const option = document.createElement("option");
-                option.value = servico.id_pro; // Usa o id como valor
-                option.textContent = `${servico.pro_nome} ------------- Disponível: ${servico.pro_quantidade_estoque}`; // Nome do serviço exibido
+                option.value = produto.id_pro;
+                option.textContent = `${produto.pro_nome} (Disponível: ${produto.pro_quantidade_estoque})`;
                 select.appendChild(option);
             });
         })
         .catch((error) => {
-            console.error("Erro ao carregar os serviços:", error);
+            console.error("Erro ao carregar os produtos:", error);
         });
 }
-
-// Função para buscar o relatório com filtros
