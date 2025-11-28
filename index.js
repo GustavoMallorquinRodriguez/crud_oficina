@@ -117,7 +117,7 @@ db.serialize(() => {
 
 // ROTA PARA BUSCAR TODOS OS SERVIÇOS NO ATENDAMENTO
 app.get("/buscar-servicos", (req, res) => {
-    db.all("SELECT id, serv_nome FROM servico", [], (err, rows) => {
+    db.all("SELECT id_pro as id, pro_nome as serv_nome FROM produtos", [], (err, rows) => {
         if (err) {
             console.error("Erro ao buscar serviços:", err);
             res.status(500).send("Erro ao buscar serviços");
@@ -179,6 +179,38 @@ app.post("/cadastrar-agendamento", (req, res) => {
             }
         },
     );
+});
+
+// ROTA PARA LISTAR AGENDAMENTOS
+app.get("/agendamentos", (req, res) => {
+    const query = `SELECT agendamentos.*, clientes.cli_nome, funcionario.fun_nome, moto.mt_modelo, servico.serv_nome
+                   FROM agendamentos
+                   LEFT JOIN clientes ON agendamentos.cli_cpf = clientes.cli_cpf
+                   LEFT JOIN funcionario ON agendamentos.fun_cpf = funcionario.fun_cpf
+                   LEFT JOIN moto ON agendamentos.mt_placa = moto.mt_placa
+                   LEFT JOIN servico ON agendamentos.id_servico = servico.id`;
+    
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.error("Erro ao listar agendamentos:", err);
+            return res.status(500).json({ message: "Erro ao listar agendamentos." });
+        }
+        res.json(rows);
+    });
+});
+
+// ROTA PARA DELETAR AGENDAMENTO
+app.delete("/agendamentos/:id", (req, res) => {
+    const { id } = req.params;
+    
+    const query = `DELETE FROM agendamentos WHERE id = ?`;
+    db.run(query, [id], function (err) {
+        if (err) {
+            console.error("Erro ao deletar agendamento:", err);
+            return res.status(500).json({ message: "Erro ao deletar agendamento." });
+        }
+        res.json({ message: "Agendamento deletado com sucesso." });
+    });
 });
 
 ///////////////////////////// Rotas para Clientes /////////////////////////////
@@ -342,33 +374,34 @@ app.post("/funcionario", (req, res) => {
         fun_nome,
         fun_cpf,
         fun_telefone,
-        fun_senha,
+        fun_senhas,
         fun_cargo,
         fun_data_nascimento,
         fun_endereco,
     } = req.body;
 
     if (!fun_nome || !fun_cpf) {
-        return res.status(400).send("Nome e CPF são obrigatórios.");
+        return res.status(400).json({ message: "Nome e CPF são obrigatórios." });
     }
 
-    const query = `INSERT INTO funcionario (fun_nome, fun_cpf, fun_telefone, fun_senha, fun_cargo, fun_data_nascimento, fun_endereco) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO funcionario (fun_nome, fun_cpf, fun_telefone, fun_senhas, fun_cargo, fun_data_nascimento, fun_endereco) VALUES (?, ?, ?, ?, ?, ?, ?)`;
     db.run(
         query,
         [
             fun_nome,
             fun_cpf,
             fun_telefone,
-            fun_senha,
+            fun_senhas,
             fun_cargo,
             fun_data_nascimento,
             fun_endereco,
         ],
         function (err) {
             if (err) {
-                return res.status(500).send("Erro ao cadastrar funcionario.");
+                console.error("Erro ao cadastrar funcionario:", err);
+                return res.status(500).json({ message: "Erro ao cadastrar funcionario." });
             }
-            res.status(201).send({
+            res.status(201).json({
                 id: this.lastID,
                 message: "funcionario cadastrado com sucesso.",
             });
@@ -414,19 +447,19 @@ app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
     const {
         fun_nome,
         fun_telefone,
-        fun_senha,
+        fun_senhas,
         fun_cargo,
         fun_data_nascimento,
         fun_endereco,
     } = req.body;
 
-    const query = `UPDATE funcionario SET fun_nome = ?, fun_telefone = ?, fun_setor = ?, fun_cargo = ?, fun_data_nascimento = ?, fun_endereco = ? WHERE fun_cpf = ?`;
+    const query = `UPDATE funcionario SET fun_nome = ?, fun_telefone = ?, fun_senhas = ?, fun_cargo = ?, fun_data_nascimento = ?, fun_endereco = ? WHERE fun_cpf = ?`;
     db.run(
         query,
         [
             fun_nome,
             fun_telefone,
-            fun_senha,
+            fun_senhas,
             fun_cargo,
             fun_data_nascimento,
             fun_endereco,
@@ -434,12 +467,13 @@ app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
         ],
         function (err) {
             if (err) {
-                return res.status(500).send("Erro ao atualizar funcionario.");
+                console.error("Erro ao atualizar funcionario:", err);
+                return res.status(500).json({ message: "Erro ao atualizar funcionario." });
             }
             if (this.changes === 0) {
-                return res.status(404).send("funcionario não encontrado.");
+                return res.status(404).json({ message: "funcionario não encontrado." });
             }
-            res.send("funcionario atualizado com sucesso.");
+            res.json({ message: "funcionario atualizado com sucesso." });
         },
     );
 });
@@ -448,6 +482,53 @@ app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
 ////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
 ////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
 ////////////////////////////////////////vendas////////////////////////////////////////////////////////////////
+
+// GET VENDAS - RELATÓRIO
+app.get("/relatorios-vendas", (req, res) => {
+    const { cli_cpf, pro_nome, data } = req.query;
+    
+    let query = `SELECT 
+                        vendas.id,
+                        vendas.cli_cpf,
+                        vendas.id_produto,
+                        vendas.quantidade,
+                        produtos.pro_nome,
+                        produtos.pro_preco,
+                        (vendas.quantidade * produtos.pro_preco) as preco_total,
+                        datetime('now') as data_vendas
+                   FROM vendas
+                   LEFT JOIN produtos ON vendas.id_produto = produtos.id_pro
+                   WHERE 1=1`;
+    
+    const params = [];
+    
+    if (cli_cpf) {
+        query += ` AND vendas.cli_cpf LIKE ?`;
+        params.push(`%${cli_cpf}%`);
+    }
+    
+    if (pro_nome) {
+        query += ` AND produtos.pro_nome LIKE ?`;
+        params.push(`%${pro_nome}%`);
+    }
+    
+    if (data) {
+        query += ` AND DATE(vendas.rowid) = ?`;
+        params.push(data);
+    }
+    
+    query += ` ORDER BY vendas.id DESC`;
+    
+    db.all(query, params, (err, rows) => {
+        if (err) {
+            console.error("Erro ao buscar vendas:", err);
+            res.status(500).json({ error: "Erro ao buscar vendas" });
+        } else {
+            res.json(rows || []);
+        }
+    });
+});
+
 app.post("/vendas", (req, res) => {
     const { cli_cpf, itens } = req.body;
 
@@ -458,7 +539,7 @@ app.post("/vendas", (req, res) => {
     const dataVenda = new Date().toISOString();
 
     db.serialize(() => {
-        const insertSaleQuery = `INSERT INTO vendas (cli_cpf, id_produto, quantidade, ) VALUES (?, ?, ?, )`;
+        const insertSaleQuery = `INSERT INTO vendas (cli_cpf, id_produto, quantidade) VALUES (?, ?, ?)`;
         const updateStockQuery = `UPDATE produtos SET pro_quantidade_estoque = pro_quantidade_estoque - ? WHERE id_pro = ?`;
 
         let erroOcorrido = false;
@@ -475,7 +556,7 @@ app.post("/vendas", (req, res) => {
             // Registrar a venda
             db.run(
                 insertSaleQuery,
-                [cli_cpf, idProduto, quantidade, dataVenda],
+                [cli_cpf, idProduto, quantidade],
                 function (err) {
                     if (err) {
                         console.error("Erro ao registrar venda:", err.message);
@@ -550,35 +631,43 @@ app.get("/buscar-produtos", (req, res) => {
 ///////////////////////////// Rotas para consulta /////////////////////////////
 ///////////////////////////// Rotas para consulta /////////////////////////////
 
-// Rota para buscar vendas com filtros (cpf, produto, data)
+// Rota para buscar relatório de agendamentos/serviços
 app.get("/relatorios", (req, res) => {
-    const { cli_cpf, pro } = req.query;
+    const { cli_cpf } = req.query;
 
     let query = `SELECT
-                        vendas.id,
-                        vendas.cli_cpf,
-                        vendas.id_produto,
-                        vendas.quantidade,
-                        produtos.pro_nome AS produto_nome,
-                        clientes.nome AS cliente_nome
-                     FROM vendas
-                      JOIN produtos ON vendas.id_produto = id.produto
-                     JOIN clientes ON vendas.cli_cpf = cli.cpf
-                     WHERE 1=1`; // Começar com um WHERE sempre verdadeiro (1=1)
+                    agendamentos.id,
+                    clientes.cli_cpf,
+                    clientes.cli_nome,
+                    servico.serv_nome,
+                    agendamentos.age_entrada,
+                    agendamentos.age_saida,
+                    moto.mt_placa,
+                    funcionario.fun_nome
+                 FROM agendamentos
+                 JOIN clientes ON agendamentos.cli_cpf = clientes.cli_cpf
+                 JOIN servico ON agendamentos.id_servico = servico.id
+                 JOIN moto ON agendamentos.mt_placa = moto.mt_placa
+                 JOIN funcionario ON agendamentos.fun_cpf = funcionario.fun_cpf
+                 WHERE 1=1`;
 
     const params = [];
 
-    // Filtro por CPF do cliente
     if (cli_cpf) {
-        query += ` AND vendas.cli_cpf = ?`;
+        query += ` AND clientes.cli_cpf = ?`;
         params.push(cli_cpf);
     }
 
-    // Filtro por nome do produto
-    if (pro_nome) {
-        query += ` AND produtos.pro_nome LIKE ?`;
-        params.push(`%${pro_nome}%`);
-    }
+    query += ` ORDER BY agendamentos.age_entrada DESC`;
+
+    db.all(query, params, (err, rows) => {
+        if (err) {
+            console.error("Erro ao buscar relatório:", err);
+            res.status(500).json({ error: "Erro ao buscar relatório" });
+        } else {
+            res.json(rows || []);
+        }
+    });
 });
 
 ///////////////////////////// Rotas para servico /////////////////////////////
@@ -714,6 +803,31 @@ app.post("/moto", (req, res) => {
 
 // Listar motos
 app.get("/moto", (req, res) => {
+    const placa = req.query.placa || "";
+
+    if (placa) {
+        const query = `SELECT * FROM moto WHERE mt_placa LIKE ?`;
+        db.all(query, [`%${placa}%`], (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Erro ao buscar motos." });
+            }
+            res.json(rows);
+        });
+    } else {
+        const query = `SELECT * FROM moto`;
+        db.all(query, (err, rows) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Erro ao buscar motos." });
+            }
+            res.json(rows);
+        });
+    }
+});
+
+// Alias para /motos (plural)
+app.get("/motos", (req, res) => {
     const placa = req.query.placa || "";
 
     if (placa) {

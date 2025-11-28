@@ -18,7 +18,7 @@ async function carregarClientes() {
 
 async function carregarMotos() {
     try {
-        const response = await fetch('/moto');
+        const response = await fetch('/motos');
         const motos = await response.json();
         const select = document.getElementById('mt_placa');
         
@@ -36,7 +36,7 @@ async function carregarMotos() {
 
 async function carregarServicos() {
     try {
-        const response = await fetch('/servico');
+        const response = await fetch('/buscar-servicos');
         const servicos = await response.json();
         const select = document.getElementById('id_servico');
         
@@ -79,7 +79,7 @@ async function adicionarServico() {
     }
     
     try {
-        const response = await fetch('/servico', {
+        const response = await fetch('/cadastrar-servico', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ async function cadastrarAgendamento() {
     };
     
     try {
-        const response = await fetch('/agendamento', {
+        const response = await fetch('/cadastrar-agendamento', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -151,7 +151,7 @@ async function cadastrarAgendamento() {
 
 async function listarAgendamentos() {
     try {
-        const response = await fetch('/agendamento');
+        const response = await fetch('/agendamentos');
         const agendamentos = await response.json();
         const tabela = document.getElementById('tabela-agendamentos');
         
@@ -188,7 +188,7 @@ async function excluirAgendamento(id) {
     }
     
     try {
-        const response = await fetch(`/agendamento/${id}`, {
+        const response = await fetch(`/agendamentos/${id}`, {
             method: 'DELETE'
         });
         

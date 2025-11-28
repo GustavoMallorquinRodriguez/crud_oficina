@@ -45,7 +45,7 @@ function logar(event) {
 
     hideError();
 
-    if (!nome || !cpf) {
+    if (!nome || !senha) {
         showError("Por favor, preencha todos os campos.");
         return;
     }

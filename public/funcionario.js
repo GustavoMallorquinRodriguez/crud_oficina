@@ -3,12 +3,12 @@ async function cadastrarfuncionario(event) {
 
     const funcionario = {
         fun_nome: document.getElementById("fun_nome").value,
-        fun_cpf: document.getElementById("fun_cpf").value,
+        fun_cpf: document.getElementById("fun_cpf").value.replace(/\D/g, ""),
         fun_telefone: document.getElementById("fun_telefone").value,
         fun_endereco: document.getElementById("fun_endereco").value,
-        fun_salario: parseFloat(document.getElementById("fun_salario").value) || 0,
         fun_cargo: document.getElementById("fun_cargo").value,
-        fun_senha: document.getElementById("fun_senha").value,
+        fun_data_nascimento: document.getElementById("fun_data_nascimento").value,
+        fun_senhas: document.getElementById("fun_senhas").value,
     };
 
     try {
@@ -20,12 +20,14 @@ async function cadastrarfuncionario(event) {
             body: JSON.stringify(funcionario),
         });
 
-        const result = await response.json();
         if (response.ok) {
+            const result = await response.json();
             alert("Funcionário cadastrado com sucesso!");
             document.getElementById("cadastro-form").reset();
+            listarfuncionario();
         } else {
-            alert(`Erro: ${result.message}`);
+            const result = await response.text();
+            alert(`Erro: ${result}`);
         }
     } catch (err) {
         console.error("Erro na solicitação:", err);
@@ -34,7 +36,7 @@ async function cadastrarfuncionario(event) {
 }
 
 async function listarfuncionario() {
-    const fun_cpf = document.getElementById("fun_cpf").value.trim();
+    const fun_cpf = document.getElementById("fun_cpf").value.replace(/\D/g, "").trim();
 
     let url = "/funcionario";
 
@@ -53,20 +55,16 @@ async function listarfuncionario() {
 
         if (funcionarios.length === 0) {
             tabela.innerHTML =
-                '<tr><td colspan="7">Nenhum funcionário encontrado.</td></tr>';
+                '<tr><td colspan="6">Nenhum funcionário encontrado.</td></tr>';
         } else {
             funcionarios.forEach((funcionario) => {
                 const linha = document.createElement("tr");
-                const salarioFormatado = funcionario.fun_salario 
-                    ? `R$ ${funcionario.fun_salario.toFixed(2).replace('.', ',')}` 
-                    : '-';
                 linha.innerHTML = `
-                    <td>${funcionario.id_fun}</td>
+                    <td>${funcionario.id_fun || '-'}</td>
                     <td>${funcionario.fun_nome || '-'}</td>
                     <td>${funcionario.fun_cpf || '-'}</td>
                     <td>${funcionario.fun_telefone || '-'}</td>
                     <td>${funcionario.fun_endereco || '-'}</td>
-                    <td>${salarioFormatado}</td>
                     <td>${funcionario.fun_cargo || '-'}</td>
                 `;
                 tabela.appendChild(linha);
@@ -78,7 +76,7 @@ async function listarfuncionario() {
 }
 
 async function atualizarfuncionario() {
-    const fun_cpf = document.getElementById("fun_cpf").value;
+    const fun_cpf = document.getElementById("fun_cpf").value.replace(/\D/g, "");
     
     if (!fun_cpf) {
         alert("CPF é obrigatório para atualizar.");
@@ -89,13 +87,13 @@ async function atualizarfuncionario() {
         fun_nome: document.getElementById("fun_nome").value,
         fun_telefone: document.getElementById("fun_telefone").value,
         fun_endereco: document.getElementById("fun_endereco").value,
-        fun_salario: parseFloat(document.getElementById("fun_salario").value) || 0,
         fun_cargo: document.getElementById("fun_cargo").value,
+        fun_data_nascimento: document.getElementById("fun_data_nascimento").value,
     };
 
-    const senha = document.getElementById("fun_senha").value;
+    const senha = document.getElementById("fun_senhas").value;
     if (senha) {
-        funcionarioAtualizado.fun_senha = senha;
+        funcionarioAtualizado.fun_senhas = senha;
     }
 
     try {
@@ -109,6 +107,7 @@ async function atualizarfuncionario() {
 
         if (response.ok) {
             alert("Funcionário atualizado com sucesso!");
+            listarfuncionario();
         } else {
             const errorMessage = await response.text();
             alert("Erro ao atualizar funcionário: " + errorMessage);
@@ -122,3 +121,7 @@ async function atualizarfuncionario() {
 function limparFormulario() {
     document.getElementById("cadastro-form").reset();
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    listarfuncionario();
+});

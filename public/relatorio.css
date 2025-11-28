@@ -312,3 +312,60 @@ table tr:hover {
         margin: 8px 0;
     }
 }
+
+.btn-voltar {
+    position: fixed;
+    /* Fixo na tela, não rola com o conteúdo */
+    bottom: 25px;
+    /* 25px da parte inferior da tela */
+    left: 25px;
+    /* 25px da lateral esquerda da tela */
+    z-index: 100;
+    /* Camada alta de empilhamento (fica sobre outros elementos) */
+}
+
+/* Link do botão voltar */
+.btn-voltar a {
+    display: inline-flex;
+    /* Flexbox inline para alinhar ícone e texto */
+    align-items: center;
+    /* Alinha verticalmente ao centro */
+    gap: 8px;
+    /* Espaço de 8px entre ícone e texto */
+    background: #ff6600;
+    /* Fundo laranja */
+    color: white;
+    /* Texto branco */
+    font-weight: bold;
+    /* Texto em negrito */
+    font-size: 16px;
+    /* Tamanho da fonte */
+    padding: 14px 24px;
+    /* Espaçamento interno: 14px vertical, 24px horizontal */
+    border-radius: 40px;
+    /* Muito arredondado (formato pílula) */
+    text-decoration: none;
+    /* Remove sublinhado do link */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    /* Sombra para destacar o botão */
+    transition: all 0.3s ease;
+    /* Transição suave */
+}
+
+/* Adiciona seta antes do texto */
+.btn-voltar a::before {
+    content: '←';
+    /* Caractere de seta apontando para esquerda */
+    font-size: 18px;
+    /* Tamanho da seta */
+}
+
+/* Efeito hover no botão voltar */
+.btn-voltar a:hover {
+    background: #ff7f33;
+    /* Laranja mais claro */
+    transform: translateY(-3px);
+    /* Move 3px para cima */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    /* Sombra mais intensa */
+}

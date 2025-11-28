@@ -4,179 +4,117 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Cadastro Moto</title>
-        <!-- Link para o arquivo CSS externo -->
         <link rel="stylesheet" href="moto.css" />
     </head>
     <body>
-        <!-- CABEÇALHO -->
         <header class="header">
-            <!-- Container que agrupa os 3 logos -->
             <div class="logo-container">
-                <!-- Logo do Colégio Cívico-Militar -->
                 <div class="logo">
-                    <img
-                        src="imagens/ccm.jpeg"
-                        alt="Colégio Cívico-Militar do Paraná"
-                        class="logo-ccm"
-                    />
+                    <img src="imagens/ccm.jpeg" alt="Colégio Cívico-Militar do Paraná" class="logo-ccm" />
                 </div>
-
-                <!-- Logo central da RN Motos -->
                 <div class="logo">
-                    <img
-                        src="imagens/an_motos.png"
-                        alt="RN Motos"
-                        class="center-logo"
-                    />
+                    <img src="imagens/an_motos.png" alt="RN Motos" class="center-logo" />
                 </div>
-
-                <!-- Logo da AGAVI -->
                 <div class="logo">
-                    <img
-                        src="imagens/agavi.png"
-                        alt="AGAVI"
-                        class="logo-agavi"
-                    />
-                </div>
-                <div class="atualizarmoto">
-                    <a href="visualmoto.html">Atualizar Moto</a>
+                    <img src="imagens/agavi.png" alt="AGAVI" class="logo-agavi" />
                 </div>
             </div>
         </header>
 
-        <!-- CONTAINER PRINCIPAL DO FORMULÁRIO -->
         <div class="main-container">
             <div class="form-container">
-                <h2 class="form-title">Cadastrar moto</h2>
+                <h2 class="form-title">Cadastrar Moto para Cliente</h2>
 
-                <!-- Formulário de cadastro -->
                 <form id="cadastro-moto">
-                    <!-- Campo: Placa da Moto -->
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            id="mt_placa"
-                            maxlength="8"
-                            placeholder="Placa da Moto"
-                            required
-                        />
-                    </div>
+                    <fieldset>
+                        <legend style="font-weight: bold; margin-bottom: 15px;">DADOS DO CLIENTE</legend>
+                        
+                        <div class="form-group">
+                            <input type="text" id="cli_cpf" placeholder="CPF do Cliente" maxlength="14" readonly />
+                        </div>
 
-                    <!-- Campo: Modelo da Moto -->
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            id="mt_modelo"
-                            placeholder="Modelo da Moto"
-                            required
-                        />
-                    </div>
+                        <div class="form-group">
+                            <input type="text" id="cli_nome" placeholder="Nome do Cliente" readonly />
+                        </div>
+                    </fieldset>
 
-                    <!-- Campo: Ano da Moto -->
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            id="mt_ano"
-                            maxlength="9"
-                            placeholder="Ano da Moto"
-                            required
-                        />
-                    </div>
-                    <br />
+                    <fieldset>
+                        <legend style="font-weight: bold; margin-bottom: 15px;">DADOS DA MOTO</legend>
+                        
+                        <div class="form-group">
+                            <input type="text" id="mt_placa" maxlength="8" placeholder="Placa da Moto" required />
+                        </div>
 
-                    <!-- Botões de ação do formulário -->
+                        <div class="form-group">
+                            <input type="text" id="mt_modelo" placeholder="Modelo da Moto" required />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" id="mt_ano" maxlength="9" placeholder="Ano da Moto (ex: 2020/2021)" required />
+                        </div>
+                    </fieldset>
+
                     <div class="opções">
-                        <!-- Botão para cadastrar (chama função cadastrarmoto) -->
-                        <input
-                            type="submit"
-                            value="Cadastrar"
-                            class="submit-btn"
-                            onclick="cadastrarmoto(event)"
-                        />
-                        <!-- Botão para limpar o formulário -->
+                        <input type="button" value="Cadastrar" class="submit-btn" onclick="cadastrarmoto()" />
                         <input type="reset" value="Limpar" class="submit-btn" />
-                        <!-- Botão para atualizar -->
-                        <input
-                            type="button"
-                            value="Atualizar Moto"
-                            class="submit-btn"
-                            onclick="atualizarMoto()"
-                        />
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Botão para voltar à página inicial -->
         <div class="btn-voltar">
             <a href="index.html">VOLTAR</a>
         </div>
 
-        <!-- SEÇÃO DE VISUALIZAÇÃO DE MOTOS CADASTRADAS -->
         <div class="container">
             <div class="client-section">
-                <h2 class="section-title">Visualizar Motos</h2>
-
-                <!-- Botão para listar todas as motos -->
-                <button type="button" onclick="listarmoto()" class="alinhaBtns">
-                    Listar Motos
-                </button>
-
-                <!-- Contador de total de motos -->
+                <h2 class="section-title">Motos Cadastradas</h2>
+                <button type="button" onclick="listarmoto()" class="alinhaBtns">Listar Motos</button>
                 <div class="client-stats">
                     <p>Total de motos: <span id="totalClientes">0</span></p>
                 </div>
-
-                <!-- Tabela para exibir as motos cadastradas -->
                 <div class="table-container">
                     <table class="client-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Placa</th>
                                 <th>Modelo</th>
                                 <th>Ano</th>
                             </tr>
                         </thead>
-                        <!-- Corpo da tabela será preenchido dinamicamente via JavaScript -->
-                        <tbody id="tabela-moto">
-                            <!-- Motos serão carregados aqui dinamicamente -->
-                        </tbody>
+                        <tbody id="tabela-moto"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Link para o arquivo JavaScript externo -->
-        <script src="moto.js"></script>
+        <script src="cadastromoto.js" defer></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const placaInput = document.querySelector('input[placeholder="Placa da Moto"]');
+                const anoInput = document.querySelector('input[placeholder="Ano da Moto (ex: 2020/2021)"]');
+                
+                if (placaInput) {
+                    placaInput.addEventListener("input", function (e) {
+                        let value = e.target.value.replace(/\D/g, "");
+                        value = value.replace(/(\d{3})(\d)/, "$1$2");
+                        value = value.replace(/(\d{4})(\d)/, "$1-$2");
+                        e.target.value = value;
+                    });
+                }
+                
+                if (anoInput) {
+                    anoInput.addEventListener("input", function (e) {
+                        let value = e.target.value.replace(/\D/g, "");
+                        value = value.replace(/(\d{2})(\d)/, "$1$2");
+                        value = value.replace(/(\d{4})(\d)/, "$1/$2");
+                        e.target.value = value;
+                    });
+                }
+                
+                carregarDadosCliente();
+                listarmoto();
+            });
+        </script>
     </body>
 </html>
-
-<!-- SCRIPT INLINE PARA MÁSCARAS DE ENTRADA -->
-<script>
-    // Máscara para o campo de placa
-    // Formata como: 123-4567
-    document
-        .querySelector('input[placeholder="Placa da Moto"]')
-        .addEventListener("input", function (e) {
-            // Remove todos os caracteres não numéricos
-            let value = e.target.value.replace(/\D/g, "");
-            // Adiciona hífen após os primeiros 3 dígitos
-            value = value.replace(/(\d{3})(\d)/, "$1$2");
-            value = value.replace(/(\d{4})(\d)/, "$1-$2");
-            e.target.value = value;
-        });
-
-    // Máscara para o campo de ano da moto
-    // Formata como: 2020/2021 (ano fabricação/ano modelo)
-    document
-        .querySelector('input[placeholder="Ano da Moto"]')
-        .addEventListener("input", function (e) {
-            // Remove todos os caracteres não numéricos
-            let value = e.target.value.replace(/\D/g, "");
-            // Adiciona barra após os primeiros 4 dígitos
-            value = value.replace(/(\d{2})(\d)/, "$1$2");
-            value = value.replace(/(\d{4})(\d)/, "$1/$2");
-            e.target.value = value;
-        });
-</script>

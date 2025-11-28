@@ -169,30 +169,6 @@
                         </div>
                     </div>
 
-                    <!-- NOVA SEÇÃO: Produtos (pode adicionar vários) -->
-                    <div class="form-row" id="produtos-container">
-                        <div class="form-group">
-                            <input
-                                type="text"
-                                name="produto[]"
-                                class="produto-input"
-                                placeholder="Moto"
-                            />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <button
-                                type="button"
-                                id="id_mt"
-                                class="submit-btn"
-                                style="display: none"
-                            >
-                                Adicionar outro produto
-                            </button>
-                        </div>
-                    </div>
-
                     <!-- BOTÕES DE AÇÃO DO FORMULÁRIO -->
                     <div class="opções">
                         <!-- Botão para cadastrar novo cliente -->
@@ -405,59 +381,30 @@
                 });
         </script>
 
-        <!-- SCRIPT PARA ADICIONAR/REMOVER PRODUTOS DINAMICAMENTE -->
+        <!-- SCRIPT PARA MÁSCARAS DE ENTRADA (CPF E TELEFONE) -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const produtosContainer =
-                    document.getElementById("produtos-container");
-                const addBtn = document.getElementById("addProdutoBtn");
+                const cpfInput = document.querySelector('input[placeholder="CPF"]');
+                const telefoneInput = document.querySelector('input[placeholder="Telefone"]');
 
-                function toggleAddBtn() {
-                    const inputs = produtosContainer.querySelectorAll(
-                        "input.produto-input",
-                    );
-                    const last = inputs[inputs.length - 1];
-                    addBtn.style.display =
-                        last && last.value.trim() !== ""
-                            ? "inline-block"
-                            : "none";
+                if (cpfInput) {
+                    cpfInput.addEventListener("input", function (e) {
+                        let value = e.target.value.replace(/\D/g, "");
+                        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                        value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                        e.target.value = value;
+                    });
                 }
 
-                // Mostrar/ocultar botão conforme digita
-                produtosContainer.addEventListener("input", function (e) {
-                    if (
-                        e.target &&
-                        e.target.classList.contains("produto-input")
-                    ) {
-                        toggleAddBtn();
-                    }
-                });
-
-                // Ao clicar em "Adicionar outro produto", cria novo campo com botão Remover
-                addBtn.addEventListener("click", function () {
-                    const group = document.createElement("div");
-                    group.className = "form-group";
-                    group.innerHTML =
-                        '<input type="text" name="produto[]" class="produto-input" placeholder="Produto" />' +
-                        ' <button type="button" class="remove-produto-btn submit-btn">Remover</button>';
-                    produtosContainer.appendChild(group);
-
-                    // foco no novo input
-                    group.querySelector("input.produto-input").focus();
-
-                    // handler para remover
-                    group
-                        .querySelector(".remove-produto-btn")
-                        .addEventListener("click", function () {
-                            group.remove();
-                            toggleAddBtn();
-                        });
-
-                    toggleAddBtn();
-                });
-
-                // estado inicial
-                toggleAddBtn();
+                if (telefoneInput) {
+                    telefoneInput.addEventListener("input", function (e) {
+                        let value = e.target.value.replace(/\D/g, "");
+                        value = value.replace(/(\d{2})(\d)/, "($1) $2");
+                        value = value.replace(/(\d{5})(\d)/, "$1-$2");
+                        e.target.value = value;
+                    });
+                }
             });
         </script>
     </body>

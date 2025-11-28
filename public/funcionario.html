@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>An Motos</title>
     <link rel="stylesheet" href="funcionario.css" />
-    <script src="funcionario.js"></script>
   </head>
   <body>
     <header class="header">
@@ -74,17 +73,6 @@
 
           <div class="form-group">
             <input
-              type="number"
-              step="0.01"
-              class="form-control"
-              id="fun_salario"
-              placeholder="Salário"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <input
               type="text"
               class="form-control"
               id="fun_cargo"
@@ -95,9 +83,19 @@
 
           <div class="form-group">
             <input
+              type="date"
+              class="form-control"
+              id="fun_data_nascimento"
+              placeholder="Data de Nascimento"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <input
               type="password"
               class="form-control"
-              id="fun_senha"
+              id="fun_senhas"
               placeholder="Senha"
               required
             />
@@ -105,7 +103,7 @@
 
           <div class="opções">
             <input
-              type="submit"
+              type="button"
               value="Cadastrar"
               class="submit-btn"
               onclick="cadastrarfuncionario(event)"
@@ -146,7 +144,6 @@
                   <th>CPF</th>
                   <th>Telefone</th>
                   <th>Endereço</th>
-                  <th>Salário</th>
                   <th>Cargo</th>
                 </tr>
               </thead>
@@ -162,25 +159,31 @@
       <a href="index.html">VOLTAR</a>
     </div>
 
+    <script src="funcionario.js" defer></script>
     <script>
-      document
-        .querySelector('input[placeholder="CPF"]')
-        .addEventListener("input", function (e) {
-          let value = e.target.value.replace(/\D/g, "");
-          value = value.replace(/(\d{3})(\d)/, "$1.$2");
-          value = value.replace(/(\d{3})(\d)/, "$1.$2");
-          value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-          e.target.value = value;
-        });
-
-      document
-        .querySelector('input[placeholder="Telefone"]')
-        .addEventListener("input", function (e) {
-          let value = e.target.value.replace(/\D/g, "");
-          value = value.replace(/(\d{2})(\d)/, "($1) $2");
-          value = value.replace(/(\d{5})(\d)/, "$1-$2");
-          e.target.value = value;
-        });
+      document.addEventListener("DOMContentLoaded", function() {
+        const cpfInput = document.querySelector('input[placeholder="CPF"]');
+        const telefoneInput = document.querySelector('input[placeholder="Telefone"]');
+        
+        if (cpfInput) {
+          cpfInput.addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            e.target.value = value;
+          });
+        }
+        
+        if (telefoneInput) {
+          telefoneInput.addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{2})(\d)/, "($1) $2");
+            value = value.replace(/(\d{5})(\d)/, "$1-$2");
+            e.target.value = value;
+          });
+        }
+      });
     </script>
   </body>
 </html>

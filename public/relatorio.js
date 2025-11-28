@@ -1,190 +1,88 @@
-// Função para buscar cliente pelo CPF
-function buscarCliente() {
-    const cpf = document.getElementById("cli_cpf").value;
+// Carregar vendas com filtros
+async function carregarVendas(filtros = {}) {
+    try {
+        let url = "/relatorios-vendas?";
+        const params = [];
 
-    if (!cpf) {
-        alert("Por favor, insira o CPF do cliente.");
-        return;
-    }
+        if (filtros.cpf) {
+            params.push(`cli_cpf=${encodeURIComponent(filtros.cpf)}`);
+        }
+        if (filtros.produto) {
+            params.push(`pro_nome=${encodeURIComponent(filtros.produto)}`);
+        }
+        if (filtros.data) {
+            params.push(`data=${encodeURIComponent(filtros.data)}`);
+        }
 
-    fetch(`/clientes/${cpf}`)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Cliente não encontrado.");
-            }
-            return response.json();
-        })
-        .then((cliente) => {
-            const clienteInfo = document.getElementById("cliente-info");
-            clienteInfo.innerHTML = `
-                <h3>Informações do Cliente</h3>
-                <p><strong>Nome:</strong> ${cliente.cli_nome}</p>
-                <p><strong>CPF:</strong> ${cliente.cli_cpf}</p>
-                <p><strong>Email:</strong> ${cliente.cli_email}</p>
-                <p><strong>Telefone:</strong> ${cliente.cli_telefone || 'N/A'}</p>
-            `;
-        })
-        .catch((error) => {
-            alert(error.message);
-        });
-}
+        url += params.join("&");
 
-function adicionarProdutoAoCarrinho() {
-    const id = document.getElementById("produto-nome").value;
-    const quantidade = parseInt(
-        document.getElementById("produto-quantidade").value,
-    );
-
-    if (!id || isNaN(quantidade) || quantidade <= 0) {
-        alert(
-            "Por favor, insira um produto válido e uma quantidade maior que zero.",
-        );
-        return;
-    }
-
-    fetch(`/produtos_carrinho/${id}`)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Produto não encontrado.");
-            }
-            return response.json();
-        })
-        .then((produto) => {
-            adicionarProdutoNaTabela(produto, quantidade);
-        })
-        .catch((error) => {
-            alert(error.message);
-        });
-}
-
-// Função para adicionar produto na tabela de carrinho
-function adicionarProdutoNaTabela(produto, quantidade) {
-    const carrinhoBody = document.querySelector("#carrinho");
-
-    const subtotal = produto.pro_preco * quantidade;
-    const novaLinha = document.createElement("tr");
-
-    novaLinha.setAttribute("data-id", produto.id_pro);
-    novaLinha.innerHTML = `
-        <td>${produto.id_pro}</td>  
-        <td>${produto.pro_nome}</td>
-        <td>${quantidade}</td>
-        <td>R$ ${produto.pro_preco.toFixed(2)}</td>
-        <td>R$ ${subtotal.toFixed(2)}</td>
-        <td><button onclick="removerProduto(this, ${subtotal})">Remover</button></td>
-    `;
-
-    carrinhoBody.appendChild(novaLinha);
-
-    atualizarTotalVenda(subtotal);
-}
-
-// Função para remover produto do carrinho
-function removerProduto(botao, subtotal) {
-    botao.closest("tr").remove();
-    atualizarTotalVenda(-subtotal);
-}
-
-// Função para atualizar o total da venda
-function atualizarTotalVenda(valor) {
-    const totalVendaElement = document.getElementById("total-venda");
-    const valorAtual =
-        parseFloat(totalVendaElement.getAttribute("data-total")) || 0;
-    const novoTotal = valorAtual + valor;
-
-    totalVendaElement.setAttribute("data-total", novoTotal);
-    totalVendaElement.textContent = `Total: R$ ${novoTotal.toFixed(2)}`;
-}
-
-// Função para finalizar a venda
-function finalizarVenda() {
-    const cpfCliente = document.getElementById("cli_cpf").value;
-    const carrinhoRows = document.querySelectorAll("#carrinho tr");
-    const totalVenda = parseFloat(
-        document.getElementById("total-venda").getAttribute("data-total"));
-
-    if (!cpfCliente) {
-        alert("Por favor, insira o CPF do cliente.");
-        return;
-    }
-
-    if (carrinhoRows.length === 0) {
-        alert(
-            "O carrinho está vazio. Adicione produtos para finalizar a venda.",
-        );
-        return;
-    }
-
-    const itens = [];
-    carrinhoRows.forEach((row) => {
-        const idProduto = row.getAttribute("data-id");
-        const quantidade = parseInt(row.children[2].textContent); // Quantidade está na 3ª coluna
-        if (!idProduto || isNaN(quantidade) || quantidade <= 0) {
-            console.error(
-                "Produto ou quantidade inválidos:",
-                idProduto,
-                quantidade
-            );
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Erro ao buscar vendas");
+        
+        const dados = await response.json();
+        let tbody = document.getElementById("tabela-vendas");
+        tbody.innerHTML = "";
+        
+        if (!dados || dados.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5">Nenhuma venda encontrada</td></tr>';
             return;
         }
-        itens.push({ idProduto, quantidade });
+        
+        dados.forEach((item) => {
+            const tr = document.createElement('tr');
+            const precoTotal = item.preco_total ? parseFloat(item.preco_total).toFixed(2) : '0.00';
+            tr.innerHTML = `
+                <td>${item.id}</td>
+                <td>${item.cli_cpf}</td>
+                <td>${item.pro_nome || item.id_produto}</td>
+                <td>${item.quantidade}</td>
+                <td>R$ ${precoTotal}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        console.error("Erro:", error);
+    }
+}
+
+// Buscar vendas com filtros
+function buscarVendas() {
+    const cpf = document.getElementById("filtro-cpf").value.replace(/\D/g, "");
+    const produto = document.getElementById("filtro-produto").value;
+    const data = document.getElementById("filtro-data").value;
+
+    carregarVendas({
+        cpf: cpf,
+        produto: produto,
+        data: data
     });
+}
 
-    const venda = {
-        cli_cpf: cpfCliente,
-        itens
-    };
+// Limpar filtros
+function limparFiltros() {
+    document.getElementById("filtro-cpf").value = "";
+    document.getElementById("filtro-produto").value = "";
+    document.getElementById("filtro-data").value = "";
+    carregarVendas();
+}
 
-    fetch("/vendas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(venda),
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(
-                    "Erro ao finalizar a venda. Verifique os dados.");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            alert("Venda realizada com sucesso!");
-            limparFormulario();
-        })
-        .catch((error) => {
-            alert(error.message);
+// Inicializar
+document.addEventListener('DOMContentLoaded', function() {
+    const cpfInput = document.getElementById("filtro-cpf");
+    
+    if (cpfInput) {
+        cpfInput.addEventListener("input", function(e) {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            e.target.value = value;
         });
-}
-
-function limparFormulario() {
-    document.getElementById("cli_cpf").value = "";
-    document.getElementById("cliente-info").innerHTML = "";
-    document.querySelector("#carrinho").innerHTML = "";
-    document.getElementById("produto-nome").value = "";
-    document.getElementById("produto-quantidade").value = "";
-    const totalVendaElement = document.getElementById("total-venda");
-    totalVendaElement.setAttribute("data-total", "0");
-    totalVendaElement.textContent = "Total: R$ 0,00";
-}
-
-function buscarProdutos() {
-    fetch("/buscar-produtos")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Erro ao buscar produtos");
-            }
-            return response.json();
-        })
-        .then((produtos) => {
-            const select = document.getElementById("produto-nome");
-            produtos.forEach((produto) => {
-                const option = document.createElement("option");
-                option.value = produto.id_pro;
-                option.textContent = `${produto.pro_nome} (Disponível: ${produto.pro_quantidade_estoque})`;
-                select.appendChild(option);
-            });
-        })
-        .catch((error) => {
-            console.error("Erro ao carregar os produtos:", error);
+        
+        cpfInput.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") buscarVendas();
         });
-}
+    }
+
+    carregarVendas();
+});
