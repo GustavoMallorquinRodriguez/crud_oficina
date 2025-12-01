@@ -1,3 +1,4 @@
+/* RESET GLOBAL */
 * {
     margin: 0;
     padding: 0;
@@ -5,219 +6,299 @@
     font-family: Arial, sans-serif;
 }
 
+/* ESTILO GLOBAL DO BODY */
 body {
     background-color: #f0f0f0;
+    min-height: 100vh;
 }
 
+/* CABEÇALHO */
 .header {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
-    padding: 30px;
+    padding: 18px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.logo-left, .logo-center, .logo-right {
+/* LOGOS DO CABEÇALHO */
+.logo-left,
+.logo-center,
+.logo-right {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80px;
+}
+
+.logo-left img,
+.logo-right img {
+    width: 140px;
+    height: 120px;
+    object-fit: contain;
 }
 
 .logo-left img {
     border-radius: 50%;
-}
-
-.logo-left img, .logo-right img {
-    max-width: 140px;
-    max-height: 120px;
-    object-fit: contain;
-}
-
-.logo-center {
-    flex-direction: column;
-    gap: 10px;
+    object-fit: cover;
 }
 
 .logo-center img {
-    max-width: 150px;
-    max-height: 85px;
+    height: 120px;
+    max-width: 250px;
     object-fit: contain;
 }
 
+/* CONTAINER PRINCIPAL */
 .container {
-    max-width: 1000px;
-    margin: 20px auto;
-    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    overflow: hidden;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+/* SEÇÃO DO FORMULÁRIO */
 .form-header {
-    background-color: #ff7b00;
-    color: white;
-    padding: 20px;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.container > div:has(.form-header) {
+    background: linear-gradient(135deg, #e8edf1, #d7e1e8);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out;
 }
 
 .form-content {
-    padding: 30px;
+    padding: 0;
 }
 
+/* LINHA DO FORMULÁRIO */
 .form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
     gap: 20px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
+/* GRUPO DE CAMPO */
 .form-group {
+    flex: 1;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
 }
 
 .form-group label {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: bold;
     color: #333;
+    font-size: 14px;
 }
 
+/* INPUTS E SELECTS */
 .form-group input,
 .form-group select {
-    padding: 12px;
-    border: 2px solid #ddd;
+    padding: 15px;
+    border: none;
     border-radius: 5px;
     font-size: 16px;
-    transition: border-color 0.3s;
-    background: white;
+    background-color: white;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #ff7b00;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 102, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 .form-group select {
     cursor: pointer;
 }
 
+/* ADICIONAR NOVO SERVIÇO */
 .add-new {
     display: flex;
-    gap: 5px;
+    gap: 10px;
     margin-top: 8px;
 }
 
 .add-new input {
     flex: 1;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
     font-size: 14px;
+    background-color: white;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .add-new button {
-    background: #4CAF50;
+    background: #ff6600;
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 .add-new button:hover {
-    background: #45a049;
+    background: #ff7f33;
+    transform: translateY(-2px);
 }
 
+/* CONTAINER DOS BOTÕES */
 .btn-container {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
+/* BOTÕES SUBMIT */
 .submit-btn {
-    background-color: #ff7b00;
+    background-color: #ff6600;
     color: white;
     border: none;
     padding: 15px 40px;
     font-size: 18px;
-    border-radius: 25px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .submit-btn:hover {
-    background-color: #e66a00;
+    background-color: #ff7f33;
     transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .limpar-btn {
-    background: #999;
-    margin-left: 10px;
+    background: #95a5a6;
 }
 
 .limpar-btn:hover {
-    background: #777;
+    background: #7f8c8d;
 }
 
+/* MENSAGEM DE SUCESSO */
+.success-message {
+    background-color: #27ae60;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: none;
+    font-weight: bold;
+}
+
+/* CONTAINER DA TABELA */
 .table-container {
-    padding: 20px;
-    overflow-x: auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    overflow: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
+/* TABELA DE AGENDAMENTOS */
 .agenda-table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.agenda-table thead {
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
-    color: white;
-}
-
-.agenda-table th,
-.agenda-table td {
-    padding: 12px 10px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-}
-
-.agenda-table th {
-    font-weight: bold;
     font-size: 14px;
 }
 
+.agenda-table thead {
+    background: #ff6600;
+    color: white;
+}
+
+.agenda-table th {
+    padding: 18px 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid #2c3e50;
+    position: relative;
+    white-space: nowrap;
+}
+
+.agenda-table th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
 .agenda-table td {
-    font-size: 13px;
-    color: #333;
+    padding: 15px;
+    border-bottom: 1px solid #e8f4f8;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.agenda-table tbody tr {
+    transition: all 0.3s ease;
 }
 
 .agenda-table tbody tr:hover {
-    background: #f9f9f9;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    transform: scale(1.01);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+.agenda-table tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.agenda-table tbody tr:nth-child(even):hover {
+    background: linear-gradient(135deg, #e9ecef, #dee2e6);
+}
+
+/* BOTÃO EXCLUIR */
 .btn-excluir {
-    background: #f44336;
+    background: #e74c3c;
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 8px 15px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 .btn-excluir:hover {
-    background: #d32f2f;
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
 }
 
+/* BOTÃO VOLTAR */
 .btn-voltar {
     position: fixed;
     bottom: 25px;
@@ -236,52 +317,55 @@ body {
     padding: 14px 24px;
     border-radius: 40px;
     text-decoration: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease;
 }
 
 .btn-voltar a::before {
-    content: '\2190';
+    content: '←';
     font-size: 18px;
 }
 
 .btn-voltar a:hover {
     background: #ff7f33;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
-.success-message {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    margin: 20px;
-    text-align: center;
-    display: none;
+/* ANIMAÇÃO FADE IN */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@media (max-width: 768px) {
+/* ====== RESPONSIVIDADE ====== */
+
+/* TABLET (768px a 1024px) */
+@media (max-width: 1024px) {
     .header {
-        flex-direction: column;
-        gap: 10px;
+        padding: 15px 30px;
     }
 
-    .logo-left, .logo-center, .logo-right {
-        height: 60px;
+    .logo-left img,
+    .logo-right img,
+    .logo-center img {
+        height: 100px;
+        max-width: 180px;
     }
 
-    .logo-left img, .logo-center img, .logo-right img {
-        max-width: 100px;
-        max-height: 50px;
+    .container > div:has(.form-header) {
+        padding: 25px;
     }
 
     .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .container {
-        margin: 10px;
+        gap: 15px;
     }
 
     .agenda-table {
@@ -290,6 +374,125 @@ body {
 
     .agenda-table th,
     .agenda-table td {
-        padding: 8px 5px;
+        padding: 10px 8px;
+    }
+}
+
+/* MOBILE (até 768px) */
+@media (max-width: 768px) {
+    .header {
+        gap: 15px;
+        padding: 15px;
+        flex-direction: column;
+    }
+
+    .logo-left img,
+    .logo-center img,
+    .logo-right img {
+        max-width: 100px;
+        max-height: 80px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-group {
+        min-width: auto;
+    }
+
+    .container {
+        margin: 20px 10px;
+    }
+
+    .container > div:has(.form-header) {
+        padding: 20px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .agenda-table {
+        font-size: 11px;
+    }
+
+    .agenda-table th,
+    .agenda-table td {
+        padding: 8px 6px;
+    }
+
+    .btn-container {
+        flex-direction: column;
+    }
+
+    .btn-voltar {
+        bottom: 15px;
+        left: 15px;
+    }
+
+    .btn-voltar a {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
+
+/* EXTRA SMALL (até 480px) */
+@media (max-width: 480px) {
+    .header {
+        padding: 10px;
+    }
+
+    .logo-left img,
+    .logo-center img,
+    .logo-right img {
+        height: 50px;
+        max-width: 80px;
+    }
+
+    .form-title,
+    .form-header {
+        font-size: 16px;
+    }
+
+    .container > div:has(.form-header) {
+        padding: 15px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .submit-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .agenda-table {
+        font-size: 10px;
+    }
+
+    .agenda-table th,
+    .agenda-table td {
+        padding: 6px 4px;
+    }
+
+    .btn-voltar {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .btn-voltar a {
+        padding: 8px 12px;
+        font-size: 12px;
     }
 }

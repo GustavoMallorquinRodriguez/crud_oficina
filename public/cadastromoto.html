@@ -10,13 +10,25 @@
         <header class="header">
             <div class="logo-container">
                 <div class="logo">
-                    <img src="imagens/ccm.jpeg" alt="Colégio Cívico-Militar do Paraná" class="logo-ccm" />
+                    <img
+                        src="imagens/ccm.jpeg"
+                        alt="Colégio Cívico-Militar do Paraná"
+                        class="logo-ccm"
+                    />
                 </div>
                 <div class="logo">
-                    <img src="imagens/an_motos.png" alt="RN Motos" class="center-logo" />
+                    <img
+                        src="imagens/an_motos.png"
+                        alt="RN Motos"
+                        class="center-logo"
+                    />
                 </div>
                 <div class="logo">
-                    <img src="imagens/agavi.png" alt="AGAVI" class="logo-agavi" />
+                    <img
+                        src="imagens/agavi.png"
+                        alt="AGAVI"
+                        class="logo-agavi"
+                    />
                 </div>
             </div>
         </header>
@@ -26,37 +38,65 @@
                 <h2 class="form-title">Cadastrar Moto para Cliente</h2>
 
                 <form id="cadastro-moto">
-                    <fieldset>
-                        <legend style="font-weight: bold; margin-bottom: 15px;">DADOS DO CLIENTE</legend>
-                        
-                        <div class="form-group">
-                            <input type="text" id="cli_cpf" placeholder="CPF do Cliente" maxlength="14" readonly />
-                        </div>
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            id="cli_cpf"
+                            placeholder="CPF do Cliente"
+                            maxlength="14"
+                            readonly
+                        />
+                    </div>
 
-                        <div class="form-group">
-                            <input type="text" id="cli_nome" placeholder="Nome do Cliente" readonly />
-                        </div>
-                    </fieldset>
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            id="cli_nome"
+                            placeholder="Nome do Cliente"
+                            readonly
+                        />
+                    </div>
 
-                    <fieldset>
-                        <legend style="font-weight: bold; margin-bottom: 15px;">DADOS DA MOTO</legend>
-                        
-                        <div class="form-group">
-                            <input type="text" id="mt_placa" maxlength="8" placeholder="Placa da Moto" required />
-                        </div>
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            id="mt_placa"
+                            maxlength="8"
+                            placeholder="Placa da Moto"
+                            required
+                        />
+                    </div>
 
-                        <div class="form-group">
-                            <input type="text" id="mt_modelo" placeholder="Modelo da Moto" required />
-                        </div>
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            id="mt_modelo"
+                            placeholder="Modelo da Moto"
+                            required
+                        />
+                    </div>
 
-                        <div class="form-group">
-                            <input type="text" id="mt_ano" maxlength="9" placeholder="Ano da Moto (ex: 2020/2021)" required />
-                        </div>
-                    </fieldset>
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            id="mt_ano"
+                            maxlength="9"
+                            placeholder="Ano da Moto (ex: 2020/2021)"
+                            required
+                        />
+                    </div>
 
                     <div class="opções">
-                        <input type="button" value="Cadastrar" class="submit-btn" onclick="cadastrarmoto()" />
+                        <input
+                            type="button"
+                            value="Cadastrar"
+                            class="submit-btn"
+                            onclick="cadastrarmoto()"
+                        />
                         <input type="reset" value="Limpar" class="submit-btn" />
+                        <a class="submit-btn" href="visualmoto.html"
+                            >Atualizar Cliente</a
+                        >
                     </div>
                 </form>
             </div>
@@ -69,7 +109,9 @@
         <div class="container">
             <div class="client-section">
                 <h2 class="section-title">Motos Cadastradas</h2>
-                <button type="button" onclick="listarmoto()" class="alinhaBtns">Listar Motos</button>
+                <button type="button" onclick="listarmoto()" class="alinhaBtns">
+                    Listar Motos
+                </button>
                 <div class="client-stats">
                     <p>Total de motos: <span id="totalClientes">0</span></p>
                 </div>
@@ -90,10 +132,14 @@
 
         <script src="cadastromoto.js" defer></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const placaInput = document.querySelector('input[placeholder="Placa da Moto"]');
-                const anoInput = document.querySelector('input[placeholder="Ano da Moto (ex: 2020/2021)"]');
-                
+            document.addEventListener("DOMContentLoaded", function () {
+                const placaInput = document.querySelector(
+                    'input[placeholder="Placa da Moto"]',
+                );
+                const anoInput = document.querySelector(
+                    'input[placeholder="Ano da Moto (ex: 2020/2021)"]',
+                );
+
                 if (placaInput) {
                     placaInput.addEventListener("input", function (e) {
                         let value = e.target.value.replace(/\D/g, "");
@@ -102,7 +148,7 @@
                         e.target.value = value;
                     });
                 }
-                
+
                 if (anoInput) {
                     anoInput.addEventListener("input", function (e) {
                         let value = e.target.value.replace(/\D/g, "");
@@ -111,7 +157,7 @@
                         e.target.value = value;
                     });
                 }
-                
+
                 carregarDadosCliente();
                 listarmoto();
             });

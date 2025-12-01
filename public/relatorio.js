@@ -10,8 +10,11 @@ async function carregarVendas(filtros = {}) {
         if (filtros.produto) {
             params.push(`pro_nome=${encodeURIComponent(filtros.produto)}`);
         }
-        if (filtros.data) {
-            params.push(`data=${encodeURIComponent(filtros.data)}`);
+        if (filtros.dataInicio) {
+            params.push(`data_inicio=${encodeURIComponent(filtros.dataInicio)}`);
+        }
+        if (filtros.dataFim) {
+            params.push(`data_fim=${encodeURIComponent(filtros.dataFim)}`);
         }
 
         url += params.join("&");
@@ -49,12 +52,14 @@ async function carregarVendas(filtros = {}) {
 function buscarVendas() {
     const cpf = document.getElementById("filtro-cpf").value.replace(/\D/g, "");
     const produto = document.getElementById("filtro-produto").value;
-    const data = document.getElementById("filtro-data").value;
+    const dataInicio = document.getElementById("filtro-data-inicio").value;
+    const dataFim = document.getElementById("filtro-data-fim").value;
 
     carregarVendas({
         cpf: cpf,
         produto: produto,
-        data: data
+        dataInicio: dataInicio,
+        dataFim: dataFim
     });
 }
 
@@ -62,7 +67,8 @@ function buscarVendas() {
 function limparFiltros() {
     document.getElementById("filtro-cpf").value = "";
     document.getElementById("filtro-produto").value = "";
-    document.getElementById("filtro-data").value = "";
+    document.getElementById("filtro-data-inicio").value = "";
+    document.getElementById("filtro-data-fim").value = "";
     carregarVendas();
 }
 

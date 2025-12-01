@@ -27,6 +27,8 @@ body {
     /* Centraliza verticalmente */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     /* Sombra suave */
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 /* LOGOS DO CABEÇALHO */
@@ -102,11 +104,13 @@ body {
     gap: 20px;
     /* Espaço entre campos */
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 /* GRUPO DE CAMPO INDIVIDUAL */
 .form-group {
     flex: 1;
+    min-width: 250px;
     /* Ocupa espaço disponível igualmente */
 }
 
@@ -232,50 +236,6 @@ input:disabled {
     /* Sombra maior */
 }
 
-/* RESPONSIVIDADE PARA TELAS PEQUENAS */
-@media (max-width: 768px) {
-    .header {
-        gap: 20px;
-        text-align: center;
-    }
-
-    .main-logo {
-        font-size: 36px;
-    }
-
-    /* Campos em coluna única em mobile */
-    .form-row {
-        flex-direction: column;
-    }
-
-    /* Remove larguras fixas em mobile */
-    .form-group.quarter,
-    .form-group.half {
-        flex: 1;
-    }
-
-    /* Reduz padding em telas pequenas */
-    .form-container {
-        padding: 20px;
-    }
-}
-
-/* EFEITO DE FUNDO PARA LOGO DE MOTO */
-.motorcycle-bg {
-    position: relative;
-}
-
-.motorcycle-bg::before {
-    font-size: 40px;
-    opacity: 0.1;
-    /* Muito transparente */
-    position: absolute;
-    right: -10px;
-    top: -10px;
-    z-index: 0;
-    /* Atrás do conteúdo */
-}
-
 /* SEÇÃO DE CLIENTES/LISTAGEM */
 .client-section {
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
@@ -322,7 +282,7 @@ input:disabled {
     background: rgba(255, 255, 255, 0.95);
     /* Branco semi-transparente */
     border-radius: 15px;
-    overflow: hidden;
+    overflow: auto;
     /* Esconde bordas da tabela */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -349,6 +309,7 @@ input:disabled {
     letter-spacing: 0.5px;
     border-bottom: 3px solid #2c3e50;
     position: relative;
+    white-space: nowrap;
 }
 
 /* EFEITO DE GRADIENTE NO CABEÇALHO */
@@ -406,6 +367,7 @@ input:disabled {
     font-weight: bold;
     margin: 2px;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 /* BOTÃO EDITAR */
@@ -522,6 +484,7 @@ input:disabled {
     gap: 15px;
     justify-content: flex-end;
     /* Alinha à direita */
+    flex-wrap: wrap;
 }
 
 .save-btn,
@@ -625,4 +588,202 @@ input:disabled {
     background: #ff7f33;
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* ====== RESPONSIVIDADE ====== */
+
+/* TABLET (768px a 1024px) */
+@media (max-width: 1024px) {
+    .header {
+        padding: 15px 30px;
+    }
+
+    .logo img {
+        width: 100px;
+        height: 90px;
+    }
+
+    .main-logo img,
+    .agave-logo img {
+        height: 100px;
+        max-width: 180px;
+    }
+
+    .form-group.quarter {
+        flex: 0 0 48%;
+    }
+
+    .form-group.half {
+        flex: 0 0 100%;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+
+    .form-container {
+        padding: 25px;
+    }
+
+    .form-title {
+        font-size: 20px;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 30% auto;
+    }
+}
+
+/* MOBILE (até 768px) */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .logo img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .main-logo img,
+    .agave-logo img {
+        height: 70px;
+        max-width: 120px;
+    }
+
+    /* Campos em coluna única em mobile */
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Remove larguras fixas em mobile */
+    .form-group.quarter,
+    .form-group.half,
+    .form-group {
+        flex: 1;
+        min-width: 100%;
+    }
+
+    /* Reduz padding em telas pequenas */
+    .form-container {
+        padding: 15px;
+    }
+
+    .form-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    .submit-btn,
+    .alinhaBtns {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .client-table {
+        font-size: 12px;
+    }
+
+    .client-table th,
+    .client-table td {
+        padding: 10px 8px;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 50% auto;
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    .modal-buttons {
+        justify-content: center;
+    }
+
+    .btn-voltar {
+        bottom: 15px;
+        left: 15px;
+    }
+
+    .btn-voltar a {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
+
+/* EXTRA SMALL (até 480px) */
+@media (max-width: 480px) {
+    .header {
+        padding: 8px 10px;
+    }
+
+    .logo img,
+    .main-logo img,
+    .agave-logo img {
+        height: 50px;
+        width: auto;
+    }
+
+    .form-container {
+        padding: 10px;
+    }
+
+    .form-title {
+        font-size: 16px;
+    }
+
+    .submit-btn {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .client-table {
+        font-size: 11px;
+    }
+
+    .btn-voltar {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .btn-voltar a {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
 }

@@ -9,15 +9,19 @@
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
         />
         <link rel="stylesheet" href="style.css" />
-        <script src="relatorio.js" defer></script>
+        <script src="index2.js" defer></script>
     </head>
 
-    <body onload="buscarProdutos()">
+    <body>
         <!-- ====== CABEÇALHO ====== -->
         <header class="cabeca">
             <img class="ccm" src="imagens/ccm.jpeg" alt="Logo CCM" />
             <img class="an" src="imagens/an_motos.png" alt="Logo AN Motos" />
             <img class="agavi" src="imagens/agavi.png" alt="Logo Agavi" />
+            <div class="user-info">
+                <i class="bi bi-person-circle"></i>
+                <span id="usuario-nome">-</span>
+            </div>
         </header>
 
         <!-- ====== MENU LATERAL ====== -->
@@ -142,5 +146,14 @@
                 Finalizar Venda
             </button>
         </main>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const nome = localStorage.getItem('usuario_nome');
+                if (nome) {
+                    document.getElementById('usuario-nome').textContent = nome;
+                }
+            });
+        </script>
     </body>
 </html>

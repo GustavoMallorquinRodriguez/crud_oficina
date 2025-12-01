@@ -4,6 +4,7 @@ const sqlite3 = require("sqlite3").verbose();
 
 const app = express();
 const port = process.env.PORT || 5000;
+const host = '0.0.0.0';
 
 // Serve os arquivos estáticos da pasta "public"
 app.use(express.static("public"));
@@ -108,6 +109,18 @@ db.serialize(() => {
             )
         `);
 
+    // Inserir usuário admin padrão
+    db.run(`
+        INSERT OR IGNORE INTO funcionario (fun_nome, fun_cpf, fun_senhas, fun_cargo)
+        VALUES ('adm', '00000000000', '123', 'chef')
+    `, function(err) {
+        if (err) {
+            console.error("Erro ao inserir usuário admin:", err);
+        } else {
+            console.log("Usuário admin verificado/criado com sucesso.");
+        }
+    });
+
     console.log("Tabela de serviços criada com sucesso.");
 });
 
@@ -117,7 +130,13 @@ db.serialize(() => {
 
 // ROTA PARA BUSCAR TODOS OS SERVIÇOS NO ATENDAMENTO
 app.get("/buscar-servicos", (req, res) => {
-    db.all("SELECT id_pro as id, pro_nome as serv_nome FROM produtos", [], (err, rows) => {
+    const sql = `
+        SELECT id, serv_nome FROM servico
+        UNION
+        SELECT id_pro as id, pro_nome as serv_nome FROM produtos
+        ORDER BY serv_nome
+    `;
+    db.all(sql, [], (err, rows) => {
         if (err) {
             console.error("Erro ao buscar serviços:", err);
             res.status(500).send("Erro ao buscar serviços");
@@ -485,7 +504,7 @@ app.put("/funcionario/cpf/:fun_cpf", (req, res) => {
 
 // GET VENDAS - RELATÓRIO
 app.get("/relatorios-vendas", (req, res) => {
-    const { cli_cpf, pro_nome, data } = req.query;
+    const { cli_cpf, pro_nome, data_inicio, data_fim } = req.query;
     
     let query = `SELECT 
                         vendas.id,
@@ -512,9 +531,15 @@ app.get("/relatorios-vendas", (req, res) => {
         params.push(`%${pro_nome}%`);
     }
     
-    if (data) {
-        query += ` AND DATE(vendas.rowid) = ?`;
-        params.push(data);
+    if (data_inicio && data_fim) {
+        query += ` AND DATE(vendas.rowid) BETWEEN ? AND ?`;
+        params.push(data_inicio, data_fim);
+    } else if (data_inicio) {
+        query += ` AND DATE(vendas.rowid) >= ?`;
+        params.push(data_inicio);
+    } else if (data_fim) {
+        query += ` AND DATE(vendas.rowid) <= ?`;
+        params.push(data_fim);
     }
     
     query += ` ORDER BY vendas.id DESC`;
@@ -873,15 +898,15 @@ app.put("/moto/placa/:mt_placa", (req, res) => {
 ///////////////////////////// Rota para Login /////////////////////////////
 
 app.post("/login", (req, res) => {
-    const { fun_nome, fun_cpf } = req.body;
+    const { fun_nome, fun_senha } = req.body;
 
-    if (!fun_nome || !fun_cpf) {
-        return res.status(400).json({ success: false, message: "Nome e CPF são obrigatórios." });
+    if (!fun_nome || !fun_senha) {
+        return res.status(400).json({ success: false, message: "Nome e senha são obrigatórios." });
     }
 
-    const query = `SELECT fun_nome, fun_cargo FROM funcionario WHERE fun_nome = ? AND fun_cpf = ?`;
+    const query = `SELECT fun_nome, fun_cargo FROM funcionario WHERE fun_nome = ? AND fun_senhas = ?`;
     
-    db.get(query, [fun_nome, fun_cpf], (err, row) => {
+    db.get(query, [fun_nome, fun_senha], (err, row) => {
         if (err) {
             console.error("Erro ao fazer login:", err);
             return res.status(500).json({ success: false, message: "Erro no servidor." });

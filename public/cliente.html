@@ -384,8 +384,12 @@
         <!-- SCRIPT PARA MÁSCARAS DE ENTRADA (CPF E TELEFONE) -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const cpfInput = document.querySelector('input[placeholder="CPF"]');
-                const telefoneInput = document.querySelector('input[placeholder="Telefone"]');
+                const cpfInput = document.querySelector(
+                    'input[placeholder="CPF"]',
+                );
+                const telefoneInput = document.querySelector(
+                    'input[placeholder="Telefone"]',
+                );
 
                 if (cpfInput) {
                     cpfInput.addEventListener("input", function (e) {

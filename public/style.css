@@ -19,39 +19,85 @@ body {
 header {
     grid-area: cabeca;
     background: linear-gradient(135deg, #ff6b35, #f7931e);
-    height: 130px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 120px;
+    padding: 15px 30px 15px 80px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     position: relative;
 }
+
+/* ====== ESTRUTURA DO HEADER ====== */
+
+.header-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+/* ====== LOGOS ====== */
 
 header img {
     object-fit: contain;
 }
 
-header img:first-child {
-    height: 95px;
-    margin-left: 40px;
-}
-
-header img:nth-child(2) {
-    position: absolute;
-    top: 50%;
-    left: calc(50% + 40px);
-    transform: translate(-50%, -50%);
-    height: 110px;
-}
-
-header img:last-child {
-    height: 120px;
-    margin-right: 40px;
-}
-
-.ccm {
+.logo.ccm {
+    height: 90px;
+    width: 90px;
     border-radius: 50%;
+    object-fit: cover;
+    margin-left: 8px;
+}
+
+.logo.an {
+    height: 110px;
+    max-width: 200px;
+}
+
+.logo.agavi {
+    height: 90px;
+    max-width: 120px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 8px 12px;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.user-info i {
+    font-size: 16px;
+}
+
+.user-info span {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* ====== MENU LATERAL ====== */
@@ -157,6 +203,14 @@ h1 {
     text-align: center;
     margin-bottom: 30px;
     color: #222;
+    font-size: 28px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #222;
+    font-size: 22px;
 }
 
 form {
@@ -172,6 +226,7 @@ label {
     font-weight: bold;
     display: block;
     margin-bottom: 8px;
+    font-size: 14px;
 }
 
 input,
@@ -207,12 +262,15 @@ textarea:focus {
     transition: 0.3s ease;
     display: block;
     margin: 15px auto;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .alinhaBtns:hover,
 .alinhaBtns2:hover {
     background-color: #e85a24;
     transform: scale(1.03);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .form-row {
@@ -236,11 +294,12 @@ table td {
     border: 1px solid #ddd;
     padding: 10px 15px;
     text-align: left;
+    white-space: nowrap;
 }
 
 table th {
-    background-color: #f2f2f2;
-    color: #333;
+    background-color: #ff6b35;
+    color: white;
     font-weight: bold;
 }
 
@@ -254,10 +313,89 @@ table tr:hover {
     margin-top: 10px;
     font-size: 18px;
     color: #222;
+    padding: 15px;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 6px;
 }
 
 /* ====== RESPONSIVIDADE ====== */
-@media screen and (max-width: 500px) {
+
+/* TABLET (768px a 1024px) */
+@media screen and (max-width: 1024px) {
+    header {
+        gap: 15px;
+        padding: 12px 20px;
+    }
+
+    .logo.ccm {
+        height: 75px;
+        width: 75px;
+    }
+
+    .logo.an {
+        height: 90px;
+    }
+
+    .logo.agavi {
+        height: 75px;
+    }
+
+    .main-content {
+        width: 95%;
+        max-width: 900px;
+        padding: 20px;
+        margin: 30px auto;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 85%;
+        font-size: 14px;
+    }
+
+    .alinhaBtns,
+    .alinhaBtns2 {
+        width: auto;
+        min-width: 180px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .half-box {
+        margin: 15px 0;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .user-info {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+
+    .user-info i {
+        font-size: 14px;
+    }
+}
+
+/* MOBILE (até 768px) */
+@media screen and (max-width: 768px) {
     body {
         grid-template-areas:
             "cabeca"
@@ -266,43 +404,246 @@ table tr:hover {
         grid-template-columns: 1fr;
     }
 
+    header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header-left,
+    .header-center,
+    .header-right {
+        flex: none;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header-right {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .logo.ccm {
+        height: 60px;
+        width: 60px;
+    }
+
+    .logo.an {
+        height: 75px;
+    }
+
+    .logo.agavi {
+        height: 60px;
+    }
+
+    .user-info {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    .user-info i {
+        font-size: 15px;
+    }
+
     nav.menu-lateral {
         position: relative;
         width: 100%;
         height: auto;
-        box-shadow: none;
-        justify-content: center;
         padding: 10px 0;
+        box-shadow: none;
+        margin-bottom: 10px;
     }
 
     nav.menu-lateral:hover {
         width: 100%;
     }
 
+    ul li.item-menu a .link {
+        opacity: 1;
+        visibility: visible;
+        white-space: normal;
+    }
+
     .main-content {
-        margin: 20px auto;
-        max-width: 95%;
+        width: 100%;
+        max-width: 100%;
+        margin: 15px 0;
         padding: 15px;
+        border-radius: 8px;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    form {
+        margin-bottom: 15px;
+    }
+
+    .half-box {
+        margin: 12px 0;
+    }
+
+    label {
+        font-size: 12px;
+        margin-bottom: 6px;
     }
 
     input,
     select,
-    textarea,
+    textarea {
+        width: 100% !important;
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
     .alinhaBtns,
     .alinhaBtns2 {
         width: 100%;
+        min-width: unset;
+        padding: 10px 15px;
+        font-size: 14px;
+        margin: 10px 0;
     }
 
+    .form-row {
+        margin: 20px 0;
+        overflow-x: auto;
+    }
+
+    table {
+        font-size: 12px;
+        margin: 10px 0;
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    #total-venda {
+        font-size: 16px;
+        padding: 12px;
+        text-align: center;
+    }
+}
+
+/* EXTRA SMALL (até 480px) */
+@media screen and (max-width: 480px) {
     header {
-        height: auto;
-        padding: 10px 0;
-        position: relative;
+        gap: 8px;
+        padding: 10px;
     }
 
-    header img {
-        position: static;
-        transform: none;
-        height: 70px;
+    .logo.ccm {
+        height: 50px;
+        width: 50px;
+    }
+
+    .logo.an {
+        height: 60px;
+    }
+
+    .logo.agavi {
+        height: 50px;
+    }
+
+    .user-info {
+        font-size: 10px;
+        padding: 5px 8px;
+        gap: 5px;
+    }
+
+    .user-info i {
+        font-size: 13px;
+    }
+
+    .user-info span {
+        max-width: 60px;
+    }
+
+    nav.menu-lateral {
+        padding: 8px 0;
+    }
+
+    nav.menu-lateral a {
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    h1 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    h2 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    label {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 13px;
+        padding: 6px 8px;
+    }
+
+    .alinhaBtns,
+    .alinhaBtns2 {
+        padding: 8px 12px;
+        font-size: 12px;
         margin: 8px 0;
+        width: 100%;
+    }
+
+    .half-box {
+        margin: 8px 0;
+    }
+
+    table {
+        font-size: 10px;
+    }
+
+    table th,
+    table td {
+        padding: 6px;
+        font-size: 10px;
+    }
+
+    #total-venda {
+        font-size: 14px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .form-row {
+        margin: 15px 0;
+    }
+
+    .expandir i {
+        font-size: 20px;
+    }
+
+    ul li.item-menu a .icon i {
+        font-size: 20px;
     }
 }

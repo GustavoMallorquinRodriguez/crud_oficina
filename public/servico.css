@@ -2,360 +2,362 @@
 /* ===== RESET UNIVERSAL ===== */
 * {
     margin: 0;
-    /* Remove todas as margens padrão dos elementos HTML */
     padding: 0;
-    /* Remove todos os preenchimentos padrão dos elementos */
     box-sizing: border-box;
-    /* Inclui padding e border no cálculo total da largura/altura */
 }
 
 /* ===== CONFIGURAÇÃO DO BODY ===== */
 body {
     font-family: Arial, sans-serif;
-    /* Define Arial como fonte padrão */
     background-color: #f0f0f0;
-    /* Fundo cinza claro para toda a página */
     min-height: 100vh;
-    /* Garante altura mínima de 100% da viewport (tela visível) */
     position: relative;
-    /* Contexto de posicionamento para elementos filhos absolutos/fixos */
 }
 
 /* ===== CABEÇALHO ===== */
 .header {
     background: linear-gradient(135deg, #ff6b35, #f7931e);
-    /* Gradiente diagonal laranja */
     padding: 12px 30px;
-    /* Espaçamento interno: 12px vertical, 30px horizontal */
     display: flex;
-    /* Ativa flexbox para layout horizontal */
     justify-content: space-between;
-    /* Distribui elementos com máximo espaço entre eles */
     align-items: center;
-    /* Centraliza elementos verticalmente */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    /* Sombra suave abaixo do cabeçalho */
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-/* ===== LOGO CCM (PRIMEIRA LOGO) ===== */
+/* ===== LOGO CCM ===== */
 .ccm-logo img {
     width: 140px;
-    /* Largura fixa de 140px */
     height: 120px;
-    /* Altura fixa de 120px */
     border-radius: 50%;
-    /* Torna a imagem circular (50% = círculo perfeito) */
     object-fit: cover;
-    /* Cobre toda a área, cortando se necessário (mantém proporção) */
 }
 
-/* ===== LOGO PRINCIPAL (CENTRAL) ===== */
+/* ===== LOGO PRINCIPAL ===== */
 .main-logo img {
     height: 100px;
-    /* Altura fixa de 100px */
     max-width: 250px;
-    /* Largura máxima de 250px */
     object-fit: contain;
-    /* Mantém imagem inteira visível dentro dos limites, sem cortar */
 }
 
-/* ===== LOGO AGAVE (TERCEIRA LOGO) ===== */
+/* ===== LOGO AGAVE ===== */
 .agave-logo img {
     height: 120px;
-    /* Altura fixa de 120px */
     max-width: 160px;
-    /* Largura máxima de 160px */
     object-fit: contain;
-    /* Mantém proporções da imagem sem distorcer */
 }
 
-/* ===== CONTAINER PRINCIPAL DO CONTEÚDO ===== */
+/* ===== CONTAINER PRINCIPAL ===== */
 #main-container {
     max-width: 900px;
-    /* Largura máxima de 900px */
     margin: 40px auto;
-    /* Margem vertical de 40px e centralização horizontal automática */
     background: linear-gradient(135deg, #e8edf1, #d7e1e8);
-    /* Gradiente azul claro suave */
     padding: 40px;
-    /* Espaçamento interno de 40px em todos os lados */
     border-radius: 12px;
-    /* Cantos arredondados com raio de 12px */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    /* Sombra pronunciada para dar profundidade */
 }
 
 /* ===== TÍTULO H1 ===== */
 h1 {
     text-align: center;
-    /* Centraliza o texto */
     margin-bottom: 30px;
-    /* Espaço de 30px abaixo do título */
     color: black;
-    /* Cor preta (falta ponto e vírgula no original) */
 }
 
-/* ===== LABELS (RÓTULOS DOS CAMPOS) ===== */
+/* ===== LABELS ===== */
 label {
     font-weight: bold;
-    /* Texto em negrito */
     display: block;
-    /* Exibe como bloco (ocupa linha inteira) */
     margin-bottom: 5px;
-    /* Espaço de 5px abaixo do label */
 }
 
 /* ===== CAMPOS DE ENTRADA ===== */
-/* Aplica estilo para inputs, selects, textareas e options */
 input,
 select,
 textarea,
 option {
     width: 97%;
-    /* Largura de 97% do container (deixa 3% de margem) */
     padding: 12px;
-    /* Espaçamento interno de 12px */
     margin: 8px 0 15px 0;
-    /* Margem: 8px acima, 0 laterais, 15px abaixo */
     border: 1px solid #ccc;
-    /* Borda cinza clara de 1px */
     border-radius: 8px;
-    /* Cantos arredondados */
     font-size: 14px;
-    /* Tamanho da fonte */
 }
 
-/* ===== TEXTAREA (CAMPO DE TEXTO GRANDE) ===== */
+/* ===== TEXTAREA ===== */
 textarea {
     resize: none;
-    /* Desabilita redimensionamento manual pelo usuário */
     min-height: 80px;
-    /* Altura mínima de 80px */
 }
 
 /* ===== BOTÕES ALINHADOS ===== */
 .alinhaBtns {
     background-color: #ff6600;
-    /* Fundo laranja vibrante */
     color: white;
-    /* Texto branco */
     border: none;
-    /* Remove borda padrão */
     padding: 12px;
-    /* Espaçamento interno */
     width: 100%;
-    /* Ocupa toda a largura disponível */
     margin: 10px 0;
-    /* Margem vertical de 10px */
     border-radius: 8px;
-    /* Cantos arredondados */
     font-weight: bold;
-    /* Texto em negrito */
     cursor: pointer;
-    /* Cursor de mão ao passar sobre o botão */
     transition: all 0.3s ease;
-    /* Transição suave de 0.3s para todas as propriedades */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* Sombra suave */
 }
 
-/* Efeito hover nos botões */
 .alinhaBtns:hover {
     background-color: #ff7f33;
-    /* Laranja mais claro */
     transform: translateY(-2px);
-    /* Move o botão 2px para cima */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    /* Sombra mais intensa */
 }
 
-/* ===== CAIXAS DE LARGURA COMPLETA ===== */
+/* ===== CAIXAS DE LARGURA ===== */
 .full-box {
     width: 100%;
-    /* Ocupa 100% da largura disponível */
 }
 
-/* ===== CAIXAS DE MEIA LARGURA ===== */
 .half-box {
     width: 48%;
-    /* Ocupa 48% da largura (permite 2 elementos lado a lado com 4% de gap) */
     display: inline-block;
-    /* Permite elementos lado a lado */
     vertical-align: top;
-    /* Alinha ao topo (evita desalinhamento) */
     margin-right: 4%;
-    /* Margem de 4% à direita (espaço entre elementos) */
 }
 
-/* Remove margem direita do último elemento half-box */
 .half-box:last-child {
     margin-right: 0;
-    /* Sem margem à direita no último elemento */
 }
 
 /* ===== TABELAS ===== */
 table {
     width: 100%;
-    /* Ocupa toda a largura disponível */
     border-collapse: collapse;
-    /* Remove espaçamento entre células */
     margin: 20px 0;
-    /* Margem vertical de 20px */
     background: white;
-    /* Fundo branco */
     border-radius: 8px;
-    /* Cantos arredondados */
     overflow: hidden;
-    /* Esconde conteúdo que ultrapassa (importante para border-radius) */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    /* Sombra suave */
 }
 
-/* ===== CÉLULAS E CABEÇALHOS DA TABELA ===== */
+/* ===== CÉLULAS E CABEÇALHOS ===== */
 table th,
 table td {
     border: 1px solid #ddd;
-    /* Borda cinza clara de 1px */
     padding: 10px;
-    /* Espaçamento interno de 10px */
     text-align: left;
-    /* Alinha texto à esquerda */
 }
 
 /* ===== CABEÇALHO DA TABELA ===== */
 table th {
     background-color: #ff6600;
-    /* Fundo laranja */
     color: white;
-    /* Texto branco */
     font-weight: bold;
-    /* Texto em negrito */
+    white-space: nowrap;
 }
 
-/* ===== LINHAS PARES DA TABELA (EFEITO ZEBRADO) ===== */
+/* ===== LINHAS PARES ===== */
 table tr:nth-child(even) {
     background-color: #f2f2f2;
-    /* Fundo cinza claro para linhas pares */
 }
 
-/* ===== EFEITO HOVER NAS LINHAS DA TABELA ===== */
+/* ===== HOVER NAS LINHAS ===== */
 table tr:hover {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    /* Gradiente cinza ao passar mouse */
     transform: scale(1.01);
-    /* Aumenta levemente a linha (1% maior) */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    /* Adiciona sombra */
     transition: all 0.3s ease;
-    /* Transição suave para todas as mudanças */
 }
 
 /* ===== RODAPÉ ===== */
 footer {
     text-align: center;
-    /* Centraliza o texto */
     padding: 15px 0;
-    /* Padding vertical de 15px */
     color: #666;
-    /* Cor cinza médio */
     font-size: 14px;
-    /* Tamanho da fonte */
     margin-top: 20px;
-    /* Espaço de 20px acima do rodapé */
 }
 
-/* ===== BOTÃO VOLTAR (FIXO NA TELA) ===== */
+/* ===== BOTÃO VOLTAR ===== */
 .btn-voltar {
     position: fixed;
-    /* Fixo na tela, não rola com o conteúdo */
     bottom: 25px;
-    /* 25px da parte inferior da tela */
     left: 25px;
-    /* 25px da lateral esquerda da tela */
     z-index: 100;
-    /* Camada alta de empilhamento (fica sobre outros elementos) */
 }
 
-/* Link do botão voltar */
 .btn-voltar a {
     display: inline-flex;
-    /* Flexbox inline para alinhar ícone e texto */
     align-items: center;
-    /* Alinha verticalmente ao centro */
     gap: 8px;
-    /* Espaço de 8px entre ícone e texto */
     background: #ff6600;
-    /* Fundo laranja */
     color: white;
-    /* Texto branco */
     font-weight: bold;
-    /* Texto em negrito */
     font-size: 16px;
-    /* Tamanho da fonte */
     padding: 14px 24px;
-    /* Espaçamento interno: 14px vertical, 24px horizontal */
     border-radius: 40px;
-    /* Muito arredondado (formato pílula) */
     text-decoration: none;
-    /* Remove sublinhado do link */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-    /* Sombra para destacar o botão */
     transition: all 0.3s ease;
-    /* Transição suave */
 }
 
-/* Adiciona seta antes do texto */
 .btn-voltar a::before {
     content: '←';
-    /* Caractere de seta apontando para esquerda */
     font-size: 18px;
-    /* Tamanho da seta */
 }
 
-/* Efeito hover no botão voltar */
 .btn-voltar a:hover {
     background: #ff7f33;
-    /* Laranja mais claro */
     transform: translateY(-3px);
-    /* Move 3px para cima */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-    /* Sombra mais intensa */
 }
 
-/* ===== RESPONSIVIDADE (MEDIA QUERIES) ===== */
-/* Aplica estilos para telas com largura máxima de 768px (tablets e celulares) */
-@media (max-width: 768px) {
+/* ====== RESPONSIVIDADE ====== */
 
-    /* Ajuste do cabeçalho em telas menores */
-    header {
-        gap: 15px;
-        /* Espaço de 15px entre elementos */
-        text-align: center;
-        /* Centraliza conteúdo */
+/* TABLET (768px a 1024px) */
+@media (max-width: 1024px) {
+    .header {
+        padding: 10px 20px;
     }
 
-    /* Caixas de meia largura ocupam largura total em mobile */
+    .ccm-logo img,
+    .main-logo img,
+    .agave-logo img {
+        height: 80px;
+    }
+
+    #main-container {
+        max-width: 95%;
+        padding: 25px;
+    }
+
     .half-box {
         width: 100%;
-        /* Ocupa 100% da largura (empilha verticalmente) */
         margin-right: 0;
-        /* Remove margem direita */
     }
 
-    /* Reduz padding do container principal em telas menores */
+    table {
+        font-size: 13px;
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+    }
+}
+
+/* MOBILE (até 768px) */
+@media (max-width: 768px) {
+    .header {
+        gap: 15px;
+        text-align: center;
+        padding: 10px;
+        flex-direction: column;
+    }
+
+    .ccm-logo img,
+    .main-logo img,
+    .agave-logo img {
+        height: auto;
+        max-width: 80%;
+    }
+
     #main-container {
         padding: 20px;
-        /* Reduz padding de 40px para 20px */
+        margin: 20px 10px;
     }
 
-    /* Ajusta todas as logos para telas menores */
-    .logo img,
+    h1 {
+        font-size: 20px;
+    }
+
+    input,
+    select,
+    textarea,
+    option {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .alinhaBtns {
+        padding: 10px;
+    }
+
+    .half-box {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 5px;
+    }
+
+    .btn-voltar {
+        bottom: 15px;
+        left: 15px;
+    }
+
+    .btn-voltar a {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
+
+/* EXTRA SMALL (até 480px) */
+@media (max-width: 480px) {
+    .header {
+        padding: 8px;
+        gap: 5px;
+    }
+
+    .ccm-logo img,
     .main-logo img,
-    .agave-logo img,
-    .ccm-logo img {
-        height: auto;
-        /* Altura automática (mantém proporção) */
-        max-width: 80%;
-        /* Largura máxima de 80% do container */
+    .agave-logo img {
+        height: 45px;
+    }
+
+    #main-container {
+        padding: 15px;
+        margin: 15px 5px;
+    }
+
+    h1 {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .alinhaBtns {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    table {
+        font-size: 10px;
+    }
+
+    table th,
+    table td {
+        padding: 5px 3px;
+    }
+
+    .btn-voltar {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .btn-voltar a {
+        padding: 8px 12px;
+        font-size: 12px;
     }
 }

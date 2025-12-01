@@ -41,7 +41,7 @@ function logar(event) {
     event.preventDefault();
 
     const nome = document.getElementById("fun_nome").value.trim();
-    const cpf = document.getElementById("fun_senha").value.trim();
+    const senha = document.getElementById("fun_senha").value.trim();
 
     hideError();
 
@@ -69,7 +69,7 @@ function logar(event) {
 
                 const cargo = data.cargo ? data.cargo.toLowerCase() : "";
 
-                if (cargo === "chefe") {
+                if (cargo === "chef") {
                     window.location.href = "index.html";
                 } else if (cargo === "mecanico") {
                     window.location.href = "index2.html";

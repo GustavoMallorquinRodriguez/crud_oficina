@@ -15,9 +15,19 @@
     <body>
         <!-- ====== CABEÇALHO ====== -->
         <header class="cabeca">
-            <img class="ccm" src="imagens/ccm.jpeg" alt="Logo CCM" />
-            <img class="an" src="imagens/an_motos.png" alt="Logo AN Motos" />
-            <img class="agavi" src="imagens/agavi.png" alt="Logo Agavi" />
+            <div class="header-left">
+                <img class="logo ccm" src="imagens/ccm.jpeg" alt="Logo CCM" />
+            </div>
+            <div class="header-center">
+                <img class="logo an" src="imagens/an_motos.png" alt="Logo AN Motos" />
+            </div>
+            <div class="header-right">
+                <img class="logo agavi" src="imagens/agavi.png" alt="Logo Agavi" />
+                <div class="user-info">
+                    <i class="bi bi-person-circle"></i>
+                    <span id="usuario-nome">-</span>
+                </div>
+            </div>
         </header>
 
         <!-- ====== MENU LATERAL ====== -->
@@ -79,6 +89,14 @@
                                 <i class="bi bi-file-earmark-text"></i>
                             </span>
                             <span class="link">Relatórios</span>
+                        </a>
+                    </li>
+                    <li class="item-menu">
+                        <a href="login.html">
+                            <span class="icon">
+                                <i class="bi bi-box-arrow-right"></i>
+                            </span>
+                            <span class="link">Sair</span>
                         </a>
                     </li>
                 </ul>
@@ -168,5 +186,14 @@
                 Finalizar Venda
             </button>
         </main>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const nome = localStorage.getItem('usuario_nome');
+                if (nome) {
+                    document.getElementById('usuario-nome').textContent = nome;
+                }
+            });
+        </script>
     </body>
 </html>

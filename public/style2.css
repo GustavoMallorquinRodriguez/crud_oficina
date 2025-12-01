@@ -54,6 +54,33 @@ header img:last-child {
     border-radius: 50%;
 }
 
+.user-info {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 8px 12px;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.user-info i {
+    font-size: 18px;
+}
+
+.user-info span {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* ====== MENU LATERAL ====== */
 nav.menu-lateral {
     grid-area: lateral;
@@ -242,6 +269,7 @@ table th {
     background-color: #f2f2f2;
     color: #333;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 table tr:hover {
@@ -256,8 +284,95 @@ table tr:hover {
     color: #222;
 }
 
+.btn-voltar {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 100;
+}
+
+.btn-voltar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ff6600;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 14px 24px;
+    border-radius: 40px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-voltar a::before {
+    content: '←';
+    font-size: 18px;
+}
+
+.btn-voltar a:hover {
+    background: #ff7f33;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
 /* ====== RESPONSIVIDADE ====== */
-@media screen and (max-width: 500px) {
+
+/* TABLET (768px a 1024px) */
+@media (max-width: 1024px) {
+    header {
+        padding: 0 60px;
+    }
+
+    header img:first-child {
+        height: 80px;
+    }
+
+    header img:nth-child(2) {
+        height: 90px;
+    }
+
+    header img:nth-child(3) {
+        height: 100px;
+    }
+
+    .main-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 90%;
+        font-size: 14px;
+    }
+
+    .alinhaBtns,
+    .alinhaBtns2 {
+        width: auto;
+        min-width: 150px;
+        font-size: 14px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 10px;
+    }
+
+    .user-info {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* MOBILE (até 768px) */
+@media (max-width: 768px) {
     body {
         grid-template-areas:
             "cabeca"
@@ -266,12 +381,36 @@ table tr:hover {
         grid-template-columns: 1fr;
     }
 
+    header {
+        height: auto;
+        padding: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    header img {
+        height: 60px !important;
+    }
+
+    header img:first-child {
+        margin-left: 0;
+    }
+
+    header img:nth-child(2) {
+        position: static;
+        transform: none;
+    }
+
+    header img:nth-child(3) {
+        margin-right: 0;
+    }
+
     nav.menu-lateral {
         position: relative;
         width: 100%;
         height: auto;
         box-shadow: none;
-        justify-content: center;
         padding: 10px 0;
     }
 
@@ -279,30 +418,118 @@ table tr:hover {
         width: 100%;
     }
 
+    ul li.item-menu a .link {
+        opacity: 1;
+        visibility: visible;
+    }
+
     .main-content {
-        margin: 20px auto;
-        max-width: 95%;
+        width: 100%;
+        margin: 15px 0;
         padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
     }
 
     input,
     select,
-    textarea,
+    textarea {
+        width: 100% !important;
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
     .alinhaBtns,
     .alinhaBtns2 {
         width: 100%;
+        min-width: unset;
+        font-size: 14px;
+        margin: 10px 0;
     }
 
+    table {
+        font-size: 11px;
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+    }
+
+    .user-info {
+        position: static;
+        margin-top: 10px;
+    }
+
+    .btn-voltar {
+        bottom: 15px;
+        left: 15px;
+    }
+
+    .btn-voltar a {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
+
+/* EXTRA SMALL (até 480px) */
+@media (max-width: 480px) {
     header {
-        height: auto;
-        padding: 10px 0;
-        position: relative;
+        padding: 10px;
     }
 
     header img {
-        position: static;
-        transform: none;
-        height: 70px;
-        margin: 8px 0;
+        height: 45px !important;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 16px;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 13px;
+        padding: 6px 8px;
+    }
+
+    .alinhaBtns,
+    .alinhaBtns2 {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    table {
+        font-size: 10px;
+    }
+
+    table th,
+    table td {
+        padding: 6px;
+    }
+
+    .user-info {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    .user-info i {
+        font-size: 16px;
+    }
+
+    .btn-voltar {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .btn-voltar a {
+        padding: 8px 12px;
+        font-size: 12px;
     }
 }

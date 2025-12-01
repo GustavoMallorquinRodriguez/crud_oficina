@@ -1,364 +1,369 @@
 /* ===== RESET E CONFIGURAÇÕES GLOBAIS ===== */
 * {
   margin: 0;
-  /* Remove margens padrão de todos os elementos */
   padding: 0;
-  /* Remove preenchimento padrão de todos os elementos */
   box-sizing: border-box;
-  /* Inclui padding e border no cálculo total do tamanho */
   font-family: Arial, sans-serif;
-  /* Define fonte padrão para todo o site */
 }
 
 body {
   background-color: #f5f5f5;
-  /* Cor de fundo cinza claro */
   display: flex;
-  /* Ativa flexbox no body */
   flex-direction: column;
-  /* Organiza elementos em coluna (vertical) */
   min-height: 100vh;
-  /* Garante que o body ocupe no mínimo 100% da altura da tela */
 }
 
 /* ===== CABEÇALHO ===== */
 .header {
   background: linear-gradient(135deg, #ff6b35, #f7931e);
-  /* Gradiente laranja */
   display: flex;
-  /* Ativa flexbox para organizar elementos horizontalmente */
   justify-content: space-between;
-  /* Distribui espaço entre os elementos */
   align-items: center;
-  /* Alinha elementos verticalmente no centro */
   padding: 10px 5%;
-  /* Espaçamento interno: 10px vertical, 5% horizontal */
   color: white;
-  /* Cor do texto branco */
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-/* Logos laterais (CCM e principal) */
+/* Logos laterais */
 .ccm,
 .logo {
   width: 120px;
-  /* Largura fixa */
   height: 120px;
-  /* Altura fixa */
   object-fit: contain;
-  /* Mantém proporção da imagem sem distorcer */
   border-radius: 50%;
-  /* Torna a imagem circular */
 }
 
 /* Logo central */
 .center-logo {
   text-align: center;
-  /* Centraliza conteúdo */
 }
 
 .center-logo img {
   width: 150px;
-  /* Largura da logo central */
   height: auto;
-  /* Altura proporcional */
 }
 
 .center-logo p {
   margin-top: 5px;
-  /* Espaçamento acima do texto */
   font-weight: bold;
-  /* Texto em negrito */
 }
 
 /* ===== CONTAINER DO FORMULÁRIO ===== */
 .form-container {
   max-width: 900px;
-  /* Largura máxima do formulário */
   margin: 40px auto;
-  /* Centraliza horizontalmente com margem vertical de 40px */
   padding: 40px;
-  /* Espaçamento interno */
   background: linear-gradient(135deg, #e8edf1, #d7e1e8);
-  /* Gradiente azul claro */
   border-radius: 10px;
-  /* Cantos arredondados */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  /* Sombra suave */
 }
 
 .form-title {
   text-align: center;
-  /* Centraliza o título */
   margin-bottom: 20px;
-  /* Espaço abaixo do título */
   color: black;
-  /* Cor do texto preta */
 }
 
-/* Grupos de campos do formulário */
+/* Grupos de campos */
 .form-group {
   margin-bottom: 15px;
-  /* Espaçamento entre campos */
 }
 
-/* Campos de entrada (inputs, selects, textareas) */
+/* Campos de entrada */
 .form-control {
   width: 100%;
-  /* Ocupa toda a largura disponível */
   padding: 12px;
-  /* Espaçamento interno */
   border: 1px solid #ddd;
-  /* Borda cinza clara */
   border-radius: 4px;
-  /* Cantos levemente arredondados */
   font-size: 16px;
-  /* Tamanho da fonte */
 }
 
 /* ===== BOTÕES DE AÇÃO ===== */
 .submit-btn {
   margin: 20px;
-  /* Margem ao redor do botão */
   display: flex;
-  /* Ativa flexbox */
   padding: 15px 40px;
-  /* Espaçamento interno generoso */
   background-color: #ff6600;
-  /* Cor laranja */
   color: white;
-  /* Texto branco */
   border: none;
-  /* Remove borda padrão */
   border-radius: 5px;
-  /* Cantos arredondados */
   font-size: 18px;
-  /* Tamanho da fonte */
   font-weight: bold;
-  /* Texto em negrito */
   cursor: pointer;
-  /* Cursor de mão ao passar sobre o botão */
   transition: all 0.3s ease;
-  /* Transição suave para efeitos hover */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  /* Sombra */
 }
 
-/* Efeito hover (ao passar o mouse) no botão */
 .submit-btn:hover {
   background-color: #ff7f33;
-  /* Laranja mais claro */
   transform: translateY(-2px);
-  /* Move o botão 2px para cima */
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  /* Sombra mais intensa */
 }
 
-/* Container para múltiplas opções de botões */
+/* Container para múltiplas opções */
 .opções {
   display: flex;
-  /* Ativa flexbox */
   justify-content: center;
-  /* Centraliza horizontalmente */
   padding: 10px;
-  /* Espaçamento interno */
   flex-wrap: wrap;
-  /* Permite quebra de linha em telas menores */
 }
 
-/* ===== RESPONSIVIDADE (TELAS PEQUENAS) ===== */
-@media (max-width: 768px) {
-  .header {
-    padding: 10px 2%;
-    /* Reduz padding horizontal em telas menores */
-  }
-
-  .logo {
-    width: 80px;
-    /* Reduz tamanho das logos */
-    height: 80px;
-    margin-bottom: 10px;
-    /* Adiciona margem inferior */
-  }
-
-  .form-container {
-    width: 90%;
-    /* Formulário ocupa 90% da largura em mobile */
-  }
-}
-
-/* ===== BOTÃO LISTAR FUNCIONÁRIOS ===== */
+/* ===== BOTÃO LISTAR ===== */
 .listar-funcionarios-btn {
   background: linear-gradient(135deg, #ff6b35, #f7931e);
-  /* Gradiente laranja */
   color: white;
-  /* Texto branco */
   font-weight: bold;
-  /* Negrito */
   border: none;
-  /* Sem borda */
   border-radius: 20px;
-  /* Bem arredondado */
   padding: 8px 18px;
-  /* Espaçamento interno */
   font-size: 14px;
-  /* Tamanho da fonte */
   cursor: pointer;
-  /* Cursor de mão */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  /* Sombra */
   transition: all 0.3s ease;
-  /* Transição suave */
   margin-top: 20px;
-  /* Espaço acima */
   position: relative;
-  /* Permite ajuste fino de posição */
   top: -12px;
-  /* Move 12px para cima */
-  left: 0;
-  /* Alinhado à esquerda */
 }
 
-/* Efeito hover no botão de listar funcionários */
 .listar-funcionarios-btn:hover {
   background: linear-gradient(135deg, #ff8533, #ffa64d);
-  /* Gradiente mais claro */
   transform: translateY(-2px);
-  /* Move para cima */
 }
 
-/* ===== ÁREA DE VISUALIZAÇÃO ===== */
+/* ===== CONTAINER PRINCIPAL ===== */
 .container {
   max-width: 900px;
-  /* Largura máxima */
   margin: 40px auto;
-  /* Centraliza com margem vertical */
   padding: 0 20px;
-  /* Padding horizontal */
 }
 
-/* Seção de cliente/conteúdo */
+/* Seção de cliente */
 .client-section {
   background: linear-gradient(135deg, #e8edf1, #d7e1e8);
-  /* Gradiente azul claro */
   border-radius: 20px;
-  /* Cantos bem arredondados */
   padding: 40px;
-  /* Espaçamento interno generoso */
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  /* Sombra pronunciada */
   position: relative;
-  /* Contexto para posicionamento de elementos filhos */
   overflow: hidden;
-  /* Esconde conteúdo que ultrapassa os limites */
 }
 
 /* ===== TABELA ===== */
 .table-container {
   background: linear-gradient(135deg, #e8edf1, #d7e1e8);
-  /* Gradiente azul claro */
   border-radius: 15px;
-  /* Cantos arredondados */
-  overflow: hidden;
-  /* Esconde bordas da tabela que ultrapassam */
+  overflow: auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  /* Sombra */
   position: relative;
-  /* Contexto para z-index */
   z-index: 1;
-  /* Camada de empilhamento */
 }
 
 .client-table {
   width: 100%;
-  /* Tabela ocupa toda a largura */
   border-collapse: collapse;
-  /* Remove espaçamento entre células */
   font-size: 12px;
-  /* Fonte pequena para economizar espaço */
 }
 
-/* Cabeçalho da tabela */
 .client-table th {
   background: linear-gradient(135deg, #ff6b35, #f7931e);
-  /* Gradiente laranja */
   color: white;
-  /* Texto branco */
   padding: 10px 8px;
-  /* Espaçamento interno */
   text-align: left;
-  /* Alinha texto à esquerda */
   font-weight: 600;
-  /* Negrito médio */
   text-transform: uppercase;
-  /* Texto em maiúsculas */
   border-bottom: 3px solid #2c3e50;
-  /* Borda inferior escura */
+  position: relative;
+  white-space: nowrap;
 }
 
-/* Células da tabela */
 .client-table td {
   padding: 10px 8px;
-  /* Espaçamento interno */
   border-bottom: 1px solid #e8f4f8;
-  /* Borda inferior clara */
   background: white;
-  /* Fundo branco */
 }
 
 /* ===== BOTÃO VOLTAR ===== */
 .btn-voltar {
   position: fixed;
-  /* Fixo na tela (não rola) */
   bottom: 25px;
-  /* 25px da parte inferior */
   left: 25px;
-  /* 25px da lateral esquerda */
   z-index: 100;
-  /* Fica acima de outros elementos */
 }
 
-/* Link dentro do botão voltar */
 .btn-voltar a {
   display: inline-flex;
-  /* Flexbox inline para alinhar ícone e texto */
   align-items: center;
-  /* Alinha verticalmente */
   gap: 8px;
-  /* Espaço entre ícone e texto */
   background: #ff6600;
-  /* Fundo laranja */
   color: white;
-  /* Texto branco */
   font-weight: bold;
-  /* Negrito */
   font-size: 16px;
-  /* Tamanho da fonte */
   padding: 14px 24px;
-  /* Espaçamento interno */
   border-radius: 40px;
-  /* Muito arredondado (pílula) */
   text-decoration: none;
-  /* Remove sublinhado */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-  /* Sombra */
   transition: all 0.3s ease;
-  /* Transição suave */
 }
 
-/* Adiciona seta antes do texto */
 .btn-voltar a::before {
   content: '←';
-  /* Caractere de seta para esquerda */
   font-size: 18px;
-  /* Tamanho da seta */
 }
 
-/* Efeito hover no botão voltar */
 .btn-voltar a:hover {
   background: #ff7f33;
-  /* Laranja mais claro */
   transform: translateY(-3px);
-  /* Move 3px para cima */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-  /* Sombra mais intensa */
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+/* TABLET (768px a 1024px) */
+@media (max-width: 1024px) {
+  .header {
+    padding: 10px 3%;
+  }
+
+  .ccm,
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .form-container {
+    width: 95%;
+    padding: 25px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .client-table {
+    font-size: 11px;
+  }
+
+  .client-table th,
+  .client-table td {
+    padding: 8px 6px;
+  }
+}
+
+/* MOBILE (até 768px) */
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 2%;
+    gap: 8px;
+  }
+
+  .ccm,
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .center-logo img {
+    width: 100px;
+  }
+
+  .form-container {
+    width: 90%;
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .form-title {
+    font-size: 18px;
+  }
+
+  .form-control {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .submit-btn {
+    margin: 15px;
+    padding: 12px 30px;
+    font-size: 16px;
+  }
+
+  .container {
+    margin: 20px auto;
+    padding: 0 10px;
+  }
+
+  .client-table {
+    font-size: 10px;
+  }
+
+  .client-table th,
+  .client-table td {
+    padding: 6px 4px;
+  }
+
+  .btn-voltar {
+    bottom: 15px;
+    left: 15px;
+  }
+
+  .btn-voltar a {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
+
+/* EXTRA SMALL (até 480px) */
+@media (max-width: 480px) {
+  .header {
+    padding: 8px 1%;
+  }
+
+  .ccm,
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .center-logo img {
+    width: 80px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-title {
+    font-size: 16px;
+  }
+
+  .form-control {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .submit-btn {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .client-table {
+    font-size: 9px;
+  }
+
+  .client-table th,
+  .client-table td {
+    padding: 5px 3px;
+  }
+
+  .btn-voltar {
+    bottom: 10px;
+    left: 10px;
+  }
+
+  .btn-voltar a {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }
